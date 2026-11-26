@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أداة تأكيد النقاط</title>
+<!--
+  أداة خاصة بصاحب المشروع فقط، ولا تُرفع على الموقع العام.
+  - تنشئ مفتاح توقيع: الخاص يبقى في هذا المتصفح، والعام يُلصق في index.html.
+  - توقّع روابط تأكيد النقاط وتحديث حالة الطلب لترسلها للعميل في واتساب.
+  - تحفظ سجل النقاط لكل عميل لتتحقق منه عند طلب الاستبدال.
+  تعمل دون إنترنت: كل شيء محلي ولا تتصل بأي خادم.
+-->
+<style>
+  :root { --paper:#F3F5F8; --surface:#fff; --ink:#142538; --ink-2:#4B5D70; --line:#D5DDE5; --butter:#F5C531; --ok:#1D7350; --danger:#B42318; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Readex Pro", "Segoe UI", Tahoma, sans-serif; line-height: 1.7; }
+  main { max-width: 760px; margin: 0 auto; padding: 20px 16px 60px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.15rem; margin: 0 0 12px; }
+  p { margin: 0 0 10px; }
+  .muted { color: var(--ink-2); font-size: .9rem; }
+  section { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; margin-top: 16px; }
+  label { display: block; font-weight: 600; font-size: .9rem; margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: inherit; }
+  textarea { min-height: 80px; direction: ltr; font-size: .8rem; }
+  .ltr { direction: ltr; text-align: right; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  button, .btn { font: inherit; font-weight: 600; border: 0; border-radius: 12px; padding: 10px 16px; cursor: pointer; background: var(--ink); color: #fff; text-decoration: none; display: inline-flex; align-items: center; }
+  button.soft, .btn.soft { background: #E9EEF3; color: var(--ink); }
+  button.ok, .btn.ok { background: var(--ok); }
+  button.danger { background: transparent; color: var(--danger); border: 1px solid var(--line); }
+  .note { padding: 10px 12px; border-radius: 12px; background: #FBEFD5; color: #8F5B00; font-size: .9rem; margin-top: 10px; }
+  .good { background: #DCF0E6; color: var(--ok); }
+  .out { margin-top: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; margin-top: 10px; }
+  th, td { text-align: right; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  td.n { direction: ltr; text-align: right; font-weight: 700; }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 3px solid #1E63B5; outline-offset: 2px; }
+  @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>أداة تأكيد النقاط</h1>
+  <p class="muted">لك وحدك. لا ترفع هذا الملف على الموقع، ولا تشارك ملف النسخة الاحتياطية مع أحد.</p>
+
+  <!-- المفتاح -->
+  <section id="keySec">
+    <h2>مفتاح التوقيع</h2>
+    <div id="noKey">
+      <p>أنشئ مفتاحاً مرة واحدة، ثم الصق المفتاح العام في ملف الموقع.</p>
+      <div class="btns">
+        <button type="button" id="genKey">إنشاء مفتاح جديد</button>
+        <label class="btn soft" for="importFile" style="margin:0">استيراد نسخة احتياطية</label>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+      </div>
+    </div>
+    <div id="hasKey" hidden>
+      <p class="note good">المفتاح جاهز في هذا المتصفح.</p>
+      <label for="pubOut">المفتاح العام: انسخ هذا السطر وضعه مكان <span class="ltr">POINTS_PUBLIC_KEY: null,</span> في index.html</label>
+      <textarea id="pubOut" readonly></textarea>
+      <div class="btns">
+        <button type="button" class="soft" id="copyPub">نسخ المفتاح العام</button>
+        <button type="button" class="soft" id="exportKey">تنزيل نسخة احتياطية</button>
+      </div>
+      <p class="muted" style="margin-top:8px">النسخة الاحتياطية تحتوي المفتاح الخاص وسجل النقاط. احفظها في مكان آمن لتنقل الأداة إلى جهاز آخر.</p>
+    </div>
+  </section>
+
+  <!-- إعدادات -->
+  <section>
+    <h2>رابط الموقع</h2>
+    <label for="siteUrl">عنوان الموقع المنشور</label>
+    <input id="siteUrl" class="ltr" type="url" placeholder="https://mff593396-gif.github.io/-/">
+  </section>
+
+  <!-- نقاط -->
+  <section id="ptSec">
+    <h2>رابط تأكيد نقاط طلب مكتمل</h2>
+    <p class="muted">أرسله فقط بعد تسليم الطلب واستلام المبلغ.</p>
+    <div class="row">
+      <div><label for="pPhone">جوال العميل</label><input id="pPhone" class="ltr" type="tel" inputmode="tel" placeholder="05XXXXXXXX"></div>
+      <div><label for="pCode">كود الطلب</label><input id="pCode" class="ltr" placeholder="KF-XXXXX" maxlength="9"></div>
+    </div>
+    <div class="row">
+      <div><label for="pPaid">المبلغ المدفوع (ريال)</label><input id="pPaid" type="number" inputmode="decimal" min="0" step="0.5"></div>
+      <div><label for="pPts">النقاط</label><input id="pPts" type="number" inputmode="numeric" min="1" max="100000"></div>
+    </div>
+    <label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="pWelcome" style="width:auto"> أضف 50 نقطة ترحيبية (أول طلب مكتمل لهذا العميل)</label>
+    <div class="btns"><button type="button" id="makePt">إنشاء الرابط</button></div>
+    <div class="out" id="ptOut"></div>
+  </section>
+
+  <!-- حالة -->
+  <section id="stSec">
+    <h2>رابط تحديث حالة الطلب</h2>
+    <div class="row">
+      <div><label for="sPhone">جوال العميل</label><input id="sPhone" class="ltr" type="tel" inputmode="tel" placeholder="05XXXXXXXX"></div>
+      <div><label for="sCode">كود الطلب</label><input id="sCode" class="ltr" placeholder="KF-XXXXX" maxlength="9"></div>
+    </div>
+    <label for="sStage">المرحلة</label>
+    <select id="sStage"><option value="1">مراجعة</option><option value="2">تنفيذ</option><option value="3">تسليم</option></select>
+    <div class="btns"><button type="button" id="makeSt">إنشاء الرابط</button></div>
+    <div class="out" id="stOut"></div>
+  </section>
+
+  <!-- السجل -->
+  <section>
+    <h2>سجل النقاط</h2>
+    <p class="muted">ارجع إليه عندما يرسل العميل كوبون نقاط مع طلبه: إن كان رصيده كافياً سجّل الاستبدال واعتمد الخصم.</p>
+    <div class="row">
+      <div><label for="lPhone">جوال العميل</label><input id="lPhone" class="ltr" type="tel" inputmode="tel" placeholder="05XXXXXXXX"></div>
+      <div><label for="lPts">نقاط الاستبدال</label><input id="lPts" type="number" inputmode="numeric" min="1" placeholder="مثال: 250"></div>
+    </div>
+    <div class="btns">
+      <button type="button" class="soft" id="showBal">عرض الرصيد</button>
+      <button type="button" id="recRedeem">تسجيل استبدال</button>
+    </div>
+    <div class="out" id="ledOut"></div>
+  </section>
+</main>
+
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const STAGES = ['استلام', 'مراجعة', 'تنفيذ', 'تسليم'];
+const LS = { key: 'kfs.key', ledger: 'kfs.ledger', site: 'kfs.site' };
+const get = (k, fb) => { try { const v = localStorage.getItem(k); return v == null ? fb : JSON.parse(v); } catch (e) { return fb; } };
+const set = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { alert('تعذّر الحفظ في هذا المتصفح.'); return false; } };
+
+function toLatin(s) { return String(s).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)); }
+function normPhone(raw) {
+  let d = toLatin(raw || '').replace(/\D/g, '');
+  if (d.startsWith('00')) d = d.slice(2);
+  if (/^05\d{8}$/.test(d)) d = '966' + d.slice(1);
+  else if (/^5\d{8}$/.test(d)) d = '966' + d;
+  if (/^966/.test(d) && !/^9665\d{8}$/.test(d)) return null;
+  return /^\d{9,15}$/.test(d) ? d : null;
+}
+function normCode(raw) {
+  let c = toLatin(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (c.startsWith('KF')) c = c.slice(2);
+  return /^[A-Z0-9]{5}$/.test(c) ? 'KF-' + c : null;
+}
+const b64u = bytes => { let s = ''; bytes.forEach(b => { s += String.fromCharCode(b); }); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+const b64uText = t => b64u(new TextEncoder().encode(t));
+
+/* عرض نتيجة بعناصر DOM (بلا innerHTML لبيانات المستخدم) */
+function show(box, parts) {
+  box.replaceChildren(...parts.map(p => {
+    if (typeof p === 'string') { const el = document.createElement('p'); el.textContent = p; return el; }
+    return p;
+  }));
+}
+function el(tag, props, text) { const e = document.createElement(tag); Object.assign(e, props || {}); if (text != null) e.textContent = text; return e; }
+
+/* ---------- المفتاح ---------- */
+async function privateKey() {
+  const k = get(LS.key, null);
+  if (!k) return null;
+  return crypto.subtle.importKey('jwk', k.priv, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
+}
+function renderKey() {
+  const k = get(LS.key, null);
+  $('#noKey').hidden = !!k;
+  $('#hasKey').hidden = !k;
+  if (k) $('#pubOut').value = `POINTS_PUBLIC_KEY: { x: '${k.pub.x}', y: '${k.pub.y}' },`;
+}
+$('#genKey').addEventListener('click', async () => {
+  if (!(window.crypto && crypto.subtle)) { alert('افتح الأداة في متصفح حديث (Chrome أو Safari أو Edge).'); return; }
+  const pair = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
+  const priv = await crypto.subtle.exportKey('jwk', pair.privateKey);
+  const pub = await crypto.subtle.exportKey('jwk', pair.publicKey);
+  set(LS.key, { priv, pub: { x: pub.x, y: pub.y }, created: Date.now() });
+  renderKey();
+});
+$('#copyPub').addEventListener('click', () => { navigator.clipboard.writeText($('#pubOut').value).then(() => alert('نُسخ المفتاح العام.'), () => $('#pubOut').select()); });
+$('#exportKey').addEventListener('click', () => {
+  const data = JSON.stringify({ type: 'kholasa-points-backup', v: 1, key: get(LS.key, null), ledger: get(LS.ledger, {}), site: get(LS.site, '') }, null, 2);
+  const a = el('a', { href: URL.createObjectURL(new Blob([data], { type: 'application/json' })), download: 'kholasa-points-backup.json' });
+  document.body.appendChild(a); a.click(); a.remove();
+});
+$('#importFile').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  try {
+    const d = JSON.parse(await f.text());
+    if (d.type !== 'kholasa-points-backup' || !d.key || !d.key.priv || !d.key.pub) throw new Error('bad');
+    await crypto.subtle.importKey('jwk', d.key.priv, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
+    set(LS.key, d.key); set(LS.ledger, d.ledger || {}); if (d.site) set(LS.site, d.site);
+    renderKey(); $('#siteUrl').value = get(LS.site, '');
+    alert('تم استيراد النسخة الاحتياطية.');
+  } catch (err) { alert('الملف ليس نسخة احتياطية صالحة.'); }
+  e.target.value = '';
+});
+
+/* ---------- الرابط ---------- */
+const siteUrl = () => {
+  const u = ($('#siteUrl').value || '').trim();
+  try { const x = new URL(u); if (x.protocol !== 'https:' && x.hostname !== 'localhost' && x.hostname !== '127.0.0.1') return null; x.hash = ''; return x.toString(); } catch (e) { return null; }
+};
+$('#siteUrl').value = get(LS.site, 'https://mff593396-gif.github.io/-/');
+$('#siteUrl').addEventListener('change', () => set(LS.site, $('#siteUrl').value.trim()));
+
+async function signedLink(payload) {
+  const key = await privateKey();
+  if (!key) { alert('أنشئ المفتاح أولاً.'); return null; }
+  const base = siteUrl();
+  if (!base) { alert('اكتب رابط الموقع الصحيح (يبدأ بـ https).'); return null; }
+  const body = b64uText(JSON.stringify(payload));
+  const sig = new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, key, new TextEncoder().encode(body)));
+  return base + '#points?c=' + body + '.' + b64u(sig);
+}
+function linkResult(box, link, phone, text) {
+  const ta = el('textarea', { readOnly: true, value: link });
+  const copy = el('button', { type: 'button', className: 'soft' }, 'نسخ الرابط');
+  copy.addEventListener('click', () => navigator.clipboard.writeText(link).then(() => alert('نُسخ الرابط.'), () => ta.select()));
+  const wa = el('a', { className: 'btn ok', target: '_blank', rel: 'noopener', href: 'https://wa.me/' + phone + '?text=' + encodeURIComponent(text + '\n' + link) }, 'أرسله للعميل في واتساب');
+  const row = el('div', { className: 'btns' }); row.append(copy, wa);
+  show(box, [ta, row]);
+}
+
+/* ---------- سجل النقاط ---------- */
+const ledger = () => get(LS.ledger, {});
+function addLedger(phone, entry) {
+  const l = ledger();
+  (l[phone] = l[phone] || []).push(entry);
+  set(LS.ledger, l);
+}
+const balance = phone => (ledger()[phone] || []).reduce((s, e) => s + e.points, 0);
+const issued = (phone, code) => (ledger()[phone] || []).some(e => e.order === code && e.points > 0);
+
+$('#pPaid').addEventListener('input', () => { const v = parseFloat(toLatin($('#pPaid').value)); if (v > 0) $('#pPts').value = Math.floor(v) * 10; });
+$('#pPhone').addEventListener('change', () => { const p = normPhone($('#pPhone').value); if (p) $('#pWelcome').checked = !(ledger()[p] || []).some(e => e.points > 0); });
+
+$('#makePt').addEventListener('click', async () => {
+  const phone = normPhone($('#pPhone').value), code = normCode($('#pCode').value);
+  let n = parseInt(toLatin($('#pPts').value), 10);
+  if (!phone) return alert('رقم الجوال غير صحيح.');
+  if (!code) return alert('كود الطلب بصيغة KF-XXXXX.');
+  if (!(n > 0 && n <= 100000)) return alert('اكتب عدد النقاط.');
+  if (issued(phone, code) && !confirm('أنشأت رابط نقاط لهذا الطلب من قبل. إنشاء رابط جديد لن يضيف نقاطاً مرتين عند العميل. متابعة؟')) return;
+  const w = $('#pWelcome').checked ? 1 : 0;
+  if (w) n += 50;
+  const link = await signedLink({ v: 1, k: 'pt', p: phone, o: code, n, w, t: Math.floor(Date.now() / 1000) });
+  if (!link) return;
+  if (!issued(phone, code)) addLedger(phone, { at: Date.now(), order: code, points: n, note: w ? 'طلب مكتمل مع الترحيبية' : 'طلب مكتمل' });
+  linkResult($('#ptOut'), link, phone, `شكراً لك! تم تسليم طلبك ${code}، وهذا رابط إضافة ${n} نقطة إلى رصيدك في خلاصة الفكرة:`);
+});
+
+$('#makeSt').addEventListener('click', async () => {
+  const phone = normPhone($('#sPhone').value), code = normCode($('#sCode').value), s = +$('#sStage').value;
+  if (!phone) return alert('رقم الجوال غير صحيح.');
+  if (!code) return alert('كود الطلب بصيغة KF-XXXXX.');
+  const link = await signedLink({ v: 1, k: 'st', p: phone, o: code, s, t: Math.floor(Date.now() / 1000) });
+  if (link) linkResult($('#stOut'), link, phone, `تحديث طلبك ${code}: ${STAGES[s]}. تابع الحالة من هنا:`);
+});
+
+function renderLedger(phone) {
+  const rows = (ledger()[phone] || []).slice().reverse();
+  const t = el('table');
+  const head = el('tr'); ['التاريخ', 'البيان', 'النقاط'].forEach(h => head.append(el('th', {}, h)));
+  t.append(head);
+  rows.forEach(e => {
+    const tr = el('tr');
+    tr.append(el('td', {}, new Date(e.at).toLocaleDateString('ar-SA-u-ca-gregory-nu-latn')), el('td', {}, (e.order ? e.order + ' ' : '') + e.note), el('td', { className: 'n' }, (e.points > 0 ? '+' : '') + e.points));
+    t.append(tr);
+  });
+  show($('#ledOut'), [el('p', { className: 'note good' }, `رصيد العميل: ${balance(phone)} نقطة`), rows.length ? t : 'لا توجد عمليات لهذا الرقم.']);
+}
+$('#showBal').addEventListener('click', () => { const p = normPhone($('#lPhone').value); if (!p) return alert('رقم الجوال غير صحيح.'); renderLedger(p); });
+$('#recRedeem').addEventListener('click', () => {
+  const p = normPhone($('#lPhone').value), n = parseInt(toLatin($('#lPts').value), 10);
+  if (!p) return alert('رقم الجوال غير صحيح.');
+  if (!(n > 0)) return alert('اكتب عدد نقاط الاستبدال.');
+  if (balance(p) < n) { renderLedger(p); return alert('رصيد العميل لا يكفي، لا تعتمد الخصم.'); }
+  addLedger(p, { at: Date.now(), points: -n, note: 'استبدال كوبون' });
+  renderLedger(p);
+});
+
+renderKey();
+</script>
+</body>
+</html>

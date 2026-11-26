@@ -2,6 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<!--
+  سياسة أمان المحتوى: لا يُنفَّذ إلا السكربتان المضمّنان في هذا الملف (ببصمتهما)،
+  ولا تُحمَّل خطوط أو أنماط إلا من Google Fonts. بعد أي تعديل على السكربتات شغّل:
+  python3 tools/update-csp.py
+-->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-VLX8E/gNR3YfwR24qp11v3jJMk8xzvHJ0JrulRyNzBs=' 'sha256-fTx6dkTHIo5E6A8/VG4arOTGsNCd0Bqk2qhw0YLyKpg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self' blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>خلاصة الفكرة</title>
 <meta name="description" content="خلاصة الفكرة: ملخصات كتب، بحوث ومشاريع، تصاميم، وزبدة الأفكار التي تغير حياتك.">
@@ -12,10 +19,10 @@
 <meta name="apple-mobile-web-app-title" content="خلاصة الفكرة">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- الخطوط: Tajawal للعناوين و IBM Plex Sans Arabic للنصوص، مع خطوط النظام كاحتياط عند انقطاع الإنترنت -->
+<!-- الخطوط: Baloo Bhaijaan 2 للعناوين (مستدير وحيوي) و Readex Pro للنصوص، مع خطوط النظام كاحتياط عند انقطاع الإنترنت -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@500;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap">
 
 <!-- تطبيق الثيم قبل الرسم لتجنب الوميض -->
 <script>
@@ -64,8 +71,8 @@
   --e1: #3B5370; --e2: #4A6380; --e3: #5A7390; --e4: #6B839F; --e5: #7C93AD; --e6: #8EA3BB;
   --e-amb: rgba(20, 37, 56, .28);
 
-  --font-display: "Tajawal", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, "Geeza Pro", sans-serif;
-  --font-body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, "Geeza Pro", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-display: "Baloo Bhaijaan 2", "Readex Pro", "Segoe UI", Tahoma, "Geeza Pro", sans-serif;
+  --font-body: "Readex Pro", "Segoe UI", Tahoma, "Geeza Pro", "Noto Sans Arabic", system-ui, sans-serif;
 
   /* سلم طباعي بنسبة 1.25 */
   --fs-xs: .8rem;
@@ -155,6 +162,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-bottom: 1px solid var(--line);
 }
 @supports not (background: color-mix(in srgb, red 50%, blue)) { .topbar { background: var(--paper); } }
+/* على الجوال: خلفية صلبة بدل الضبابية لأنها مكلفة أثناء التمرير */
+@media (hover: none), (max-width: 760px) {
+  .topbar { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper); }
+}
 .topbar .wrap { height: 100%; display: flex; align-items: center; gap: 10px; }
 .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); }
 .logo { width: 34px; height: 44px; flex: none; color: var(--ink); overflow: visible; }
@@ -305,7 +316,8 @@ main { padding-bottom: 96px; }
 
 /* ---------- مشهد الافتتاح: العنوان المجسّم وقطرة الزبدة ---------- */
 .intro { position: relative; }
-.intro.js { height: 320vh; height: 320svh; }
+.intro.js { height: 280vh; height: 280svh; }
+@media (max-width: 760px) { .intro.js { height: 240vh; height: 240svh; } }
 .intro-stage {
   position: relative; display: grid; place-items: center; overflow: hidden;
   min-height: calc(100vh - var(--topbar)); min-height: calc(100svh - var(--topbar));
@@ -318,7 +330,7 @@ main { padding-bottom: 96px; }
 .intro-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(55% 45% at 50% 44%, var(--glow), transparent 72%); }
 .scene { position: relative; text-align: center; padding-inline: var(--gutter); transform-style: preserve-3d; }
 .title {
-  margin: 0; font-family: var(--font-display); font-weight: 900; color: var(--ink);
+  margin: 0; font-family: var(--font-display); font-weight: 800; color: var(--ink);
   font-size: min(13vw, 9.5rem); line-height: 1.35; white-space: nowrap;
 }
 .title-face {
@@ -329,6 +341,9 @@ main { padding-bottom: 96px; }
     -.1em .2em .22em var(--e-amb);
 }
 .bl { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+@media (max-width: 760px) {
+  .title-face { text-shadow: -.015em .015em 0 var(--e1), -.03em .03em 0 var(--e3), -.045em .045em 0 var(--e5), -.08em .16em .18em var(--e-amb); }
+}
 .floor { width: min(72%, 680px); height: 26px; margin: -.1em auto 0; background: radial-gradient(closest-side, var(--floor), transparent); }
 
 /* مكان استقرار القطرة: مسافة واضحة تحت العنوان، وتحتها موجة صغيرة */
@@ -340,16 +355,15 @@ main { padding-bottom: 96px; }
 .intro.resting .wave svg { animation: waveMove 2.6s linear infinite; }
 @keyframes waveMove { to { transform: translateX(-96px); } }
 
-.tagline { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.3rem, 4.8vw, 2.35rem); line-height: 1.6; margin: .55em auto 0; max-width: none; }
+.tagline { font-family: var(--font-display); font-weight: 800; font-size: min(6vw, 2.35rem); line-height: 1.6; margin: .55em auto 0; max-width: none; white-space: nowrap; }
 .intro.js .tagline { margin-top: 0; }
-.hl {
-  padding: .08em .38em; border-radius: 10px; color: var(--on-butter);
-  background-image: linear-gradient(var(--butter), var(--butter)); background-repeat: no-repeat;
-  background-position: var(--ox, 50%) 50%; background-size: 100% 100%;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: color .25s ease;
-}
-.intro.js .hl { background-size: 0% 100%; color: var(--ink); }
+/* تظليل العبارة: طبقة خلفية تتمدد بـ transform فقط (بلا إعادة رسم) */
+.hl { position: relative; display: inline-block; padding: .02em .42em; color: var(--on-butter); transition: color .25s ease; }
+.hl-bg { position: absolute; inset: 0; border-radius: 12px; background: var(--butter); transform-origin: 50% 50%; }
+.hl-t { position: relative; }
+.intro.js .hl { color: var(--ink); }
 .intro.js .hl.lit { color: var(--on-butter); }
+.intro.js .hl-bg { transform: scaleX(0); will-change: transform; }
 .intro-cta { margin-top: 30px; justify-content: center; }
 .intro.js .tagline, .intro.js .intro-cta { opacity: 0; will-change: transform, opacity; }
 
@@ -468,7 +482,7 @@ main { padding-bottom: 96px; }
 .meter { display: grid; grid-template-columns: repeat(15, 1fr); gap: 4px; }
 .meter i { height: 22px; border-radius: var(--r-seg); background: var(--surface); border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); }
 .meter i.used { background: var(--ink); border-color: var(--ink); }
-.meter-label { font-size: var(--fs-sm); margin-top: 8px; font-weight: 500; }
+.capacity-note { font-size: var(--fs-sm); margin: 0; font-weight: 500; max-width: 46ch; }
 .cap-mini { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: var(--fs-sm); margin-bottom: 18px; }
 .cap-mini .meter { width: 180px; gap: 2px; }
 .cap-mini .meter i { height: 10px; }
@@ -632,25 +646,8 @@ main { padding-bottom: 96px; }
 .faq details p { color: var(--ink-2); margin: 0 0 16px; }
 
 /* ---------- لوحة المالك ---------- */
-.pin-box { max-width: 420px; margin-inline: auto; text-align: center; }
-.pin-box .input { text-align: center; letter-spacing: .5em; font-size: var(--fs-xl); font-weight: 700; direction: ltr; }
-.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
-@media (min-width: 760px) { .stats { grid-template-columns: repeat(4, 1fr); } }
-.stats div { padding: 14px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
-.stats strong { display: block; font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1.3; }
-.stats span { font-size: var(--fs-sm); color: var(--ink-2); }
-.owner-tools { display: grid; gap: 16px; margin-bottom: 16px; }
-@media (min-width: 900px) { .owner-tools { grid-template-columns: 1fr 1fr; } }
-.filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
-.filters .input { flex: 1; min-width: 200px; }
-.filters select.input { flex: 0 0 auto; width: auto; min-width: 150px; }
-.own-order .oc-items { margin-bottom: 12px; }
-.own-grid { display: grid; gap: 10px; }
-@media (min-width: 640px) { .own-grid { grid-template-columns: auto 1fr; align-items: center; } }
-.own-grid .lbl { font-size: var(--fs-sm); color: var(--ink-2); }
 .inline-gen { display: flex; gap: 8px; }
-.inline-gen .input { flex: 1; }
-.gen-out { margin-top: 12px; }
+.inline-gen .input { flex: 1; min-width: 0; }
 
 /* =========================================================
    7) النوافذ المنبثقة والإشعارات
@@ -693,6 +690,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 .toast.out { opacity: 0; transform: translateY(-6px); transition: .25s; }
 @keyframes toastIn { from { opacity: 0; transform: translateY(-8px); } }
 
+.lazy-section { content-visibility: auto; contain-intrinsic-size: auto 640px; }
 .footer { border-top: 1px solid var(--line); padding: 24px 0 32px; margin-top: 48px; font-size: var(--fs-sm); color: var(--ink-2); }
 .footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
 </style>
@@ -729,7 +727,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <symbol id="logo-mark" viewBox="0 0 40 52">
       <path d="M20 1C21.2 6.2 27.5 10.6 27.5 16a7.5 7.5 0 0 1-15 0C12.5 10.6 18.8 6.2 20 1Z" fill="url(#lgDrop)"/>
       <path d="M17.2 6.8c.7-1.6 1.6-2.7 2.3-3.4" stroke="#FFF7DB" stroke-width="1.3" stroke-linecap="round" fill="none" opacity=".85"/>
-      <text x="20" y="37" text-anchor="middle" font-family="Tajawal, 'IBM Plex Sans Arabic', Tahoma, 'Segoe UI', sans-serif" font-weight="900" font-size="31" fill="currentColor">ح</text>
+      <text x="20" y="37" text-anchor="middle" font-family="'Baloo Bhaijaan 2', 'Readex Pro', Tahoma, 'Segoe UI', sans-serif" font-weight="800" font-size="31" fill="currentColor">ح</text>
     </symbol>
   </defs>
 </svg>
@@ -774,7 +772,6 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <li><a href="#orders" data-route="orders"><svg><use href="#i-list"/></svg>طلباتي<span class="count" id="navOrders"></span></a></li>
     <li><a href="#points" data-route="points"><svg><use href="#i-star"/></svg>نقاطي<span class="count" id="navPoints"></span></a></li>
     <li><a href="#faq" data-route="faq"><svg><use href="#i-help"/></svg>الأسئلة الشائعة</a></li>
-    <li><a href="#owner" data-route="owner"><svg><use href="#i-lock"/></svg>لوحة المالك</a></li>
   </ul>
   <div class="drawer-foot">
     <button class="btn btn-primary" type="button" id="authBtn" data-action="auth"></button>
@@ -792,7 +789,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
           <h1 class="title" id="heroTitle" aria-label="خلاصة الفكرة"><span class="title-face" aria-hidden="true"><i class="bl"></i><span class="title-text">خلاصة الفكرة</span></span></h1>
           <div class="floor" aria-hidden="true"></div>
           <div class="landing" aria-hidden="true"><div class="wave"><svg viewBox="0 0 192 14" preserveAspectRatio="none"><path d="M0 7Q6 1 12 7T24 7T36 7T48 7T60 7T72 7T84 7T96 7T108 7T120 7T132 7T144 7T156 7T168 7T180 7T192 7"/></svg></div></div>
-          <p class="tagline"><span class="hl">زبدة الأفكار التي تغير حياتك</span></p>
+          <p class="tagline"><span class="hl"><span class="hl-bg" aria-hidden="true"></span><span class="hl-t">زبدة الأفكار التي تغير حياتك</span></span></p>
           <div class="btn-row intro-cta">
             <a class="btn btn-primary" href="#order">ابدأ طلبك</a>
             <button class="btn btn-ghost" type="button" data-action="scroll" data-target="pricing">كيف نحسب السعر</button>
@@ -869,15 +866,12 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
         <div class="ho-foot"><a class="btn btn-ghost" href="#order">افتح صفحة الطلب والسلة</a></div>
       </section>
 
-      <div class="capacity" aria-live="polite">
+      <div class="capacity lazy-section">
         <p class="capacity-text">نستقبل 15 طلب كحد أقصى يومياً لضمان الجودة</p>
-        <div>
-          <div class="meter" id="meterBig" aria-hidden="true"></div>
-          <p class="meter-label" id="meterBigLabel"></p>
-        </div>
+        <p class="capacity-note">إذا اكتمل العدد نخبرك في واتساب بأقرب موعد متاح، وتبقى سلتك محفوظة.</p>
       </div>
 
-      <div class="about-grid">
+      <div class="about-grid lazy-section">
         <div class="panel" id="pricing">
           <h2>كيف نحسب السعر</h2>
           <table class="price-table">
@@ -1063,7 +1057,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <div class="wrap">
       <div class="view-head">
         <h1 id="pointsTitle">نقاطي</h1>
-        <p>اكسب 10 نقاط عن كل ريال، وفعّلها بكود التأكيد، ثم استبدلها بكوبونات خصم.</p>
+        <p>10 نقاط عن كل ريال تدفعه. تُضاف بعد تسليم الطلب عبر رابط تأكيد يصلك في واتساب، ثم تستبدلها بخصم.</p>
       </div>
       <div id="pointsBody"></div>
     </div>
@@ -1088,20 +1082,21 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
           <details><summary>ما الفرق بين البحث العادي والمزخرف؟</summary><p>البحث العادي بتنسيق مرتب وواضح، وسعره كل 3 أوراق بـ 1 ريال. البحث المزخرف بإطارات وتصميم بصري للصفحات، وسعره كل ورقة بـ 1 ريال.</p></details>
           <details><summary>كيف أعرف سعر الطلب المخصص؟</summary><p>نراجع وصفك ونرسل لك السعر عبر واتساب. يظهر الطلب المخصص في السلة بعبارة "حسب الطلب" ولا يدخل في إجمالي الباقات المسعّرة.</p></details>
           <details><summary>هل يمكنني طلب أكثر من خدمة في طلب واحد؟</summary><p>نعم، أضف ما تريد إلى السلة، وعدّل الكمية أو احذف أي صنف قبل المعاينة. الإجمالي يُحسب تلقائياً.</p></details>
-          <details><summary>لماذا تستقبلون 15 طلباً فقط في اليوم؟</summary><p>لنعطي كل طلب وقته ونضمن جودته. إذا اكتمل العدد تبقى سلتك محفوظة ويمكنك إرسالها في اليوم التالي.</p></details>
+          <details><summary>لماذا تستقبلون 15 طلباً فقط في اليوم؟</summary><p>لنعطي كل طلب وقته ونضمن جودته. إذا اكتمل العدد نخبرك في واتساب بأقرب موعد متاح، وتبقى سلتك محفوظة.</p></details>
         </div>
         <div class="faq-group">
           <h2>الإرسال والملفات</h2>
           <details><summary>كيف يصلكم طلبي؟</summary><p>بعد المعاينة نفتح لك واتساب برسالة جاهزة فيها كود الطلب والأصناف والسعر وبياناتك. أرسل الرسالة كما هي.</p></details>
           <details><summary>كيف أرسل ملف PDF؟</summary><p>اختر الملف في نموذج الطلب ليظهر اسمه وحجمه في الرسالة، ثم أرفق الملف نفسه يدوياً في محادثة واتساب بعد فتحها.</p></details>
           <details><summary>هل تضيع بياناتي إذا أغلقت الصفحة؟</summary><p>لا. نحفظ السلة ومسودة النموذج تلقائياً على جهازك، وتجدها كما تركتها عند عودتك.</p></details>
-          <details><summary>كيف أتابع حالة طلبي؟</summary><p>من صفحة طلباتي، حيث يمر كل طلب بأربع مراحل: استلام، مراجعة، تنفيذ، تسليم.</p></details>
+          <details><summary>أين تُحفظ بياناتي؟</summary><p>على جهازك فقط. لا نرسل بياناتك إلى أي خادم، وتصلنا فقط عبر رسالة واتساب التي ترسلها بنفسك.</p></details>
+          <details><summary>كيف أتابع حالة طلبي؟</summary><p>من صفحة طلباتي، حيث يمر كل طلب بأربع مراحل: استلام، مراجعة، تنفيذ، تسليم. نرسل لك رابطاً في واتساب عند كل مرحلة، فتتحدث الحالة بضغطة.</p></details>
         </div>
         <div class="faq-group">
           <h2>النقاط والكوبونات</h2>
-          <details><summary>كيف أكسب النقاط؟</summary><p>تحصل على 50 نقطة ترحيبية عند تسجيلك لأول مرة، و10 نقاط عن كل ريال في طلباتك، و20 نقطة عن كل صنف مخصص.</p></details>
-          <details><summary>لماذا نقاط طلبي معلّقة؟</summary><p>نقاط الطلب تبقى معلّقة حتى نؤكد الطلب، ثم نرسل لك كود التفعيل. أدخله في صفحة نقاطي لتنتقل النقاط إلى رصيدك المؤكد.</p></details>
-          <details><summary>كيف أستبدل نقاطي؟</summary><p>من صفحة نقاطي اختر قيمة الخصم، فيظهر لك كوبون تنسخه أو تطبقه مباشرة على طلبك القادم. كل كوبون يُستخدم مرة واحدة.</p></details>
+          <details><summary>كيف أكسب النقاط؟</summary><p>10 نقاط عن كل ريال تدفعه، و50 نقطة ترحيبية تُضاف مع أول طلب مكتمل.</p></details>
+          <details><summary>متى تُضاف نقاط طلبي؟</summary><p>بعد تسليم الطلب والدفع نرسل لك رابط تأكيد في واتساب. اضغطه وأنت مسجّل برقمك فتُضاف النقاط فوراً. إرسال الطلب وحده لا يضيف نقاطاً، والرابط موقّع رقمياً فلا يمكن تزويره.</p></details>
+          <details><summary>كيف أستبدل نقاطي؟</summary><p>من صفحة نقاطي اختر قيمة الخصم، فيظهر لك كوبون تطبقه على طلبك القادم. نتحقق من رصيدك قبل اعتماد الخصم، وكل كوبون يُستخدم مرة واحدة.</p></details>
           <details><summary>هل أحتاج كلمة مرور؟</summary><p>لا. يكفي الاسم ورقم الجوال، ويبقى دخولك محفوظاً على هذا الجهاز حتى تسجّل الخروج.</p></details>
         </div>
         <div class="empty" id="faqEmpty" hidden><h3>لا توجد نتائج</h3><p>جرّب كلمة أخرى مثل: سعر، نقاط، ملف.</p></div>
@@ -1109,16 +1104,6 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     </div>
   </section>
 
-  <!-- ===================== لوحة المالك ===================== -->
-  <section class="view" id="view-owner" data-view="owner" tabindex="-1" hidden aria-labelledby="ownerTitle">
-    <div class="wrap">
-      <div class="view-head">
-        <h1 id="ownerTitle">لوحة المالك</h1>
-        <p>استعرض الطلبات، حدّث حالتها، وأرسل أكواد التفعيل للعملاء.</p>
-      </div>
-      <div id="ownerBody"></div>
-    </div>
-  </section>
 </main>
 
 <div class="cart-bar" id="cartBar" hidden>
@@ -1197,8 +1182,9 @@ const CONFIG = {
   WELCOME_POINTS: 50,
   POINTS_PER_RIYAL: 10,
   CUSTOM_ITEM_POINTS: 20,
-  DEFAULT_PIN: '1234',
-  ACTIVATION_SALT: 'kholasat-alfikra|activation|v1', // يجعل كود التفعيل مشتقاً من كود الطلب
+  /* المفتاح العام لروابط تأكيد النقاط (ECDSA P-256). يُنشأ من أداة tools/points-signer.html
+     والمفتاح الخاص يبقى عند صاحب المشروع فقط. القيمة null تعني أن التأكيد غير مفعّل بعد. */
+  POINTS_PUBLIC_KEY: null,
   SW_FILE: null,                                      // ضع 'sw.js' عند توفر الملف على HTTPS
   REWARDS: [
     { points: 100, value: 2 },
@@ -1227,7 +1213,7 @@ const STAGES = ['استلام', 'مراجعة', 'تنفيذ', 'تسليم'];
 
 const K = {
   theme: 'kf.theme', users: 'kf.users', session: 'kf.session', orders: 'kf.orders',
-  cart: 'kf.cart', draft: 'kf.draft', pin: 'kf.pin', owner: 'kf.owner'
+  cart: 'kf.cart', draft: 'kf.draft'
 };
 
 /* =========================================================
@@ -1242,12 +1228,6 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } },
   del(k) { try { localStorage.removeItem(k); } catch (e) { /* تجاهل */ } }
 };
-const session = {
-  get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
-  set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* تجاهل */ } },
-  del(k) { try { sessionStorage.removeItem(k); } catch (e) { /* تجاهل */ } }
-};
-
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
@@ -1286,28 +1266,6 @@ function randCode(n) {
   return Array.from(a, x => ALPH[x % ALPH.length]).join('');
 }
 const uid = () => Date.now().toString(36) + randCode(4);
-function fnv(str, seed) {
-  let h = seed >>> 0;
-  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
-  return h >>> 0;
-}
-function normCode(s) {
-  let c = toLatinDigits(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (c.startsWith('KF') && c.length === 7) c = 'KF-' + c.slice(2);
-  else if (c.length === 5) c = 'KF-' + c;
-  return c;
-}
-/* كود التفعيل: مشتق من كود الطلب وسرّ ثابت، فيستطيع المالك توليده من أي جهاز */
-function activationCode(orderCode) {
-  const s = normCode(orderCode) + '|' + CONFIG.ACTIVATION_SALT;
-  const h1 = fnv(s, 2166136261), h2 = fnv(s.split('').reverse().join(''), 3339675911);
-  let out = '';
-  for (let i = 0; i < 3; i++) out += ALPH[(h1 >>> (i * 8)) % ALPH.length];
-  for (let i = 0; i < 3; i++) out += ALPH[(h2 >>> (i * 8)) % ALPH.length];
-  return out;
-}
-const pinHash = pin => fnv(String(pin) + '|pin|' + CONFIG.ACTIVATION_SALT, 2166136261).toString(36);
-
 function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
 /* صيغة عدد الأوراق بالعربية */
 function pagesTxt(n) {
@@ -1382,11 +1340,31 @@ function updateUser(phone, fn) {
 }
 function balances(u) {
   let confirmed = 0, pending = 0;
-  (u && u.ledger || []).forEach(e => {
+  if (!u) return { confirmed, pending };
+  (u.ledger || []).forEach(e => {
     if (e.status === 'confirmed') confirmed += e.points;
     else if (e.status === 'pending') pending += e.points;
   });
+  // نقاط الطلبات التي لم يصل رابط تأكيدها بعد
+  getOrders().forEach(o => { if (o.phone === u.phone && o.pointsStatus !== 'confirmed') pending += o.points || 0; });
   return { confirmed, pending };
+}
+/* ترحيل بيانات الإصدارات السابقة: النقاط المعلّقة القديمة لم تعد صالحة،
+   والترحيبية تُعلَّق حتى أول طلب مكتمل */
+function migrateData() {
+  const users = getUsers();
+  let changed = false;
+  Object.values(users).forEach(u => {
+    if (!u || !Array.isArray(u.ledger)) return;
+    const before = u.ledger.length;
+    u.ledger = u.ledger.filter(e => !(e.type === 'order'));
+    const hasVoucher = u.ledger.some(e => e.type === 'voucher');
+    u.ledger.forEach(e => {
+      if (e.type === 'welcome' && !hasVoucher && e.status !== 'pending') { e.status = 'pending'; e.label = 'نقاط ترحيبية (تُضاف مع أول طلب مكتمل)'; changed = true; }
+    });
+    if (u.ledger.length !== before) changed = true;
+  });
+  if (changed) saveUsers(users);
 }
 const todayCount = () => getOrders().filter(o => isToday(o.createdAt)).length;
 
@@ -1398,8 +1376,7 @@ const state = {
   pkg: 'summary',
   service: 'design',
   pendingCode: null,         // كود الطلب أثناء المعاينة
-  afterLogin: null,
-  ownerTries: 0, ownerLockUntil: 0
+  afterLogin: null
 };
 if (!Array.isArray(state.cart)) state.cart = [];
 
@@ -1541,12 +1518,11 @@ function updateCartBar() {
    5) السعة اليومية
    ========================================================= */
 function renderCapacity() {
-  const used = Math.min(todayCount(), CONFIG.DAILY_LIMIT);
-  const left = CONFIG.DAILY_LIMIT - used;
-  const segs = Array.from({ length: CONFIG.DAILY_LIMIT }, (_, i) => `<i class="${i < used ? 'used' : ''}"></i>`).join('');
-  $('#meterBig').innerHTML = segs;
-  $('#meterBigLabel').textContent = left ? `متاح اليوم ${left} من ${CONFIG.DAILY_LIMIT} طلباً` : 'اكتمل عدد طلبات اليوم، ونستقبل طلبك غداً';
-  $('#capMini').innerHTML = `<div class="meter" aria-hidden="true">${segs}</div><span>${left ? `متاح اليوم <b>${left}</b> من ${CONFIG.DAILY_LIMIT} طلباً` : '<b>اكتمل عدد طلبات اليوم.</b> سلتك محفوظة لإرسالها غداً'}</span>`;
+  const box = $('#capMini');
+  if (!box) return;
+  const full = todayCount() >= CONFIG.DAILY_LIMIT;
+  box.hidden = !full;
+  box.innerHTML = full ? `<span><b>أرسلت ${CONFIG.DAILY_LIMIT} طلباً اليوم من هذا الجهاز.</b> سلتك محفوظة، ويمكنك الإرسال غداً.</span>` : '';
 }
 
 /* =========================================================
@@ -1586,7 +1562,7 @@ function makeIcon(size) {
     x.bezierCurveTo(X(12.5), Y(10.6), X(18.8), Y(6.2), X(20), Y(1));
     x.fill();
     x.fillStyle = '#142538';
-    x.font = `900 ${31 * u}px Tajawal, Tahoma, "Segoe UI", sans-serif`;
+    x.font = `800 ${31 * u}px "Baloo Bhaijaan 2", Tahoma, "Segoe UI", sans-serif`;
     x.textAlign = 'center'; x.textBaseline = 'alphabetic';
     x.fillText('ح', X(20), Y(37));
     return c.toDataURL('image/png');
@@ -1632,13 +1608,13 @@ function setupPWA() {
 /* =========================================================
    8) التنقل والقائمة الجانبية
    ========================================================= */
-const ROUTES = ['about', 'order', 'orders', 'points', 'faq', 'owner'];
-const TITLES = { about: 'من نحن', order: 'الطلب', orders: 'طلباتي', points: 'نقاطي', faq: 'الأسئلة الشائعة', owner: 'لوحة المالك' };
+const ROUTES = ['about', 'order', 'orders', 'points', 'faq'];
+const TITLES = { about: 'من نحن', order: 'الطلب', orders: 'طلباتي', points: 'نقاطي', faq: 'الأسئلة الشائعة' };
 let currentRoute = null;
 
 function route() {
-  let r = location.hash.replace('#', '');
-  if (!ROUTES.includes(r)) r = 'about';
+  const [name, query] = location.hash.replace(/^#/, '').split('?');
+  const r = ROUTES.includes(name) ? name : 'about';
   const first = currentRoute === null;
   currentRoute = r;
   $$('.view').forEach(v => { v.hidden = v.dataset.view !== r; });
@@ -1652,13 +1628,19 @@ function route() {
     if (v) v.focus({ preventScroll: true });
   }
   updateCartBar();
+  if (query) handleRouteQuery(r, query);
+}
+/* روابط التأكيد تصل بصيغة ‎#points?c=...‎ ثم نزيل الرمز من شريط العنوان فوراً */
+function handleRouteQuery(r, query) {
+  const m = /(?:^|&)c=([A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+)/.exec(query);
+  try { history.replaceState(null, '', location.pathname + location.search + '#' + r); } catch (e) { /* تجاهل */ }
+  if (m) applyVoucher(m[1]);
 }
 function renderView(r) {
   if (r === 'about') { renderCapacity(); intro.refresh(); }
   if (r === 'order') { renderCapacity(); renderCart(); renderLoginNudge(); }
   if (r === 'orders') renderOrders();
   if (r === 'points') renderPoints();
-  if (r === 'owner') renderOwner();
 }
 
 const drawer = $('#drawer'), overlay = $('#overlay'), menuBtn = $('#menuBtn');
@@ -1707,7 +1689,7 @@ function login(name, phone) {
     isNew = true;
     users[phone] = {
       name, phone, createdAt: Date.now(), coupons: [],
-      ledger: [{ id: uid(), type: 'welcome', label: 'نقاط ترحيبية', points: CONFIG.WELCOME_POINTS, status: 'confirmed', date: Date.now() }]
+      ledger: [{ id: uid(), type: 'welcome', label: 'نقاط ترحيبية (تُضاف مع أول طلب مكتمل)', points: CONFIG.WELCOME_POINTS, status: 'pending', date: Date.now() }]
     };
   } else users[phone].name = name;
   saveUsers(users);
@@ -1717,7 +1699,7 @@ function login(name, phone) {
   if (!$('#fName').value.trim()) $('#fName').value = name;
   if (!$('#fPhone').value.trim()) $('#fPhone').value = showPhone(phone);
   saveDraft();
-  toast(isNew ? `أهلاً ${name}! أضفنا ${CONFIG.WELCOME_POINTS} نقطة ترحيبية لرصيدك.` : `أهلاً بعودتك يا ${name}.`, 'ok');
+  toast(isNew ? `أهلاً ${name}! لك ${CONFIG.WELCOME_POINTS} نقطة ترحيبية تُضاف مع أول طلب مكتمل.` : `أهلاً بعودتك يا ${name}.`, 'ok');
   return isNew;
 }
 async function logout() {
@@ -1743,7 +1725,7 @@ function refreshAuthUI() {
   btn.className = u ? 'btn btn-ghost' : 'btn btn-primary';
   const b = balances(u);
   $('#drawerUser').innerHTML = u
-    ? `<b>أهلاً، ${esc(u.name)}</b>رصيدك ${b.confirmed} نقطة مؤكدة${b.pending ? ` و${b.pending} معلّقة` : ''}`
+    ? `<b>أهلاً، ${esc(u.name)}</b>رصيدك ${b.confirmed} نقطة${b.pending ? `، و${b.pending} متوقعة بعد التسليم` : ''}`
     : `<b>مرحباً بك</b>سجّل دخولك لتحصل على ${CONFIG.WELCOME_POINTS} نقطة ترحيبية`;
   $('#navPoints').textContent = u ? b.confirmed : '';
   const myOrders = u ? getOrders().filter(o => o.phone === u.phone).length : 0;
@@ -1817,6 +1799,7 @@ function collectOrder() {
     items: state.cart.map(it => ({ ...it, lineTotal: lineTotal(it) })),
     subtotal: t.subtotal, discount: t.discount, total: t.total, customCount: t.customCount,
     coupon: t.coupon ? t.coupon.code : null,
+    couponPoints: t.coupon ? t.coupon.points : 0,
     points: t.points
   };
 }
@@ -1841,7 +1824,7 @@ function buildMessage(o) {
   });
   L.push('');
   L.push('💰 مجموع الأصناف المسعّرة: ' + money(o.subtotal));
-  if (o.discount) L.push(`🎟 خصم الكوبون ${o.coupon}: -${money(o.discount)}`);
+  if (o.discount) L.push(`🎟 كوبون نقاط ${o.coupon}: خصم ${money(o.discount)} مقابل ${o.couponPoints} نقطة (يُعتمد بعد التحقق من الرصيد)`);
   L.push('✅ الإجمالي: ' + money(o.total));
   if (o.customCount) L.push(`➕ أصناف مخصصة بسعر يُحدد بعد المراجعة: ${o.customCount}`);
   L.push('');
@@ -1849,6 +1832,7 @@ function buildMessage(o) {
   L.push('📱 الجوال: ' + showPhone(o.phone));
   L.push('📝 الملاحظات: ' + (o.notes || 'لا يوجد'));
   L.push('📎 ملف PDF: ' + (o.pdf ? `${o.pdf.name} (${fmtSize(o.pdf.size)})، سأرفقه في المحادثة` : 'لا يوجد'));
+  L.push('⭐ النقاط المتوقعة: ' + o.points + ' (تُضاف برابط تأكيد بعد التسليم والدفع)');
   return L.join('\n');
 }
 const waLink = (phone, text) => `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
@@ -1877,8 +1861,8 @@ function openPreview() {
     </dl></div>
     ${o.pdf ? '<div class="note-box">بعد فتح واتساب، أرفق ملف PDF يدوياً في المحادثة.</div>' : ''}
     ${sameUser
-      ? `<div class="note-box ok">ستُضاف ${o.points} نقطة معلّقة لرصيدك، وتتأكد عند إدخال كود التفعيل.</div>`
-      : `<div class="note-box info">${u ? 'رقم الجوال يختلف عن حسابك الحالي، لذلك سنسجّلك بالرقم الجديد' : 'سنسجّل دخولك بالاسم والرقم أعلاه'} لتحصل على ${o.points} نقطة معلّقة${u ? '' : ` و${CONFIG.WELCOME_POINTS} نقطة ترحيبية`}.</div>`}`;
+      ? `<div class="note-box ok">ستحصل على ${o.points} نقطة بعد تسليم الطلب والدفع، عبر رابط تأكيد يصلك في واتساب.</div>`
+      : `<div class="note-box info">${u ? 'رقم الجوال يختلف عن حسابك الحالي، لذلك سنسجّلك بالرقم الجديد' : 'سنسجّل دخولك بالاسم والرقم أعلاه'} لتُحفظ طلباتك، وتحصل على ${o.points} نقطة بعد التسليم والدفع.</div>`}`;
   $('#sendBtn span').textContent = sameUser ? 'إرسال الطلب عبر واتساب' : 'سجّل وأرسل عبر واتساب';
   openDialog($('#dlgPreview'));
 }
@@ -1899,15 +1883,15 @@ function sendOrder() {
   const order = {
     code: o.code, name: o.name, phone: o.phone, notes: o.notes, pdf: o.pdf, items: o.items,
     subtotal: o.subtotal, discount: o.discount, total: o.total, customCount: o.customCount,
-    coupon: o.coupon, points: o.points, pointsStatus: 'pending', status: 0,
+    coupon: o.coupon, points: o.points, pointsStatus: 'expected', status: 0,
     createdAt: Date.now(), history: [{ status: 0, at: Date.now() }]
   };
   const orders = getOrders();
   orders.unshift(order);
   saveOrders(orders);
 
+  // لا نضيف نقاطاً عند الإرسال: تُضاف فقط برابط تأكيد موقّع بعد التسليم والدفع
   updateUser(o.phone, usr => {
-    usr.ledger.push({ id: uid(), type: 'order', label: 'نقاط الطلب ' + o.code, points: o.points, status: 'pending', orderCode: o.code, date: Date.now() });
     if (o.coupon) {
       const c = usr.coupons.find(x => x.code === o.coupon);
       if (c) { c.usedAt = Date.now(); c.orderCode = o.code; }
@@ -1929,7 +1913,7 @@ function sendOrder() {
       <div style="margin:12px 0 16px">${copyPill(o.code, 'كود الطلب')}</div>
     </div>
     ${o.pdf ? '<div class="note-box">تذكير: أرفق ملف PDF يدوياً في محادثة واتساب.</div>' : ''}
-    <div class="note-box ok">${o.points} نقطة معلّقة بانتظار كود التفعيل بعد تأكيد الطلب.</div>
+    <div class="note-box ok">${o.points} نقطة متوقعة، تُضاف عند وصول رابط التأكيد بعد التسليم والدفع.</div>
     <p class="small muted" style="margin:14px 0 0">${win ? 'لم تفتح المحادثة؟' : 'منع المتصفح فتح واتساب تلقائياً.'} <a href="${esc(link)}" target="_blank" rel="noopener">افتح واتساب يدوياً</a></p>`;
   openDialog($('#dlgDone'));
   renderCart(); renderCapacity(); refreshAuthUI();
@@ -1945,7 +1929,7 @@ function trackerHTML(status) {
 function pointsChip(o) {
   return o.pointsStatus === 'confirmed'
     ? `<span class="chip ok">${o.points} نقطة مؤكدة</span>`
-    : `<span class="chip warn">${o.points} نقطة معلّقة</span>`;
+    : `<span class="chip warn">${o.points} نقطة بعد التسليم</span>`;
 }
 function emptyHTML(title, text, actionHTML, art) {
   return `<div class="panel empty">${art || `<svg class="empty-art" viewBox="0 0 96 96" fill="none" aria-hidden="true"><rect x="18" y="20" width="60" height="56" rx="10" stroke="currentColor" stroke-width="2.5"/><path d="M30 38h36M30 48h24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity=".35"/><circle cx="66" cy="64" r="12" fill="var(--butter)"/><path d="M61 64h10M66 59v10" stroke="#142538" stroke-width="2.5" stroke-linecap="round"/></svg>`}
@@ -1968,7 +1952,7 @@ function renderOrders() {
       <div class="oc-head">${copyPill(o.code, 'كود الطلب')}<span class="date">${fmtDate(o.createdAt)}</span><span class="tot">${money(o.total)}${o.customCount ? ' + حسب الطلب' : ''}</span></div>
       ${trackerHTML(o.status)}
       <ul class="oc-items">${o.items.map(it => `<li>${esc(itemTitle(it))}${it.lineTotal != null ? ` × ${it.qty}` : ''}${itemDetail(it) ? `: ${esc(itemDetail(it))}` : ''}</li>`).join('')}</ul>
-      <div class="oc-foot">${pointsChip(o)}${o.pointsStatus !== 'confirmed' ? '<a class="btn btn-sm btn-ghost" href="#points">تفعيل النقاط</a>' : ''}<button class="btn btn-sm btn-soft" type="button" data-action="reorder" data-code="${esc(o.code)}" style="margin-inline-start:auto">اطلب مرة أخرى</button></div>
+      <div class="oc-foot">${pointsChip(o)}<button class="btn btn-sm btn-soft" type="button" data-action="reorder" data-code="${esc(o.code)}" style="margin-inline-start:auto">اطلب مرة أخرى</button></div>
     </article>`).join('');
 }
 
@@ -1990,15 +1974,15 @@ function renderPoints() {
       <div class="panel">
         <div class="balance">
           <div><strong>${b.confirmed}</strong><span>رصيد مؤكد</span></div>
-          <div><strong>${b.pending}</strong><span>نقاط معلّقة</span></div>
+          <div><strong>${b.pending}</strong><span>متوقعة بعد التسليم</span></div>
         </div>
         <form id="activateForm" novalidate style="margin-top:18px">
           <div class="field" style="margin-bottom:10px">
-            <label for="actCode">كود التفعيل</label>
-            <div class="inline-gen"><input id="actCode" class="input code-input" maxlength="12" placeholder="7KQ2MX" autocomplete="off"><button class="btn btn-primary" type="submit">تفعيل النقاط</button></div>
+            <label for="actCode">رابط التأكيد</label>
+            <div class="inline-gen"><input id="actCode" class="input" dir="ltr" maxlength="1200" placeholder="الصق الرابط هنا" autocomplete="off" spellcheck="false"><button class="btn btn-primary" type="submit">إضافة النقاط</button></div>
             <p class="err" hidden></p>
           </div>
-          <p class="hint">بعد تأكيد طلبك يرسل لك المسؤول كود التفعيل عبر واتساب، فتنتقل نقاط الطلب إلى رصيدك المؤكد.</p>
+          <p class="hint">بعد تسليم طلبك والدفع يصلك رابط تأكيد في واتساب. اضغطه مباشرة، أو انسخه والصقه هنا إذا فُتح في متصفح آخر.</p>
         </form>
       </div>
       <div class="panel">
@@ -2020,36 +2004,101 @@ function renderPoints() {
 
     <div class="panel" style="margin-top:16px">
       <div class="panel-title"><h3>سجل النقاط</h3></div>
-      <div class="table-wrap"><table class="ledger">
+      ${ledger.length ? '' : '<p class="muted" style="margin:0">لا توجد عمليات بعد.</p>'}
+      <div class="table-wrap" ${ledger.length ? '' : 'hidden'}><table class="ledger">
         <thead><tr><th>العملية</th><th>التاريخ</th><th>الحالة</th><th>النقاط</th></tr></thead>
         <tbody>${ledger.map(e => `<tr>
           <td>${esc(e.label)}</td><td class="muted">${fmtDate(e.date)}</td>
-          <td>${e.status === 'confirmed' ? '<span class="chip ok">مؤكدة</span>' : '<span class="chip warn">معلّقة</span>'}</td>
+          <td>${e.status === 'confirmed' ? '<span class="chip ok">مؤكدة</span>' : '<span class="chip warn">بانتظار أول طلب مكتمل</span>'}</td>
           <td class="pts ${e.points < 0 ? 'neg' : ''}">${e.points > 0 ? '+' : ''}${e.points}</td></tr>`).join('')}</tbody>
       </table></div>
     </div>`;
 }
-function activatePoints(raw) {
-  const input = $('#actCode');
-  const code = toLatinDigits(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (code.length !== 6) { setFieldError(input, 'كود التفعيل من 6 خانات، انسخه كما وصلك.'); return; }
-  const u = currentUser();
-  const entry = u.ledger.find(e => e.type === 'order' && activationCode(e.orderCode) === code);
-  if (!entry) { setFieldError(input, 'الكود غير صحيح لأي طلب في حسابك. تأكد من الكود الذي أرسله لك المسؤول.'); return; }
-  if (entry.status === 'confirmed') { setFieldError(input, `نقاط الطلب ${entry.orderCode} مفعّلة مسبقاً.`); return; }
-  updateUser(u.phone, usr => {
-    const e = usr.ledger.find(x => x.id === entry.id);
-    e.status = 'confirmed'; e.confirmedAt = Date.now();
-  });
+/* =========================================================
+   14.5) روابط التأكيد الموقّعة (ECDSA P-256)
+   - صاحب المشروع يوقّع الرابط بمفتاحه الخاص في أداة tools/points-signer.html.
+   - الموقع يتحقق بالمفتاح العام فقط، فلا يستطيع أحد توليد رابط صالح.
+   - الرابط مربوط برقم الجوال وكود الطلب، ولا يُحتسب الطلب الواحد مرتين.
+   ========================================================= */
+function b64uToBytes(str) {
+  let b = String(str).replace(/-/g, '+').replace(/_/g, '/');
+  while (b.length % 4) b += '=';
+  const bin = atob(b);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+async function readVoucher(raw) {
+  let token = String(raw || '').trim();
+  const m = token.match(/[?&#]c=([A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+)/);
+  if (m) token = m[1];
+  if (!/^[A-Za-z0-9_-]{16,400}\.[A-Za-z0-9_-]{60,120}$/.test(token)) return { error: 'الرابط غير مكتمل. انسخه كما وصلك في واتساب.' };
+  const key = CONFIG.POINTS_PUBLIC_KEY;
+  if (!key || !key.x || !key.y) return { error: 'تأكيد النقاط غير مفعّل بعد في الموقع.' };
+  if (!(window.crypto && crypto.subtle)) return { error: 'متصفحك لا يدعم التحقق من الرابط. افتحه في متصفح حديث.' };
+  const [body, sig] = token.split('.');
+  let data = null;
+  try {
+    const pub = await crypto.subtle.importKey('jwk', { kty: 'EC', crv: 'P-256', x: key.x, y: key.y, ext: true },
+      { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']);
+    const ok = await crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, pub, b64uToBytes(sig), new TextEncoder().encode(body));
+    if (ok) data = JSON.parse(new TextDecoder().decode(b64uToBytes(body)));
+  } catch (e) { data = null; }
+  if (!data || typeof data !== 'object') return { error: 'الرابط غير صالح أو عُدّل بعد إرساله.' };
+  const valid = data.v === 1 && (data.k === 'pt' || data.k === 'st') &&
+    typeof data.p === 'string' && /^\d{9,15}$/.test(data.p) &&
+    typeof data.o === 'string' && /^KF-[A-Z0-9]{5}$/.test(data.o) &&
+    (data.k !== 'pt' || (Number.isInteger(data.n) && data.n > 0 && data.n <= 100000 && (data.w === 0 || data.w === 1))) &&
+    (data.k !== 'st' || (Number.isInteger(data.s) && data.s >= 0 && data.s < STAGES.length));
+  if (!valid) return { error: 'الرابط غير صالح.' };
+  return { data, token };
+}
+function setOrderStatus(code, stage, confirmPoints) {
   const orders = getOrders();
-  const o = orders.find(x => x.code === entry.orderCode);
-  if (o) {
-    o.pointsStatus = 'confirmed';
-    if (o.status < 1) { o.status = 1; o.history.push({ status: 1, at: Date.now() }); }
-    saveOrders(orders);
+  const o = orders.find(x => x.code === code);
+  if (!o) return false;
+  if (stage > o.status) { o.status = stage; (o.history = o.history || []).push({ status: stage, at: Date.now() }); }
+  if (confirmPoints) o.pointsStatus = 'confirmed';
+  saveOrders(orders);
+  return true;
+}
+function voucherMessage(msg) {
+  const input = $('#actCode');
+  if (input && currentRoute === 'points') setFieldError(input, msg);
+  toast(msg, 'err');
+}
+async function applyVoucher(raw) {
+  const res = await readVoucher(raw);
+  if (res.error) { voucherMessage(res.error); return false; }
+  const d = res.data;
+
+  if (d.k === 'st') {
+    if (setOrderStatus(d.o, d.s, false)) {
+      toast(`حالة الطلب ${d.o}: ${STAGES[d.s]}`, 'ok');
+      if (currentRoute !== 'orders') location.hash = '#orders'; else renderOrders();
+    } else voucherMessage(`الطلب ${d.o} غير محفوظ على هذا الجهاز. افتح الرابط من الجهاز الذي أرسلت منه الطلب.`);
+    return true;
   }
-  toast(`فُعّلت ${entry.points} نقطة من الطلب ${entry.orderCode}.`, 'ok');
+
+  const u = currentUser();
+  if (!u || u.phone !== d.p) {
+    openLogin(() => applyVoucher(res.token), `هذا الرابط لرقم ينتهي بـ ${d.p.slice(-4)}. سجّل دخولك بنفس الرقم لإضافة النقاط.`);
+    $('#lPhone').value = showPhone(d.p);
+    return false;
+  }
+  if ((u.ledger || []).some(e => e.type === 'voucher' && e.orderCode === d.o)) {
+    voucherMessage(`نقاط الطلب ${d.o} مضافة مسبقاً.`);
+    return false;
+  }
+  updateUser(u.phone, usr => {
+    if (d.w) usr.ledger = usr.ledger.filter(e => e.type !== 'welcome');
+    usr.ledger.push({ id: uid(), type: 'voucher', label: `نقاط الطلب ${d.o}${d.w ? ' مع الترحيبية' : ''}`, points: d.n, status: 'confirmed', orderCode: d.o, date: Date.now() });
+  });
+  setOrderStatus(d.o, STAGES.length - 1, true);
+  toast(`أُضيفت ${d.n} نقطة إلى رصيدك.`, 'ok');
+  if (currentRoute !== 'points') location.hash = '#points';
   refreshAuthUI();
+  return true;
 }
 function redeem(i) {
   const r = CONFIG.REWARDS[i];
@@ -2073,105 +2122,6 @@ function applyCoupon(raw) {
   state.coupon = c.code;
   saveDraft(); renderCart();
   toast(`طُبّق خصم ${money(c.value)}.`, 'ok');
-}
-
-/* =========================================================
-   15) لوحة المالك
-   ========================================================= */
-const currentPinHash = () => store.get(K.pin, null) || pinHash(CONFIG.DEFAULT_PIN);
-const ownerUnlocked = () => session.get(K.owner) === '1';
-function renderOwner() {
-  const box = $('#ownerBody');
-  if (!ownerUnlocked()) {
-    const isDefault = currentPinHash() === pinHash(CONFIG.DEFAULT_PIN);
-    box.innerHTML = `<div class="panel pin-box">
-      <svg class="empty-art" viewBox="0 0 96 96" fill="none" aria-hidden="true" style="width:72px;height:72px"><rect x="24" y="42" width="48" height="36" rx="8" stroke="currentColor" stroke-width="2.5"/><path d="M34 42V32a14 14 0 0 1 28 0v10" stroke="currentColor" stroke-width="2.5"/><circle cx="48" cy="60" r="5" fill="var(--butter)"/></svg>
-      <h3>أدخل رمز PIN</h3>
-      <form id="pinForm" novalidate>
-        <div class="field"><label for="pinIn" class="sr-only">رمز PIN</label><input id="pinIn" class="input" type="password" inputmode="numeric" maxlength="8" autocomplete="off"><p class="err" hidden></p></div>
-        <button class="btn btn-primary btn-block" type="submit">فتح اللوحة</button>
-      </form>
-      ${isDefault ? `<p class="hint" style="margin-top:12px">الرمز الافتراضي للتجربة: <b class="ltr">${CONFIG.DEFAULT_PIN}</b>. غيّره من إعدادات اللوحة بعد الدخول.</p>` : ''}
-    </div>`;
-    setTimeout(() => $('#pinIn') && $('#pinIn').focus(), 50);
-    return;
-  }
-  const orders = getOrders();
-  const q = (state.ownerQ || '').trim().toLowerCase();
-  const fs = state.ownerStatus ?? 'all';
-  const list = orders.filter(o =>
-    (fs === 'all' || String(o.status) === fs) &&
-    (!q || o.code.toLowerCase().includes(q) || o.name.toLowerCase().includes(q) || o.phone.includes(toLatinDigits(q).replace(/\D/g, '') || '\u0000')));
-  const pendingPts = orders.filter(o => o.pointsStatus !== 'confirmed').reduce((s, o) => s + o.points, 0);
-  box.innerHTML = `
-    <div class="stats">
-      <div><strong>${todayCount()} من ${CONFIG.DAILY_LIMIT}</strong><span>طلبات اليوم</span></div>
-      <div><strong>${orders.filter(o => o.status < 3).length}</strong><span>قيد العمل</span></div>
-      <div><strong>${orders.filter(o => o.status === 3).length}</strong><span>مُسلّمة</span></div>
-      <div><strong>${pendingPts}</strong><span>نقاط بانتظار التفعيل</span></div>
-    </div>
-    <div class="owner-tools">
-      <div class="panel">
-        <div class="panel-title"><h3>كود التفعيل لأي طلب</h3></div>
-        <p class="hint" style="margin-bottom:10px">اكتب كود الطلب كما وصلك في واتساب، ثم أرسل كود التفعيل للعميل.</p>
-        <form id="genForm" class="inline-gen" novalidate><label for="genIn" class="sr-only">كود الطلب</label><input id="genIn" class="input code-input" placeholder="KF-XXXXX" maxlength="10" autocomplete="off"><button class="btn btn-primary" type="submit">توليد</button></form>
-        <div class="gen-out" id="genOut"></div>
-      </div>
-      <div class="panel">
-        <div class="panel-title"><h3>تغيير رمز PIN</h3><button class="btn btn-sm btn-ghost aside" type="button" data-action="owner-lock">${icon('i-lock')}<span>قفل اللوحة</span></button></div>
-        <form id="pinChange" novalidate>
-          <div class="row2">
-            <div class="field"><label for="pinNew">الرمز الجديد</label><input id="pinNew" class="input" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password"><p class="err" hidden></p></div>
-            <div class="field"><label for="pinNew2">تأكيد الرمز</label><input id="pinNew2" class="input" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password"><p class="err" hidden></p></div>
-          </div>
-          <button class="btn btn-soft" type="submit">حفظ الرمز</button>
-        </form>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-title"><h3>الطلبات</h3><span class="chip aside">${orders.length} طلب على هذا الجهاز</span></div>
-      <div class="filters">
-        <label for="ownQ" class="sr-only">بحث</label><input id="ownQ" class="input" type="search" placeholder="ابحث بالكود أو الاسم أو الجوال" value="${esc(state.ownerQ || '')}">
-        <label for="ownS" class="sr-only">الحالة</label><select id="ownS" class="input"><option value="all">كل الحالات</option>${STAGES.map((s, i) => `<option value="${i}" ${fs === String(i) ? 'selected' : ''}>${s}</option>`).join('')}</select>
-      </div>
-      <div id="ownList">${list.length ? list.map(ownerOrderHTML).join('') : `<div class="empty"><h3>${orders.length ? 'لا توجد طلبات مطابقة' : 'لا توجد طلبات بعد'}</h3><p>${orders.length ? 'غيّر كلمة البحث أو الحالة.' : 'تظهر هنا الطلبات المرسلة من هذا الجهاز. للطلبات من أجهزة أخرى استخدم أداة كود التفعيل.'}</p></div>`}</div>
-    </div>`;
-}
-function ownerOrderHTML(o) {
-  const act = activationCode(o.code);
-  return `<article class="order-card own-order" data-code="${esc(o.code)}">
-    <div class="oc-head">${copyPill(o.code, 'كود الطلب')}<b>${esc(o.name)}</b><span class="date ltr">${esc(showPhone(o.phone))}</span><span class="tot">${money(o.total)}${o.customCount ? ' + حسب الطلب' : ''}</span></div>
-    <ul class="oc-items">${o.items.map(it => `<li>${esc(itemTitle(it))}${it.lineTotal != null ? ` × ${it.qty}` : ''}${itemDetail(it) ? `: ${esc(itemDetail(it))}` : ''}</li>`).join('')}${o.notes ? `<li>ملاحظات: ${esc(o.notes)}</li>` : ''}${o.pdf ? `<li>ملف: ${esc(o.pdf.name)}</li>` : ''}</ul>
-    <div class="own-grid">
-      <label class="lbl" for="st-${esc(o.code)}">الحالة</label>
-      <select class="input" id="st-${esc(o.code)}" data-action="owner-status" style="max-width:240px">${STAGES.map((s, i) => `<option value="${i}" ${o.status === i ? 'selected' : ''}>${s}</option>`).join('')}</select>
-      <span class="lbl">كود التفعيل</span>
-      <div class="btn-row" style="align-items:center">${copyPill(act, 'كود التفعيل')} ${pointsChip(o)}</div>
-    </div>
-    <div class="oc-foot" style="margin-top:12px">
-      <a class="btn btn-sm btn-ok" href="${esc(waLink(o.phone, `مرحباً ${o.name}، تم تأكيد طلبك ${o.code} في خلاصة الفكرة.\nكود تفعيل نقاطك: ${act}\nأدخله في صفحة "نقاطي" لتنتقل ${o.points} نقطة إلى رصيدك المؤكد.`))}" target="_blank" rel="noopener">${icon('i-chat')}<span>أرسل الكود للعميل</span></a>
-      <span class="small muted">${fmtDate(o.createdAt)}</span>
-      <button class="btn btn-sm btn-danger" type="button" data-action="owner-del" style="margin-inline-start:auto">${icon('i-trash')}<span>حذف</span></button>
-    </div>
-  </article>`;
-}
-function ownerLogin(pin) {
-  const input = $('#pinIn');
-  if (Date.now() < state.ownerLockUntil) {
-    setFieldError(input, `محاولات كثيرة. انتظر ${Math.ceil((state.ownerLockUntil - Date.now()) / 1000)} ثانية.`);
-    return;
-  }
-  if (pinHash(toLatinDigits(pin)) === currentPinHash()) {
-    state.ownerTries = 0;
-    session.set(K.owner, '1');
-    renderOwner();
-    toast('فُتحت لوحة المالك.', 'ok');
-  } else {
-    state.ownerTries++;
-    if (state.ownerTries >= 5) { state.ownerLockUntil = Date.now() + 30000; state.ownerTries = 0; }
-    setFieldError(input, 'الرمز غير صحيح.');
-    input.select();
-  }
 }
 
 /* =========================================================
@@ -2318,16 +2268,6 @@ function bindEvents() {
         saveCart(); bumpBadge(); toast('أضفنا أصناف الطلب إلى السلة.', 'ok'); goToCart();
         break;
       }
-      case 'owner-lock': session.del(K.owner); renderOwner(); break;
-      case 'owner-del': {
-        const code = el.closest('.own-order').dataset.code;
-        confirmBox(`حذف الطلب ${code} من هذا الجهاز؟ لا يمكن التراجع.`, 'حذف').then(ok => {
-          if (!ok) return;
-          saveOrders(getOrders().filter(o => o.code !== code));
-          renderOwner(); refreshAuthUI(); toast('حُذف الطلب ' + code);
-        });
-        break;
-      }
     }
   });
 
@@ -2341,15 +2281,6 @@ function bindEvents() {
       const it = state.cart.find(x => x.id === t.closest('.cart-item').dataset.id);
       it.qty = clampInt(t.value, 1, 50, it.qty); saveCart(); renderCart();
     }
-    if (t.dataset.action === 'owner-status') {
-      const code = t.closest('.own-order').dataset.code;
-      const orders = getOrders();
-      const o = orders.find(x => x.code === code);
-      o.status = +t.value; o.history.push({ status: o.status, at: Date.now() });
-      saveOrders(orders); toast(`حالة ${code}: ${STAGES[o.status]}`, 'ok');
-      renderOwner();
-    }
-    if (t.id === 'ownS') { state.ownerStatus = t.value; renderOwner(); }
   });
 
   document.addEventListener('input', e => {
@@ -2357,12 +2288,6 @@ function bindEvents() {
     if (['sPages', 'sQty', 'rPages', 'rQty'].includes(t.id)) updatePrices();
     if (DRAFT_FIELDS.includes(t.id)) { saveDraftSoon(); if (t.closest('.field.invalid')) setFieldError(t, ''); }
     if (t.id === 'faqQ') filterFaq(t.value);
-    if (t.id === 'ownQ') {
-      state.ownerQ = t.value;
-      const pos = t.selectionStart;
-      renderOwner();
-      const n = $('#ownQ'); n.focus(); try { n.setSelectionRange(pos, pos); } catch (x) { /* تجاهل */ }
-    }
   });
   // ضبط القيم عند مغادرة حقول الأرقام
   ['sPages', 'sQty', 'rPages', 'rQty'].forEach(id => $('#' + id).addEventListener('blur', e => {
@@ -2406,25 +2331,7 @@ function bindEvents() {
     if (after) after();
   });
   document.addEventListener('submit', e => {
-    if (e.target.id === 'activateForm') { e.preventDefault(); activatePoints($('#actCode').value); }
-    if (e.target.id === 'pinForm') { e.preventDefault(); ownerLogin($('#pinIn').value); }
-    if (e.target.id === 'genForm') {
-      e.preventDefault();
-      const code = normCode($('#genIn').value);
-      if (!/^KF-[A-Z0-9]{5}$/.test(code)) { $('#genOut').innerHTML = '<p class="err">كود الطلب بصيغة KF-XXXXX.</p>'; return; }
-      $('#genOut').innerHTML = `<div class="btn-row" style="align-items:center"><span class="small muted">كود تفعيل ${esc(code)}:</span>${copyPill(activationCode(code), 'كود التفعيل')}</div>`;
-    }
-    if (e.target.id === 'pinChange') {
-      e.preventDefault();
-      const a = $('#pinNew'), b = $('#pinNew2');
-      const p = toLatinDigits(a.value);
-      setFieldError(a, ''); setFieldError(b, '');
-      if (!/^\d{4,8}$/.test(p)) { setFieldError(a, 'الرمز من 4 إلى 8 أرقام.'); return; }
-      if (p !== toLatinDigits(b.value)) { setFieldError(b, 'الرمزان غير متطابقين.'); return; }
-      store.set(K.pin, pinHash(p));
-      a.value = b.value = '';
-      toast('حُفظ رمز PIN الجديد.', 'ok');
-    }
+    if (e.target.id === 'activateForm') { e.preventDefault(); applyVoucher($('#actCode').value); }
   });
 
   // مراقبة ظهور لوحة السلة لإخفاء الشريط العائم
@@ -2455,12 +2362,13 @@ const intro = (() => {
   const marker = $('.bl', root), txt = $('.title-text', root), landing = $('.landing', root), wave = $('.wave', root);
   const drop = $('.drop', root), sphere = $('.drop .sphere', root), tear = $('.drop .tear', root), grow = $('.grow', root);
   const home = $('.dot-home', root), trail = $('.trail', root), ripples = $$('.ripple', root);
-  const tagline = $('.tagline', root), hl = $('.hl', root), cta = $('.intro-cta', root), cue = $('.cue', root);
+  const tagline = $('.tagline', root), hl = $('.hl', root), hlBg = $('.hl-bg', root), cta = $('.intro-cta', root), cue = $('.cue', root);
   const lead = $('#aboutLead'), butter = $('#aboutUs');
   const FULL = 'خلاصة الفكرة', DOTLESS = 'حلاصة الفكرة';
-  const animated = [scene, tagline, cta, cue, hl, drop, sphere, tear, home, trail, wave, grow, ...ripples];
+  const animated = [scene, tagline, cta, cue, hl, hlBg, drop, sphere, tear, home, trail, wave, grow, ...ripples];
   const tilt = { x: 0, y: 0, tx: 0, ty: 0 };
-  let geo = null, raf = 0, enabled = false, stickyTop = 0, dist = 1;
+  let geo = null, raf = 0, enabled = false, stickyTop = 0, dist = 1, rootTop = 0, lastP = -1;
+  const useTilt = finePointer();
 
   const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
   const seg = (p, a, b) => clamp01((p - a) / (b - a));
@@ -2556,15 +2464,21 @@ const intro = (() => {
     root.classList.remove('measuring');
     stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
     dist = Math.max(1, root.offsetHeight - stage.offsetHeight);
+    rootTop = root.getBoundingClientRect().top + window.scrollY;
+    lastP = -1;
     render();
   }
 
-  function progress() { return clamp01((stickyTop - root.getBoundingClientRect().top) / dist); }
+  /* من scrollY مباشرة دون قراءة التخطيط في كل إطار */
+  function progress() { return clamp01((window.scrollY + stickyTop - rootTop) / dist); }
 
   function render() {
     raf = 0;
     if (!enabled || !geo || root.offsetParent === null) return;
     const p = progress();
+    const tiltMoving = useTilt && (Math.abs(tilt.tx - tilt.x) > .02 || Math.abs(tilt.ty - tilt.y) > .02);
+    if (p === lastP && !tiltMoving) return;
+    lastP = p;
     root.classList.toggle('idle', p < .02);
     root.classList.toggle('resting', p > .42 && p < .62);
 
@@ -2602,7 +2516,7 @@ const intro = (() => {
 
     // نقطة جديدة تنمو مكان القديمة فتكتمل «خ»، ثم تظهر العبارة وتُظلَّل
     home.style.transform = `scale(${regrow.toFixed(3)})`;
-    hl.style.backgroundSize = (spread * 100).toFixed(2) + '% 100%';
+    hlBg.style.transform = `scaleX(${spread.toFixed(3)})`;
     hl.classList.toggle('lit', spread > .45);
     tagline.style.opacity = text.toFixed(3);
     tagline.style.transform = `translate3d(0, ${((1 - text) * 16).toFixed(2)}px, 0)`;
@@ -2631,11 +2545,13 @@ const intro = (() => {
     cue.style.visibility = cueOut < 1 ? 'visible' : 'hidden';
 
     // ميل ثلاثي الأبعاد خفيف يتبع المؤشر ويهدأ أثناء التوسع
-    tilt.x += (tilt.tx - tilt.x) * .12;
-    tilt.y += (tilt.ty - tilt.y) * .12;
-    const k = 1 - growT;
-    scene.style.transform = `rotateX(${(tilt.x * k).toFixed(2)}deg) rotateY(${(tilt.y * k).toFixed(2)}deg)`;
-    if (Math.abs(tilt.tx - tilt.x) > .02 || Math.abs(tilt.ty - tilt.y) > .02) tick();
+    if (useTilt) {
+      tilt.x += (tilt.tx - tilt.x) * .12;
+      tilt.y += (tilt.ty - tilt.y) * .12;
+      const k = 1 - growT;
+      scene.style.transform = `rotateX(${(tilt.x * k).toFixed(2)}deg) rotateY(${(tilt.y * k).toFixed(2)}deg)`;
+      if (Math.abs(tilt.tx - tilt.x) > .02 || Math.abs(tilt.ty - tilt.y) > .02) { lastP = -1; tick(); }
+    }
   }
 
   function tick() { if (!raf && enabled) raf = requestAnimationFrame(render); }
@@ -2651,7 +2567,7 @@ const intro = (() => {
   window.addEventListener('scroll', tick, { passive: true });
   window.addEventListener('resize', debounce(layout, 150));
   stage.addEventListener('pointermove', e => {
-    if (!finePointer()) return;
+    if (!useTilt) return;
     const r = stage.getBoundingClientRect();
     tilt.ty = ((e.clientX - r.left) / r.width - .5) * 10;
     tilt.tx = -((e.clientY - r.top) / r.height - .5) * 8;
@@ -2696,6 +2612,7 @@ function setupPkgCards() {
    ========================================================= */
 function init() {
   $('#year').textContent = new Date().getFullYear();
+  migrateData();
   setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light', false);
   loadDraft();
   renderServices();

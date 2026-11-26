@@ -12,10 +12,10 @@
 <meta name="apple-mobile-web-app-title" content="خلاصة الفكرة">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- الخطوط: Reem Kufi للعناوين و IBM Plex Sans Arabic للنصوص، مع خطوط النظام كاحتياط عند انقطاع الإنترنت -->
+<!-- الخطوط: Tajawal للعناوين و IBM Plex Sans Arabic للنصوص، مع خطوط النظام كاحتياط عند انقطاع الإنترنت -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@500;700;800;900&display=swap">
 
 <!-- تطبيق الثيم قبل الرسم لتجنب الوميض -->
 <script>
@@ -55,8 +55,16 @@
   --danger: #B42318;
   --danger-soft: #FBE3DF;
   --shadow-float: 0 18px 48px -20px rgba(20, 37, 56, .35), 0 2px 6px rgba(20, 37, 56, .06);
+  /* طبقات العمق: ارتفاع خفيف للوحات وأقوى للبطاقات البارزة */
+  --elev-1: 0 1px 0 rgba(20, 37, 56, .04), 0 14px 30px -22px rgba(20, 37, 56, .35);
+  --elev-2: 0 2px 0 rgba(20, 37, 56, .05), 0 26px 50px -28px rgba(20, 37, 56, .45);
+  --glow: rgba(245, 197, 49, .22);
+  --floor: rgba(20, 37, 56, .22);
+  /* ألوان جوانب العنوان المجسّم من الأقرب إلى الأبعد */
+  --e1: #3B5370; --e2: #4A6380; --e3: #5A7390; --e4: #6B839F; --e5: #7C93AD; --e6: #8EA3BB;
+  --e-amb: rgba(20, 37, 56, .28);
 
-  --font-display: "Reem Kufi", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, "Geeza Pro", sans-serif;
+  --font-display: "Tajawal", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, "Geeza Pro", sans-serif;
   --font-body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, "Geeza Pro", "Noto Sans Arabic", system-ui, sans-serif;
 
   /* سلم طباعي بنسبة 1.25 */
@@ -83,6 +91,11 @@
     --focus: #F5C531; --ok: #5CC99A; --on-ok: #0D1722; --ok-soft: rgba(92, 201, 154, .14);
     --warn: #F0B24A; --warn-soft: rgba(240, 178, 74, .14); --danger: #FF8A7A; --danger-soft: rgba(255, 138, 122, .14);
     --shadow-float: 0 18px 48px -18px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .3);
+    --elev-1: 0 1px 0 rgba(255, 255, 255, .03), 0 16px 32px -22px rgba(0, 0, 0, .8);
+    --elev-2: 0 1px 0 rgba(255, 255, 255, .04), 0 28px 54px -26px rgba(0, 0, 0, .9);
+    --glow: rgba(245, 197, 49, .09); --floor: rgba(0, 0, 0, .6);
+    --e1: #AFC0D1; --e2: #8FA3B8; --e3: #71879E; --e4: #566C84; --e5: #40556C; --e6: #2E4157;
+    --e-amb: rgba(0, 0, 0, .55);
   }
 }
 :root[data-theme="dark"] {
@@ -91,6 +104,11 @@
   --focus: #F5C531; --ok: #5CC99A; --on-ok: #0D1722; --ok-soft: rgba(92, 201, 154, .14);
   --warn: #F0B24A; --warn-soft: rgba(240, 178, 74, .14); --danger: #FF8A7A; --danger-soft: rgba(255, 138, 122, .14);
   --shadow-float: 0 18px 48px -18px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .3);
+  --elev-1: 0 1px 0 rgba(255, 255, 255, .03), 0 16px 32px -22px rgba(0, 0, 0, .8);
+  --elev-2: 0 1px 0 rgba(255, 255, 255, .04), 0 28px 54px -26px rgba(0, 0, 0, .9);
+  --glow: rgba(245, 197, 49, .09); --floor: rgba(0, 0, 0, .6);
+  --e1: #AFC0D1; --e2: #8FA3B8; --e3: #71879E; --e4: #566C84; --e5: #40556C; --e6: #2E4157;
+  --e-amb: rgba(0, 0, 0, .55);
 }
 
 /* =========================================================
@@ -109,7 +127,7 @@ body {
   overflow-x: hidden;
 }
 body.lock { overflow: hidden; }
-h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.35; margin: 0 0 .5em; font-weight: 600; }
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.4; margin: 0 0 .5em; font-weight: 800; }
 h2 { font-size: var(--fs-2xl); }
 h3 { font-size: var(--fs-lg); }
 p { margin: 0 0 1em; max-width: 68ch; }
@@ -211,7 +229,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn svg { width: 19px; height: 19px; flex: none; }
 .btn:active:not([disabled]) { transform: translateY(1px); }
 .btn[disabled] { opacity: .45; cursor: not-allowed; }
-.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary { background: var(--primary); color: var(--on-primary); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .22), 0 8px 18px -10px rgba(20, 37, 56, .55); }
 .btn-primary:hover:not([disabled]) { filter: brightness(1.12); }
 .btn-ghost { background: transparent; border-color: var(--line); }
 .btn-ghost:hover:not([disabled]) { background: var(--surface-2); }
@@ -225,7 +243,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn-block { width: 100%; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
 
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-panel); padding: 20px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-panel); padding: 20px; box-shadow: var(--elev-1); }
 @media (min-width: 640px) { .panel { padding: 24px; } }
 .panel + .panel { margin-top: 16px; }
 .panel-title { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
@@ -289,45 +307,109 @@ main { padding-bottom: 96px; }
 .view-head h1 { font-size: var(--fs-2xl); margin-bottom: 4px; }
 .view-head p { color: var(--ink-2); margin: 0; }
 
-/* ---------- الواجهة الرئيسية: الورقة التي تتكثف ---------- */
-.hero { display: grid; gap: 28px; align-items: center; padding-block: 12px 36px; }
-@media (min-width: 900px) { .hero { grid-template-columns: 1.05fr .95fr; gap: 48px; padding-block: 36px 56px; } }
-.hero h1 { font-size: var(--fs-hero); font-weight: 700; letter-spacing: -.01em; margin-bottom: .25em; line-height: 1.2; }
-.hero-lead { font-size: var(--fs-lg); color: var(--ink-2); max-width: 34ch; line-height: 1.7; }
-.hero .btn-row { margin-top: 22px; }
+/* ---------- مشهد الافتتاح: العنوان المجسّم وقطرة الزبدة ---------- */
+.intro { position: relative; }
+.intro.js { height: 240vh; height: 240svh; }
+.intro-stage {
+  position: relative; display: grid; place-items: center; overflow: hidden;
+  min-height: calc(100vh - var(--topbar)); min-height: calc(100svh - var(--topbar));
+  padding-block: 40px 96px; perspective: 1100px;
+}
+.intro.js .intro-stage {
+  position: sticky; top: var(--topbar); min-height: 480px; padding-block: 0;
+  height: calc(100vh - var(--topbar)); height: calc(100svh - var(--topbar));
+}
+.intro-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(55% 45% at 50% 44%, var(--glow), transparent 72%); }
+.scene { position: relative; text-align: center; padding-inline: var(--gutter); transform-style: preserve-3d; }
+.title {
+  margin: 0; font-family: var(--font-display); font-weight: 900; color: var(--ink);
+  font-size: min(13vw, 9.5rem); line-height: 1.35; white-space: nowrap;
+}
+.title-face {
+  display: inline-block; position: relative;
+  text-shadow:
+    -.01em .01em 0 var(--e1), -.02em .02em 0 var(--e2), -.03em .03em 0 var(--e3),
+    -.04em .04em 0 var(--e4), -.05em .05em 0 var(--e5), -.06em .06em 0 var(--e6),
+    -.1em .2em .22em var(--e-amb);
+}
+.bl { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+.floor { width: min(72%, 680px); height: 26px; margin: -.1em auto 0; background: radial-gradient(closest-side, var(--floor), transparent); }
+.tagline { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.3rem, 4.8vw, 2.35rem); line-height: 1.6; margin: .55em auto 0; max-width: none; }
+.hl {
+  padding: .08em .38em; border-radius: 10px; color: var(--on-butter);
+  background-image: linear-gradient(var(--butter), var(--butter)); background-repeat: no-repeat;
+  background-position: var(--ox, 100%) 50%; background-size: 100% 100%;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: color .25s ease;
+}
+.intro.js .hl { background-size: 0% 100%; color: var(--ink); }
+.intro.js .hl.lit { color: var(--on-butter); }
+.intro-cta { margin-top: 30px; justify-content: center; }
+.intro.js .tagline, .intro.js .intro-cta { opacity: 0; will-change: transform, opacity; }
 
-.sheet {
-  position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-panel);
-  padding: 26px 24px 28px; box-shadow: var(--shadow-float); overflow: hidden;
+/* القطرة: كرة زبدة لامعة تتحول إلى دمعة أثناء السقوط */
+.drop, .dot-home, .trail, .ripple { position: absolute; left: 0; top: 0; pointer-events: none; display: none; }
+.intro.js .drop, .intro.js .dot-home, .intro.js .trail, .intro.js .ripple { display: block; }
+.drop { transform-origin: 50% 100%; will-change: transform, opacity; }
+.dot-home { transform: scale(0); }
+.sphere {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #FFF3C4 0 10%, #F5C531 46%, #C38C0C 100%);
+  box-shadow: 0 6px 14px -5px rgba(195, 140, 12, .65), 0 0 22px rgba(245, 197, 49, .35);
 }
-.sheet::before { /* هامش الورقة */
-  content: ""; position: absolute; top: 0; bottom: 0; inset-inline-start: 14px; width: 1px; background: var(--line);
+.tear { position: absolute; left: 0; bottom: 0; width: 100%; height: 150%; opacity: 0; overflow: visible; }
+.trail { width: 3px; border-radius: 3px; transform-origin: 50% 100%; opacity: 0; background: linear-gradient(to bottom, transparent, rgba(245, 197, 49, .85)); will-change: transform, opacity; }
+.ripple { border: 2px solid var(--butter); border-radius: 50%; opacity: 0; will-change: transform, opacity; }
+.intro.idle .drop .sphere { animation: bob 2.6s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-10%) scale(1.05); } }
+.intro.measuring .scene, .intro.measuring .tagline, .intro.measuring .intro-cta { transform: none !important; }
+
+/* مؤشر النزول */
+.cue {
+  position: absolute; bottom: calc(18px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
+  display: none; justify-items: center; gap: 8px; padding: 8px 16px; border: 0; border-radius: 12px;
+  background: none; color: var(--ink-2); font-size: var(--fs-sm); font-weight: 500; cursor: pointer;
 }
-.sheet-meta { display: flex; justify-content: space-between; font-size: var(--fs-xs); color: var(--ink-2); margin-bottom: 10px; padding-inline-start: 8px; }
-.ln {
-  height: 9px; border-radius: 5px; background: var(--surface-2); margin: 13px 8px 13px 0; width: var(--w, 100%);
-  transform-origin: right center;
-  animation: squeeze .75s cubic-bezier(.6, 0, .2, 1) forwards;
-  animation-delay: calc(var(--i) * 70ms + 350ms);
+.intro.js .cue { display: grid; }
+.cue:hover { color: var(--ink); }
+.cue-line { width: 2px; height: 36px; border-radius: 2px; background: var(--line); position: relative; overflow: hidden; }
+.cue-line::after { content: ""; position: absolute; left: 0; right: 0; top: -40%; height: 40%; background: var(--ink); animation: cue 1.8s ease-in-out infinite; }
+@keyframes cue { to { top: 100%; } }
+
+/* ---------- قسم الطلب في الصفحة الرئيسية ---------- */
+.home-order { position: relative; z-index: 1; padding-block: 24px 40px; }
+/* يرتفع قسم الطلب إلى المساحة الفارغة أسفل المشهد فيظهر مباشرة بعد اكتمال الحركة */
+.intro.js ~ .wrap .home-order { margin-top: -16vh; margin-top: -16svh; }
+.ho-head { text-align: center; margin-bottom: 30px; }
+.ho-head h2 { font-size: clamp(2.1rem, 6.5vw, 3.2rem); margin-bottom: 4px; }
+.ho-head p { margin-inline: auto; color: var(--ink-2); font-size: var(--fs-lg); }
+.pkg-cards { display: grid; gap: 16px; perspective: 1200px; }
+@media (min-width: 760px) { .pkg-cards { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+.pkg-card { transform-style: preserve-3d; transition: opacity .7s ease, transform .9s cubic-bezier(.2, .7, .2, 1); transition-delay: var(--d, 0ms); }
+.pkg-cards.reveal .pkg-card:not(.in) { opacity: 0; transform: translate3d(0, 44px, 0) rotateX(16deg); }
+.pkg-inner {
+  height: 100%; display: flex; flex-direction: column; gap: 6px; padding: 26px 22px 22px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--elev-2);
+  transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform .3s ease-out;
 }
-[dir="ltr"] .ln { transform-origin: left center; }
-@keyframes squeeze { to { transform: scaleX(.14); opacity: .45; } }
-.key-line { margin: 18px 8px 18px 0; }
-.key {
-  display: inline; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.25rem, 3.2vw, 1.7rem);
-  line-height: 1.75; padding: .12em .35em; border-radius: 6px;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone;
-  background-image: linear-gradient(var(--butter), var(--butter));
-  background-repeat: no-repeat; background-position: right center; background-size: 0% 100%;
-  animation: highlight .8s cubic-bezier(.5, 0, .2, 1) 1.15s forwards;
-}
-@keyframes highlight { to { background-size: 100% 100%; color: var(--on-butter); } }
+.pkg-card.lead .pkg-inner { background: var(--primary); color: var(--on-primary); border-color: transparent; }
+.pkg-card.lead .pc-ex { color: inherit; opacity: .78; }
+.pkg-card.lead .pc-ico { background: rgba(255, 255, 255, .12); }
+.pkg-card.lead .btn { background: var(--butter); color: var(--on-butter); }
+:root[data-theme="dark"] .pkg-card.lead .pc-ico { background: rgba(20, 37, 56, .12); }
+:root[data-theme="dark"] .pkg-card.lead .btn { background: #142538; color: #F5C531; }
+.pc-ico { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; font-size: 1.7rem; background: var(--surface-2); margin-bottom: 8px; transform: translateZ(34px); }
+.pkg-inner h3 { font-size: var(--fs-xl); margin: 0; transform: translateZ(22px); }
+.pc-rule { margin: 0; font-weight: 700; font-size: var(--fs-md); line-height: 1.7; }
+.pc-ex { margin: 0 0 14px; color: var(--ink-2); font-size: var(--fs-sm); }
+.pkg-inner .btn { margin-top: auto; transform: translateZ(18px); }
+.ho-foot { display: flex; justify-content: center; margin-top: 22px; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ln { animation: none; transform: scaleX(.14); opacity: .45; }
-  .key { animation: none; background-size: 100% 100%; color: var(--on-butter); }
   .drawer, .overlay { transition: none; }
-  .badge.bump, dialog[open] { animation: none !important; }
+  .badge.bump, dialog[open], .cue-line::after { animation: none !important; }
+  .pkg-card, .pkg-inner { transition: none; }
 }
 
 /* ---------- من نحن ---------- */
@@ -663,27 +745,64 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 
   <!-- ===================== من نحن (الرئيسية) ===================== -->
   <section class="view" id="view-about" data-view="about" tabindex="-1" aria-labelledby="heroTitle">
-    <div class="wrap">
-      <div class="hero">
-        <div>
-          <h1 id="heroTitle">خلاصة الفكرة</h1>
-          <p class="hero-lead">نقرأ عنك الكتاب الطويل، ونكتب معك البحث، ونصمم لك ما تحتاجه، ثم نسلّمك الزبدة.</p>
-          <div class="btn-row">
+    <div class="intro" id="intro">
+      <div class="intro-stage">
+        <div class="intro-glow" aria-hidden="true"></div>
+        <div class="scene">
+          <h1 class="title" id="heroTitle" aria-label="خلاصة الفكرة"><span class="title-face" aria-hidden="true"><i class="bl"></i><span class="title-text">خلاصة الفكرة</span></span></h1>
+          <div class="floor" aria-hidden="true"></div>
+          <p class="tagline"><span class="hl">زبدة الأفكار التي تغير حياتك</span></p>
+          <div class="btn-row intro-cta">
             <a class="btn btn-primary" href="#order">ابدأ طلبك</a>
             <button class="btn btn-ghost" type="button" data-action="scroll" data-target="pricing">كيف نحسب السعر</button>
           </div>
+          <span class="trail" aria-hidden="true"></span>
+          <span class="ripple" aria-hidden="true"></span>
+          <span class="ripple" aria-hidden="true"></span>
+          <span class="dot-home" aria-hidden="true"><span class="sphere"></span></span>
+          <span class="drop" aria-hidden="true">
+            <span class="sphere"></span>
+            <svg class="tear" viewBox="0 0 20 30" preserveAspectRatio="none" aria-hidden="true">
+              <defs><radialGradient id="tearG" cx="36%" cy="64%" r="68%"><stop offset="0" stop-color="#FFF3C4"/><stop offset=".45" stop-color="#F5C531"/><stop offset="1" stop-color="#C38C0C"/></radialGradient></defs>
+              <path d="M10 0C11 6 20 13 20 20A10 10 0 0 1 0 20C0 13 9 6 10 0Z" fill="url(#tearG)"/>
+            </svg>
+          </span>
         </div>
-        <div class="sheet" aria-label="صفحات كثيرة تتكثف إلى فكرة واحدة">
-          <div class="sheet-meta" aria-hidden="true"><span>ص ١٢٤</span><span>الفصل الثالث</span></div>
-          <div class="ln" style="--i:0;--w:96%" aria-hidden="true"></div>
-          <div class="ln" style="--i:1;--w:88%" aria-hidden="true"></div>
-          <div class="ln" style="--i:2;--w:93%" aria-hidden="true"></div>
-          <p class="key-line"><span class="key">زبدة الأفكار التي تغير حياتك</span></p>
-          <div class="ln" style="--i:3;--w:90%" aria-hidden="true"></div>
-          <div class="ln" style="--i:4;--w:97%" aria-hidden="true"></div>
-          <div class="ln" style="--i:5;--w:62%" aria-hidden="true"></div>
-        </div>
+        <button class="cue" type="button" data-action="scroll" data-target="homeOrder"><span>مرّر للأسفل</span><span class="cue-line" aria-hidden="true"></span></button>
       </div>
+    </div>
+
+    <div class="wrap">
+      <section class="home-order" id="homeOrder" aria-labelledby="homeOrderTitle">
+        <div class="ho-head">
+          <h2 id="homeOrderTitle">الطلب</h2>
+          <p>اختر باقتك، والسعر يُحسب تلقائياً قبل أن ترسل.</p>
+        </div>
+        <div class="pkg-cards">
+          <article class="pkg-card lead" style="--d:0ms"><div class="pkg-inner">
+            <span class="pc-ico" aria-hidden="true">🗒</span>
+            <h3>ملخص كتاب</h3>
+            <p class="pc-rule">كل 5 أوراق بـ 2 ريال</p>
+            <p class="pc-ex">كتاب من 40 ورقة بـ 16 ريال</p>
+            <button class="btn btn-primary" type="button" data-action="pick" data-pkg="summary">ابدأ بالملخص</button>
+          </div></article>
+          <article class="pkg-card" style="--d:110ms"><div class="pkg-inner">
+            <span class="pc-ico" aria-hidden="true">🎒</span>
+            <h3>إنشاء بحث</h3>
+            <p class="pc-rule">عادي: كل 3 أوراق بـ 1 ريال<br>مزخرف: كل ورقة بـ 1 ريال</p>
+            <p class="pc-ex">بحث عادي من 12 ورقة بـ 4 ريال</p>
+            <button class="btn btn-primary" type="button" data-action="pick" data-pkg="research">ابدأ بالبحث</button>
+          </div></article>
+          <article class="pkg-card" style="--d:220ms"><div class="pkg-inner">
+            <span class="pc-ico" aria-hidden="true">💡</span>
+            <h3>طلب مخصص</h3>
+            <p class="pc-rule">السعر حسب الطلب</p>
+            <p class="pc-ex">تصاميم، تلخيص كتاب تختاره، أو زبدة أفكار</p>
+            <button class="btn btn-primary" type="button" data-action="pick" data-tab="custom">اكتب طلبك</button>
+          </div></article>
+        </div>
+        <div class="ho-foot"><a class="btn btn-ghost" href="#order">افتح صفحة الطلب والسلة</a></div>
+      </section>
 
       <div class="about-grid">
         <div class="panel mission">
@@ -1478,7 +1597,7 @@ function route() {
   updateCartBar();
 }
 function renderView(r) {
-  if (r === 'about') renderCapacity();
+  if (r === 'about') { renderCapacity(); intro.refresh(); }
   if (r === 'order') { renderCapacity(); renderCart(); renderLoginNudge(); }
   if (r === 'orders') renderOrders();
   if (r === 'points') renderPoints();
@@ -2110,13 +2229,14 @@ function bindEvents() {
     switch (a) {
       case 'auth': currentUser() ? logout() : openLogin(); break;
       case 'go-cart': goToCart(); break;
-      case 'scroll': { const t = $('#' + el.dataset.target); t && t.scrollIntoView({ behavior: 'smooth' }); break; }
+      case 'scroll': { const t = $('#' + el.dataset.target); t && t.scrollIntoView({ behavior: prefersReduced() ? 'auto' : 'smooth', block: 'start' }); break; }
       case 'copy': copyText(el.dataset.text, el.dataset.label); break;
       case 'add': addFromUI(el.dataset.kind); break;
       case 'pick':
         location.hash = '#order';
         if (el.dataset.pkg) { setTab('pkg'); setPkg(el.dataset.pkg); }
-        else { setTab('custom'); state.service = el.dataset.service; renderServices(); saveDraft(); }
+        else if (el.dataset.service) { setTab('custom'); state.service = el.dataset.service; renderServices(); saveDraft(); }
+        else setTab('custom');
         break;
       case 'qty': {
         const it = state.cart.find(x => x.id === item.dataset.id);
@@ -2263,6 +2383,223 @@ function bindEvents() {
 }
 
 /* =========================================================
+   18.5) مشهد الافتتاح: نقطة «خ» تنفصل وتسقط كقطرة زبدة
+   - نقيس موضع النقطة بدقة: نرسم «خـ» و«حـ» على canvas بنفس الخط
+     ونأخذ الفرق بين الرسمين، فيعمل مع أي خط حتى الاحتياطي.
+   - الحركة مرتبطة بالتمرير وتستخدم transform و opacity فقط.
+   ========================================================= */
+const prefersReduced = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+const finePointer = () => !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
+
+const intro = (() => {
+  const root = $('#intro');
+  if (!root) return { refresh() {} };
+  const stage = $('.intro-stage', root), scene = $('.scene', root), face = $('.title-face', root);
+  const marker = $('.bl', root), txt = $('.title-text', root);
+  const drop = $('.drop', root), sphere = $('.drop .sphere', root), tear = $('.drop .tear', root);
+  const home = $('.dot-home', root), trail = $('.trail', root), ripples = $$('.ripple', root);
+  const tagline = $('.tagline', root), hl = $('.hl', root), cta = $('.intro-cta', root), cue = $('.cue', root);
+  const FULL = 'خلاصة الفكرة', DOTLESS = 'حلاصة الفكرة';
+  const animated = [scene, tagline, cta, cue, hl, drop, sphere, tear, home, trail, ...ripples];
+  const tilt = { x: 0, y: 0, tx: 0, ty: 0 };
+  let geo = null, raf = 0, enabled = false, stickyTop = 0, dist = 1;
+
+  const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+  const seg = (p, a, b) => clamp01((p - a) / (b - a));
+  const easeInOut = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  /* موضع نقطة الخاء وحجمها نسبةً إلى بداية الحرف وخط القاعدة */
+  function measureDot() {
+    try {
+      const cs = getComputedStyle(face);
+      const size = parseFloat(cs.fontSize);
+      const pad = Math.ceil(size * .5), W = Math.ceil(size * 2.2), H = Math.ceil(size * 2);
+      const c = document.createElement('canvas');
+      c.width = W; c.height = H;
+      const x = c.getContext('2d', { willReadFrequently: true });
+      if (!x) return null;
+      const draw = t => {
+        x.clearRect(0, 0, W, H);
+        x.font = `${cs.fontWeight} ${size}px ${cs.fontFamily}`;
+        x.direction = 'rtl'; x.textAlign = 'right'; x.textBaseline = 'alphabetic'; x.fillStyle = '#000';
+        x.fillText(t, W - pad, pad + size);
+        return x.getImageData(0, 0, W, H).data;
+      };
+      const a = draw('خـ'), b = draw('حـ');
+      let x0 = W, y0 = H, x1 = -1, y1 = -1;
+      for (let yy = 0; yy < H; yy++) {
+        for (let xx = 0; xx < W; xx++) {
+          const k = (yy * W + xx) * 4 + 3;
+          if (a[k] > 60 && b[k] < 20) {
+            if (xx < x0) x0 = xx; if (xx > x1) x1 = xx;
+            if (yy < y0) y0 = yy; if (yy > y1) y1 = yy;
+          }
+        }
+      }
+      if (x1 < 0) return null;
+      return { dx: (x0 + x1 + 1) / 2 - (W - pad), dy: (y0 + y1 + 1) / 2 - (pad + size), w: x1 - x0 + 1, h: y1 - y0 + 1 };
+    } catch (e) { return null; }
+  }
+
+  function clearStyles() { animated.forEach(el => el && el.removeAttribute('style')); }
+
+  function disable() {
+    enabled = false; geo = null;
+    root.classList.remove('js', 'idle');
+    txt.textContent = FULL;
+    clearStyles();
+  }
+
+  /* حساب الهندسة: موضع النقطة، ونقطة الهبوط على العبارة */
+  function layout() {
+    if (!enabled || root.offsetParent === null) return;
+    root.classList.add('measuring');
+    const d = measureDot();
+    if (!d) { root.classList.remove('measuring'); disable(); return; }
+    txt.textContent = DOTLESS;
+    const sc = scene.getBoundingClientRect(), m = marker.getBoundingClientRect(), h = hl.getBoundingClientRect();
+    const size = Math.max(d.w, d.h) * 1.12;
+    const x = m.left - sc.left + d.dx, y = m.top - sc.top + d.dy;
+    const hlL = h.left - sc.left, hlR = h.right - sc.left;
+    const tx = Math.min(Math.max(x, hlL + size), hlR - size * .9);
+    const ty = h.top - sc.top + h.height / 2;
+    geo = { x, y, size, tx, ty };
+    hl.style.setProperty('--ox', ((tx - hlL) / Math.max(1, hlR - hlL) * 100).toFixed(1) + '%');
+    [drop, home].forEach(el => {
+      el.style.width = el.style.height = size + 'px';
+      el.style.left = (x - size / 2) + 'px';
+      el.style.top = (y - size / 2) + 'px';
+    });
+    trail.style.left = (x - 1.5) + 'px';
+    trail.style.top = (y - size * 4.5) + 'px';
+    trail.style.height = (size * 4.5) + 'px';
+    ripples.forEach(r => {
+      const rs = size * 3.2;
+      r.style.width = r.style.height = rs + 'px';
+      r.style.left = (tx - rs / 2) + 'px';
+      r.style.top = (ty - rs / 2) + 'px';
+    });
+    root.classList.remove('measuring');
+    stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+    dist = Math.max(1, root.offsetHeight - stage.offsetHeight);
+    render();
+  }
+
+  function progress() { return clamp01((stickyTop - root.getBoundingClientRect().top) / dist); }
+
+  function render() {
+    raf = 0;
+    if (!enabled || !geo || root.offsetParent === null) return;
+    const p = progress();
+    root.classList.toggle('idle', p < .02);
+
+    const lift = seg(p, .03, .14), fall = seg(p, .14, .48), splash = seg(p, .48, .6);
+    const spread = easeInOut(seg(p, .5, .72)), text = easeOut(seg(p, .4, .6));
+    const regrow = easeOut(seg(p, .68, .8)), reveal = easeOut(seg(p, .74, .92));
+    const { x, y, size, tx, ty } = geo;
+
+    // السقوط: تسارع بالجاذبية مع انجراف ناعم نحو بداية العبارة
+    const dy = -size * .3 * lift * (1 - fall) + (ty - y) * fall * fall;
+    const dx = (tx - x) * easeInOut(fall);
+    const stretch = 1 + .25 * lift * (1 - fall) + .7 * Math.sin(fall * Math.PI / 2);
+    const sx = splash > 0 ? lerp(1 / Math.sqrt(stretch), 2.3, splash) : 1 / Math.sqrt(stretch);
+    const sy = splash > 0 ? lerp(stretch, .28, splash) : stretch;
+    const tearOn = clamp01(fall * 6);
+    drop.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0) scale(${sx.toFixed(3)}, ${sy.toFixed(3)})`;
+    drop.style.opacity = (1 - splash).toFixed(3);
+    sphere.style.opacity = (1 - tearOn).toFixed(3);
+    tear.style.opacity = tearOn.toFixed(3);
+
+    const len = Math.min(1, fall * 2.2) * (1 - splash) * (fall < 1 ? 1 : 0);
+    trail.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0) scaleY(${len.toFixed(3)})`;
+    trail.style.opacity = (len * .9).toFixed(3);
+
+    // تموجات الهبوط: حلقات مسطحة توحي بسطح في عمق المشهد
+    [splash, seg(p, .52, .68)].forEach((r, i) => {
+      const s = .2 + 1.9 * easeOut(r);
+      ripples[i].style.transform = `scale(${s.toFixed(3)}, ${(s * .3).toFixed(3)})`;
+      ripples[i].style.opacity = (r > 0 && r < 1 ? (1 - r) * .9 : 0).toFixed(3);
+    });
+
+    // الزبدة تنتشر من نقطة الهبوط لتظلل العبارة
+    hl.style.backgroundSize = (spread * 100).toFixed(2) + '% 100%';
+    hl.classList.toggle('lit', spread > .45);
+    tagline.style.opacity = text.toFixed(3);
+    tagline.style.transform = `translate3d(0, ${((1 - text) * 16).toFixed(2)}px, 0)`;
+
+    // نقطة جديدة تنمو مكان القديمة فتكتمل «خ» من جديد
+    home.style.transform = `scale(${regrow.toFixed(3)})`;
+
+    cta.style.opacity = reveal.toFixed(3);
+    cta.style.transform = `translate3d(0, ${((1 - reveal) * 18).toFixed(2)}px, 0)`;
+    cta.style.visibility = reveal > .05 ? 'visible' : 'hidden';
+    const cueOut = seg(p, 0, .08);
+    cue.style.opacity = (1 - cueOut).toFixed(3);
+    cue.style.visibility = cueOut < 1 ? 'visible' : 'hidden';
+
+    // ميل ثلاثي الأبعاد يتبع المؤشر، ثم يتراجع العنوان للخلف قليلاً
+    tilt.x += (tilt.tx - tilt.x) * .12;
+    tilt.y += (tilt.ty - tilt.y) * .12;
+    const rx = tilt.x + reveal * 7, ry = tilt.y, k = 1 - .05 * reveal;
+    scene.style.transform = `translate3d(0, ${(-reveal * 3).toFixed(2)}vh, 0) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(${k.toFixed(3)})`;
+    if (Math.abs(tilt.tx - tilt.x) > .02 || Math.abs(tilt.ty - tilt.y) > .02) tick();
+  }
+
+  function tick() { if (!raf && enabled) raf = requestAnimationFrame(render); }
+
+  function enable() {
+    if (prefersReduced()) { disable(); return; }
+    enabled = true;
+    root.classList.add('js');
+    layout();
+  }
+
+  window.addEventListener('scroll', tick, { passive: true });
+  window.addEventListener('resize', debounce(layout, 150));
+  stage.addEventListener('pointermove', e => {
+    if (!finePointer()) return;
+    const r = stage.getBoundingClientRect();
+    tilt.ty = ((e.clientX - r.left) / r.width - .5) * 10;
+    tilt.tx = -((e.clientY - r.top) / r.height - .5) * 8;
+    tick();
+  });
+  stage.addEventListener('pointerleave', () => { tilt.tx = tilt.ty = 0; tick(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout).catch(() => {});
+  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => layout());
+  const mq = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)');
+  if (mq && mq.addEventListener) mq.addEventListener('change', enable);
+  enable();
+
+  return { refresh: () => { if (enabled) layout(); else enable(); } };
+})();
+
+/* بطاقات الباقات: ظهور متدرج بعمق، وميل خفيف مع المؤشر */
+function setupPkgCards() {
+  const box = $('.pkg-cards');
+  if (!box) return;
+  const cards = $$('.pkg-card', box);
+  if (!prefersReduced() && 'IntersectionObserver' in window) {
+    box.classList.add('reveal');
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    }), { threshold: .2 });
+    cards.forEach(c => io.observe(c));
+  }
+  cards.forEach(c => {
+    const inner = $('.pkg-inner', c);
+    inner.addEventListener('pointermove', e => {
+      if (!finePointer() || prefersReduced()) return;
+      const r = inner.getBoundingClientRect();
+      inner.style.setProperty('--ry', (((e.clientX - r.left) / r.width - .5) * 10).toFixed(2) + 'deg');
+      inner.style.setProperty('--rx', (-((e.clientY - r.top) / r.height - .5) * 8).toFixed(2) + 'deg');
+    });
+    inner.addEventListener('pointerleave', () => { inner.style.removeProperty('--rx'); inner.style.removeProperty('--ry'); });
+  });
+}
+
+/* =========================================================
    19) التشغيل
    ========================================================= */
 function init() {
@@ -2274,6 +2611,7 @@ function init() {
   setTab('pkg');
   updatePrices();
   bindEvents();
+  setupPkgCards();
   refreshAuthUI();
   renderCart();
   route();

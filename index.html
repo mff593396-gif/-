@@ -156,12 +156,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 @supports not (background: color-mix(in srgb, red 50%, blue)) { .topbar { background: var(--paper); } }
 .topbar .wrap { height: 100%; display: flex; align-items: center; gap: 10px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); }
-.brand-mark {
-  width: 34px; height: 34px; border-radius: 10px; background: var(--ink); color: var(--paper);
-  display: grid; place-items: center; font-size: 1.05rem; line-height: 1; padding-bottom: 7px; position: relative; overflow: hidden;
-}
-.brand-mark::after { content: ""; position: absolute; inset-inline: 8px; bottom: 6px; height: 3px; border-radius: 2px; background: var(--butter); }
+.brand { display: flex; align-items: center; gap: 8px; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); }
+.logo { width: 34px; height: 44px; flex: none; color: var(--ink); overflow: visible; }
 .topbar-actions { margin-inline-start: auto; display: flex; gap: 6px; }
 .icon-btn {
   width: 44px; height: 44px; display: grid; place-items: center; border-radius: var(--r-ctl);
@@ -309,7 +305,7 @@ main { padding-bottom: 96px; }
 
 /* ---------- مشهد الافتتاح: العنوان المجسّم وقطرة الزبدة ---------- */
 .intro { position: relative; }
-.intro.js { height: 240vh; height: 240svh; }
+.intro.js { height: 320vh; height: 320svh; }
 .intro-stage {
   position: relative; display: grid; place-items: center; overflow: hidden;
   min-height: calc(100vh - var(--topbar)); min-height: calc(100svh - var(--topbar));
@@ -334,11 +330,22 @@ main { padding-bottom: 96px; }
 }
 .bl { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
 .floor { width: min(72%, 680px); height: 26px; margin: -.1em auto 0; background: radial-gradient(closest-side, var(--floor), transparent); }
+
+/* مكان استقرار القطرة: مسافة واضحة تحت العنوان، وتحتها موجة صغيرة */
+.landing { display: none; position: relative; height: clamp(84px, 13vh, 128px); }
+.intro.js .landing { display: block; }
+.wave { position: absolute; left: 50%; bottom: 8px; width: 96px; height: 14px; margin-left: -48px; overflow: hidden; opacity: 0; }
+.wave svg { display: block; width: 192px; height: 14px; }
+.wave path { fill: none; stroke: #D9A514; stroke-width: 2; stroke-linecap: round; }
+.intro.resting .wave svg { animation: waveMove 2.6s linear infinite; }
+@keyframes waveMove { to { transform: translateX(-96px); } }
+
 .tagline { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.3rem, 4.8vw, 2.35rem); line-height: 1.6; margin: .55em auto 0; max-width: none; }
+.intro.js .tagline { margin-top: 0; }
 .hl {
   padding: .08em .38em; border-radius: 10px; color: var(--on-butter);
   background-image: linear-gradient(var(--butter), var(--butter)); background-repeat: no-repeat;
-  background-position: var(--ox, 100%) 50%; background-size: 100% 100%;
+  background-position: var(--ox, 50%) 50%; background-size: 100% 100%;
   -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: color .25s ease;
 }
 .intro.js .hl { background-size: 0% 100%; color: var(--ink); }
@@ -347,8 +354,8 @@ main { padding-bottom: 96px; }
 .intro.js .tagline, .intro.js .intro-cta { opacity: 0; will-change: transform, opacity; }
 
 /* القطرة: كرة زبدة لامعة تتحول إلى دمعة أثناء السقوط */
-.drop, .dot-home, .trail, .ripple { position: absolute; left: 0; top: 0; pointer-events: none; display: none; }
-.intro.js .drop, .intro.js .dot-home, .intro.js .trail, .intro.js .ripple { display: block; }
+.drop, .dot-home, .trail, .ripple, .grow { position: absolute; left: 0; top: 0; pointer-events: none; display: none; }
+.intro.js .drop, .intro.js .dot-home, .intro.js .trail, .intro.js .ripple, .intro.js .grow { display: block; }
 .drop { transform-origin: 50% 100%; will-change: transform, opacity; }
 .dot-home { transform: scale(0); }
 .sphere {
@@ -359,7 +366,11 @@ main { padding-bottom: 96px; }
 .tear { position: absolute; left: 0; bottom: 0; width: 100%; height: 150%; opacity: 0; overflow: visible; }
 .trail { width: 3px; border-radius: 3px; transform-origin: 50% 100%; opacity: 0; background: linear-gradient(to bottom, transparent, rgba(245, 197, 49, .85)); will-change: transform, opacity; }
 .ripple { border: 2px solid var(--butter); border-radius: 50%; opacity: 0; will-change: transform, opacity; }
-.intro.idle .drop .sphere { animation: bob 2.6s ease-in-out infinite; }
+/* الدائرة التي تكبر من القطرة حتى تملأ الشاشة */
+.grow { border-radius: 50%; opacity: 0; transform-origin: 50% 50%; will-change: transform; background: var(--butter); overflow: hidden; }
+/* لمعة القطرة: تخفت كلما كبرت حتى يتطابق لونها مع قسم «من نحن» بلا فاصل */
+.grow::after { content: ""; position: absolute; inset: 0; border-radius: 50%; opacity: var(--hi, 1); background: radial-gradient(circle at 36% 32%, #FFF3C4 0, rgba(255, 243, 196, 0) 34%), radial-gradient(circle at 50% 50%, rgba(195, 140, 12, 0) 55%, rgba(195, 140, 12, .55) 100%); }
+.intro.idle .drop .sphere, .intro.resting .drop .sphere { animation: bob 2.6s ease-in-out infinite; }
 @keyframes bob { 50% { transform: translateY(-10%) scale(1.05); } }
 .intro.measuring .scene, .intro.measuring .tagline, .intro.measuring .intro-cta { transform: none !important; }
 
@@ -375,10 +386,41 @@ main { padding-bottom: 96px; }
 .cue-line::after { content: ""; position: absolute; left: 0; right: 0; top: -40%; height: 40%; background: var(--ink); animation: cue 1.8s ease-in-out infinite; }
 @keyframes cue { to { top: 100%; } }
 
+/* ---------- من نحن والخدمات على لون الزبدة ---------- */
+.butter { position: relative; background: var(--butter); color: var(--on-butter); padding-bottom: 88px; }
+.butter-edge-top { display: block; width: 100%; height: 48px; transform: scaleY(-1); }
+.intro.js + .butter .butter-edge-top { display: none; }
+.butter-edge-top path, .butter-edge path { fill: var(--paper); }
+.butter-edge { position: absolute; left: 0; right: 0; bottom: -1px; display: block; width: 100%; height: 56px; }
+.about-lead { text-align: center; padding: 40px var(--gutter) 24px; color: var(--on-butter); }
+.about-lead h2 { font-size: clamp(2.2rem, 7vw, 3.4rem); margin-bottom: .3em; }
+.about-lead p { margin-inline: auto; max-width: 46ch; font-size: clamp(1.02rem, 2.4vw, 1.2rem); line-height: 1.9; color: rgba(20, 37, 56, .86); }
+.about-lead p:last-child { margin-bottom: 0; }
+.about-lead.in-stage {
+  position: absolute; inset: 0; z-index: 2; display: grid; place-content: center;
+  padding: 24px var(--gutter); opacity: 0; visibility: hidden; will-change: transform, opacity;
+}
+.svc-head { text-align: center; padding-top: 24px; margin-bottom: 24px; }
+.svc-head h2 { font-size: clamp(1.9rem, 5.5vw, 2.6rem); margin-bottom: 4px; }
+.svc-head p { margin-inline: auto; color: rgba(20, 37, 56, .78); }
+.svc-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.svc-tile {
+  display: grid; grid-template-columns: 50px 1fr auto; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 18px;
+  background: rgba(255, 255, 255, .5); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 14px 26px -20px rgba(110, 72, 0, .6);
+}
+.svc-ico { width: 50px; height: 50px; border-radius: 15px; background: rgba(255, 255, 255, .72); display: grid; place-items: center; font-size: 1.45rem; }
+.svc-tile b { display: block; font-weight: 700; line-height: 1.5; }
+.svc-tile .d { display: block; font-size: var(--fs-sm); color: rgba(20, 37, 56, .76); line-height: 1.6; }
+.svc-tile .btn { background: #142538; color: #F5C531; box-shadow: none; }
+.svc-tile .btn:hover { filter: brightness(1.2); }
+@media (min-width: 900px) {
+  .svc-grid { grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .svc-tile { grid-template-columns: 1fr; align-content: start; height: 100%; padding: 20px 18px; }
+  .svc-tile .btn { justify-self: start; margin-top: 4px; }
+}
+
 /* ---------- قسم الطلب في الصفحة الرئيسية ---------- */
-.home-order { position: relative; z-index: 1; padding-block: 24px 40px; }
-/* يرتفع قسم الطلب إلى المساحة الفارغة أسفل المشهد فيظهر مباشرة بعد اكتمال الحركة */
-.intro.js ~ .wrap .home-order { margin-top: -16vh; margin-top: -16svh; }
+.home-order { position: relative; padding-block: 40px 40px; }
 .ho-head { text-align: center; margin-bottom: 30px; }
 .ho-head h2 { font-size: clamp(2.1rem, 6.5vw, 3.2rem); margin-bottom: 4px; }
 .ho-head p { margin-inline: auto; color: var(--ink-2); font-size: var(--fs-lg); }
@@ -415,15 +457,6 @@ main { padding-bottom: 96px; }
 /* ---------- من نحن ---------- */
 .about-grid { display: grid; gap: 16px; align-items: start; }
 @media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 1fr; } }
-.mission p:last-child { margin-bottom: 0; }
-
-.services { list-style: none; margin: 0; padding: 0; }
-.services li { display: grid; grid-template-columns: 48px 1fr auto; gap: 14px; align-items: center; padding: 14px 0; border-top: 1px solid var(--line); }
-.services li:first-child { border-top: 0; padding-top: 0; }
-.services li:last-child { padding-bottom: 0; }
-.svc-ico { width: 48px; height: 48px; border-radius: 14px; background: var(--surface-2); display: grid; place-items: center; font-size: 1.45rem; }
-.services b { display: block; font-weight: 600; }
-.services span { font-size: var(--fs-sm); color: var(--ink-2); }
 
 /* شريط السعة اليومية */
 .capacity {
@@ -691,17 +724,21 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <symbol id="i-lock" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g></symbol>
     <symbol id="i-user" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></g></symbol>
+    <!-- شعار خلاصة الفكرة: حرف «خ» داكن تعلوه قطرة زبدة ذهبية -->
+    <radialGradient id="lgDrop" cx="38%" cy="64%" r="70%"><stop offset="0" stop-color="#FFF3C4"/><stop offset=".5" stop-color="#F5C531"/><stop offset="1" stop-color="#C38C0C"/></radialGradient>
+    <symbol id="logo-mark" viewBox="0 0 40 52">
+      <path d="M20 1C21.2 6.2 27.5 10.6 27.5 16a7.5 7.5 0 0 1-15 0C12.5 10.6 18.8 6.2 20 1Z" fill="url(#lgDrop)"/>
+      <path d="M17.2 6.8c.7-1.6 1.6-2.7 2.3-3.4" stroke="#FFF7DB" stroke-width="1.3" stroke-linecap="round" fill="none" opacity=".85"/>
+      <text x="20" y="37" text-anchor="middle" font-family="Tajawal, 'IBM Plex Sans Arabic', Tahoma, 'Segoe UI', sans-serif" font-weight="900" font-size="31" fill="currentColor">ح</text>
+    </symbol>
   </defs>
 </svg>
 
 <!-- ===================== الشريط العلوي ===================== -->
 <header class="topbar">
   <div class="wrap">
-    <button class="icon-btn" id="menuBtn" type="button" aria-label="فتح القائمة" aria-controls="drawer" aria-expanded="false">
-      <svg><use href="#i-menu"/></svg>
-    </button>
     <a class="brand" href="#about" aria-label="خلاصة الفكرة، الصفحة الرئيسية">
-      <span class="brand-mark" aria-hidden="true">خ</span>
+      <svg class="logo" viewBox="0 0 40 52" aria-hidden="true"><use href="#logo-mark"/></svg>
       <span>خلاصة الفكرة</span>
     </a>
     <div class="topbar-actions">
@@ -713,6 +750,9 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
         <svg class="theme-light-ico"><use href="#i-moon"/></svg>
         <svg class="theme-dark-ico"><use href="#i-sun"/></svg>
       </button>
+      <button class="icon-btn" id="menuBtn" type="button" aria-label="فتح القائمة" aria-controls="drawer" aria-expanded="false">
+        <svg><use href="#i-menu"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -722,7 +762,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 <aside class="drawer" id="drawer" aria-label="القائمة الرئيسية" inert>
   <div class="drawer-head">
     <div>
-      <a class="brand" href="#about"><span class="brand-mark" aria-hidden="true">خ</span><span>خلاصة الفكرة</span></a>
+      <a class="brand" href="#about"><svg class="logo" viewBox="0 0 40 52" aria-hidden="true"><use href="#logo-mark"/></svg><span>خلاصة الفكرة</span></a>
       <p class="drawer-tag">زبدة الأفكار التي تغير حياتك</p>
     </div>
     <button class="icon-btn" type="button" id="drawerClose" aria-label="إغلاق القائمة"><svg><use href="#i-x"/></svg></button>
@@ -751,6 +791,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
         <div class="scene">
           <h1 class="title" id="heroTitle" aria-label="خلاصة الفكرة"><span class="title-face" aria-hidden="true"><i class="bl"></i><span class="title-text">خلاصة الفكرة</span></span></h1>
           <div class="floor" aria-hidden="true"></div>
+          <div class="landing" aria-hidden="true"><div class="wave"><svg viewBox="0 0 192 14" preserveAspectRatio="none"><path d="M0 7Q6 1 12 7T24 7T36 7T48 7T60 7T72 7T84 7T96 7T108 7T120 7T132 7T144 7T156 7T168 7T180 7T192 7"/></svg></div></div>
           <p class="tagline"><span class="hl">زبدة الأفكار التي تغير حياتك</span></p>
           <div class="btn-row intro-cta">
             <a class="btn btn-primary" href="#order">ابدأ طلبك</a>
@@ -767,10 +808,34 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
               <path d="M10 0C11 6 20 13 20 20A10 10 0 0 1 0 20C0 13 9 6 10 0Z" fill="url(#tearG)"/>
             </svg>
           </span>
+          <span class="grow" aria-hidden="true"></span>
         </div>
         <button class="cue" type="button" data-action="scroll" data-target="homeOrder"><span>مرّر للأسفل</span><span class="cue-line" aria-hidden="true"></span></button>
       </div>
     </div>
+
+    <section class="butter" id="aboutUs" aria-labelledby="aboutTitle">
+      <svg class="butter-edge-top" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 56V30C120 10 240 10 360 30S600 50 720 30 960 10 1080 30 1320 50 1440 30V56Z"/></svg>
+      <div class="about-lead" id="aboutLead">
+        <h2 id="aboutTitle">من نحن</h2>
+        <p>خلاصة الفكرة خدمة طلابية ومعرفية تساعدك توفّر وقتك وتفهم أكثر. نلخّص الكتب والمقاطع المفيدة، ونجهّز البحوث والمشاريع والواجبات، ونصمم الصور والفيديو، بوضوح وأمانة.</p>
+        <p>رسالتنا بسيطة: أن تصلك الفكرة الأهم من كل صفحة، مرتبة وجاهزة للاستخدام، وبسعر واضح تعرفه قبل أن ترسل طلبك.</p>
+      </div>
+      <div class="wrap">
+        <div class="svc-head">
+          <h2>خدماتنا</h2>
+          <p>خمس خدمات، وكل واحدة تصلك بخلاصتها.</p>
+        </div>
+        <ul class="svc-grid">
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">🗒</span><div><b>ملخصات كتب ومقاطع مفيدة</b><span class="d">أهم الأفكار في صفحات قليلة تقرؤها بدقائق.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-pkg="summary">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">🎒</span><div><b>بحوث ومشاريع وواجبات</b><span class="d">بحث عادي أو مزخرف، بتنسيق مرتب ومراجع.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-pkg="research">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">📷</span><div><b>تصاميم فيديو أو صورة</b><span class="d">تصاميم لعروضك ومشاريعك وحساباتك.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="design">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">📚</span><div><b>تلخيص كتب حسب الطلب</b><span class="d">اختر الكتاب وطريقة التلخيص التي تناسبك.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="book">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">💡</span><div><b>زبدة الأفكار التي تغير حياتك</b><span class="d">خلاصات مختارة تختصر عليك سنوات من القراءة.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="ideas">اطلب</button></li>
+        </ul>
+      </div>
+      <svg class="butter-edge" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 56V30C120 10 240 10 360 30S600 50 720 30 960 10 1080 30 1320 50 1440 30V56Z"/></svg>
+    </section>
 
     <div class="wrap">
       <section class="home-order" id="homeOrder" aria-labelledby="homeOrderTitle">
@@ -803,24 +868,6 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
         </div>
         <div class="ho-foot"><a class="btn btn-ghost" href="#order">افتح صفحة الطلب والسلة</a></div>
       </section>
-
-      <div class="about-grid">
-        <div class="panel mission">
-          <h2>من نحن</h2>
-          <p>خلاصة الفكرة خدمة طلابية ومعرفية تساعدك توفّر وقتك وتفهم أكثر. نلخّص الكتب والمقاطع المفيدة، ونجهّز البحوث والمشاريع والواجبات، ونصمم الصور والفيديو، بوضوح وأمانة.</p>
-          <p>رسالتنا بسيطة: أن تصلك الفكرة الأهم من كل صفحة، مرتبة وجاهزة للاستخدام، وبسعر واضح تعرفه قبل أن ترسل طلبك.</p>
-        </div>
-        <div class="panel">
-          <h2>خدماتنا</h2>
-          <ul class="services">
-            <li><span class="svc-ico" aria-hidden="true">🗒</span><div><b>ملخصات كتب ومقاطع مفيدة</b><span>أهم الأفكار في صفحات قليلة تقرؤها بدقائق.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-pkg="summary">اطلب</button></li>
-            <li><span class="svc-ico" aria-hidden="true">🎒</span><div><b>بحوث ومشاريع وواجبات</b><span>بحث عادي أو مزخرف، بتنسيق مرتب ومراجع.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-pkg="research">اطلب</button></li>
-            <li><span class="svc-ico" aria-hidden="true">📷</span><div><b>تصاميم فيديو أو صورة</b><span>تصاميم لعروضك ومشاريعك وحساباتك.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-service="design">اطلب</button></li>
-            <li><span class="svc-ico" aria-hidden="true">📚</span><div><b>تلخيص كتب حسب الطلب</b><span>اختر الكتاب وطريقة التلخيص التي تناسبك.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-service="book">اطلب</button></li>
-            <li><span class="svc-ico" aria-hidden="true">💡</span><div><b>زبدة الأفكار التي تغير حياتك</b><span>خلاصات مختارة تختصر عليك سنوات من القراءة.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-service="ideas">اطلب</button></li>
-          </ul>
-        </div>
-      </div>
 
       <div class="capacity" aria-live="polite">
         <p class="capacity-text">نستقبل 15 طلب كحد أقصى يومياً لضمان الجودة</p>
@@ -1522,16 +1569,26 @@ function makeIcon(size) {
     const x = c.getContext('2d');
     if (!x) return null;
     const r = size * .22;
-    x.fillStyle = '#142538';
+    x.fillStyle = '#F3F5F8';
     x.beginPath();
     x.moveTo(r, 0); x.arcTo(size, 0, size, size, r); x.arcTo(size, size, 0, size, r); x.arcTo(0, size, 0, 0, r); x.arcTo(0, 0, size, 0, r);
     x.fill();
-    x.fillStyle = '#F5C531';
-    x.fillRect(size * .2, size * .7, size * .6, size * .09);
-    x.fillStyle = '#F3F5F8';
-    x.font = `700 ${size * .48}px Tahoma, "Segoe UI", sans-serif`;
-    x.textAlign = 'center'; x.textBaseline = 'middle';
-    x.fillText('خ', size / 2, size * .42);
+    // نفس هندسة شعار SVG (‏viewBox 40×52) متوسطة داخل المربع
+    const u = size * .86 / 52, ox = (size - 40 * u) / 2, oy = size * .07;
+    const X = v => ox + v * u, Y = v => oy + v * u;
+    const g = x.createRadialGradient(X(17), Y(13), 1, X(20), Y(14), 9 * u);
+    g.addColorStop(0, '#FFF3C4'); g.addColorStop(.5, '#F5C531'); g.addColorStop(1, '#C38C0C');
+    x.fillStyle = g;
+    x.beginPath();
+    x.moveTo(X(20), Y(1));
+    x.bezierCurveTo(X(21.2), Y(6.2), X(27.5), Y(10.6), X(27.5), Y(16));
+    x.arc(X(20), Y(16), 7.5 * u, 0, Math.PI, false);
+    x.bezierCurveTo(X(12.5), Y(10.6), X(18.8), Y(6.2), X(20), Y(1));
+    x.fill();
+    x.fillStyle = '#142538';
+    x.font = `900 ${31 * u}px Tajawal, Tahoma, "Segoe UI", sans-serif`;
+    x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+    x.fillText('ح', X(20), Y(37));
     return c.toDataURL('image/png');
   } catch (e) { return null; }
 }
@@ -2383,8 +2440,8 @@ function bindEvents() {
 }
 
 /* =========================================================
-   18.5) مشهد الافتتاح: نقطة «خ» تنفصل وتسقط كقطرة زبدة
-   - نقيس موضع النقطة بدقة: نرسم «خـ» و«حـ» على canvas بنفس الخط
+   18.5) مشهد الافتتاح: قطرة زبدة تصعد ثم تستقر تحت العنوان، ثم تكبر لتقدّم «من نحن»
+   - نقيس موضع نقطة «خ» بدقة: نرسم «خـ» و«حـ» على canvas بنفس الخط
      ونأخذ الفرق بين الرسمين، فيعمل مع أي خط حتى الاحتياطي.
    - الحركة مرتبطة بالتمرير وتستخدم transform و opacity فقط.
    ========================================================= */
@@ -2395,12 +2452,13 @@ const intro = (() => {
   const root = $('#intro');
   if (!root) return { refresh() {} };
   const stage = $('.intro-stage', root), scene = $('.scene', root), face = $('.title-face', root);
-  const marker = $('.bl', root), txt = $('.title-text', root);
-  const drop = $('.drop', root), sphere = $('.drop .sphere', root), tear = $('.drop .tear', root);
+  const marker = $('.bl', root), txt = $('.title-text', root), landing = $('.landing', root), wave = $('.wave', root);
+  const drop = $('.drop', root), sphere = $('.drop .sphere', root), tear = $('.drop .tear', root), grow = $('.grow', root);
   const home = $('.dot-home', root), trail = $('.trail', root), ripples = $$('.ripple', root);
   const tagline = $('.tagline', root), hl = $('.hl', root), cta = $('.intro-cta', root), cue = $('.cue', root);
+  const lead = $('#aboutLead'), butter = $('#aboutUs');
   const FULL = 'خلاصة الفكرة', DOTLESS = 'حلاصة الفكرة';
-  const animated = [scene, tagline, cta, cue, hl, drop, sphere, tear, home, trail, ...ripples];
+  const animated = [scene, tagline, cta, cue, hl, drop, sphere, tear, home, trail, wave, grow, ...ripples];
   const tilt = { x: 0, y: 0, tx: 0, ty: 0 };
   let geo = null, raf = 0, enabled = false, stickyTop = 0, dist = 1;
 
@@ -2408,7 +2466,6 @@ const intro = (() => {
   const seg = (p, a, b) => clamp01((p - a) / (b - a));
   const easeInOut = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   const easeOut = t => 1 - Math.pow(1 - t, 3);
-  const lerp = (a, b, t) => a + (b - a) * t;
 
   /* موضع نقطة الخاء وحجمها نسبةً إلى بداية الحرف وخط القاعدة */
   function measureDot() {
@@ -2443,30 +2500,42 @@ const intro = (() => {
     } catch (e) { return null; }
   }
 
+  /* فقرة «من نحن» تُعرض داخل القطرة المتوسعة، وتعود لمكانها الطبيعي عند تعطيل الحركة */
+  function placeLead(inStage) {
+    if (!lead || !butter) return;
+    if (inStage && lead.parentNode !== stage) { stage.appendChild(lead); lead.classList.add('in-stage'); }
+    if (!inStage && lead.parentNode !== butter) {
+      butter.insertBefore(lead, $('.wrap', butter));
+      lead.classList.remove('in-stage'); lead.removeAttribute('style');
+    }
+  }
+
   function clearStyles() { animated.forEach(el => el && el.removeAttribute('style')); }
 
   function disable() {
     enabled = false; geo = null;
-    root.classList.remove('js', 'idle');
+    root.classList.remove('js', 'idle', 'resting');
     txt.textContent = FULL;
     clearStyles();
+    placeLead(false);
   }
 
-  /* حساب الهندسة: موضع النقطة، ونقطة الهبوط على العبارة */
+  /* الهندسة: موضع النقطة، ومكان الاستقرار، ونصف قطر الدائرة التي تغطي المشهد */
   function layout() {
     if (!enabled || root.offsetParent === null) return;
     root.classList.add('measuring');
     const d = measureDot();
     if (!d) { root.classList.remove('measuring'); disable(); return; }
     txt.textContent = DOTLESS;
-    const sc = scene.getBoundingClientRect(), m = marker.getBoundingClientRect(), h = hl.getBoundingClientRect();
-    const size = Math.max(d.w, d.h) * 1.12;
+    const sc = scene.getBoundingClientRect(), st = stage.getBoundingClientRect();
+    const m = marker.getBoundingClientRect(), L = landing.getBoundingClientRect();
+    const size = Math.max(14, Math.max(d.w, d.h) * 1.12);
     const x = m.left - sc.left + d.dx, y = m.top - sc.top + d.dy;
-    const hlL = h.left - sc.left, hlR = h.right - sc.left;
-    const tx = Math.min(Math.max(x, hlL + size), hlR - size * .9);
-    const ty = h.top - sc.top + h.height / 2;
-    geo = { x, y, size, tx, ty };
-    hl.style.setProperty('--ox', ((tx - hlL) / Math.max(1, hlR - hlL) * 100).toFixed(1) + '%');
+    const lx = L.left + L.width / 2, ly = L.top + L.height * .4;
+    const tx = lx - sc.left, ty = ly - sc.top;
+    const px = lx - st.left, py = ly - st.top;
+    const R = Math.max(Math.hypot(px, py), Math.hypot(st.width - px, py), Math.hypot(px, st.height - py), Math.hypot(st.width - px, st.height - py)) * 1.04;
+    geo = { x, y, size, tx, ty, s0: size / (2 * R) };
     [drop, home].forEach(el => {
       el.style.width = el.style.height = size + 'px';
       el.style.left = (x - size / 2) + 'px';
@@ -2476,11 +2545,14 @@ const intro = (() => {
     trail.style.top = (y - size * 4.5) + 'px';
     trail.style.height = (size * 4.5) + 'px';
     ripples.forEach(r => {
-      const rs = size * 3.2;
+      const rs = size * 3.4;
       r.style.width = r.style.height = rs + 'px';
       r.style.left = (tx - rs / 2) + 'px';
-      r.style.top = (ty - rs / 2) + 'px';
+      r.style.top = (ty + size * .55 - rs / 2) + 'px';
     });
+    grow.style.width = grow.style.height = (2 * R) + 'px';
+    grow.style.left = (tx - R) + 'px';
+    grow.style.top = (ty - R) + 'px';
     root.classList.remove('measuring');
     stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
     dist = Math.max(1, root.offsetHeight - stage.offsetHeight);
@@ -2494,56 +2566,75 @@ const intro = (() => {
     if (!enabled || !geo || root.offsetParent === null) return;
     const p = progress();
     root.classList.toggle('idle', p < .02);
+    root.classList.toggle('resting', p > .42 && p < .62);
 
-    const lift = seg(p, .03, .14), fall = seg(p, .14, .48), splash = seg(p, .48, .6);
-    const spread = easeInOut(seg(p, .5, .72)), text = easeOut(seg(p, .4, .6));
-    const regrow = easeOut(seg(p, .68, .8)), reveal = easeOut(seg(p, .74, .92));
-    const { x, y, size, tx, ty } = geo;
+    const lift = seg(p, .02, .12), fall = seg(p, .12, .34), land = seg(p, .34, .44);
+    const regrow = easeOut(seg(p, .36, .46)), text = easeOut(seg(p, .38, .5));
+    const spread = easeInOut(seg(p, .42, .56)), ctaIn = easeOut(seg(p, .46, .56));
+    const growT = seg(p, .6, .86), leadIn = easeOut(seg(p, .82, .95));
+    const { x, y, size, tx, ty, s0 } = geo;
 
-    // السقوط: تسارع بالجاذبية مع انجراف ناعم نحو بداية العبارة
-    const dy = -size * .3 * lift * (1 - fall) + (ty - y) * fall * fall;
+    // 1) تصعد القطرة قليلاً ثم تسقط بالجاذبية نحو مكان الاستقرار تحت العنوان
+    const rise = -size * 1.2 * Math.sin(lift * Math.PI / 2);
+    const dy = rise * (1 - fall) + (ty - y) * fall * fall;
     const dx = (tx - x) * easeInOut(fall);
-    const stretch = 1 + .25 * lift * (1 - fall) + .7 * Math.sin(fall * Math.PI / 2);
-    const sx = splash > 0 ? lerp(1 / Math.sqrt(stretch), 2.3, splash) : 1 / Math.sqrt(stretch);
-    const sy = splash > 0 ? lerp(stretch, .28, splash) : stretch;
-    const tearOn = clamp01(fall * 6);
+    const falling = fall > 0 && fall < 1;
+    const stretch = 1 + .15 * Math.sin(lift * Math.PI) * (1 - fall) + .6 * Math.sin(fall * Math.PI / 2) * (1 - land);
+    const squash = Math.sin(land * Math.PI);
+    const sx = (1 / Math.sqrt(stretch)) * (1 + .5 * squash), sy = stretch * (1 - .4 * squash);
+    const tearOn = fall < 1 ? clamp01(fall * 6) : clamp01(1 - land * 3);
     drop.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0) scale(${sx.toFixed(3)}, ${sy.toFixed(3)})`;
-    drop.style.opacity = (1 - splash).toFixed(3);
+    drop.style.opacity = growT > 0 ? '0' : '1';
     sphere.style.opacity = (1 - tearOn).toFixed(3);
     tear.style.opacity = tearOn.toFixed(3);
 
-    const len = Math.min(1, fall * 2.2) * (1 - splash) * (fall < 1 ? 1 : 0);
+    const len = falling ? Math.min(1, fall * 2.2) : 0;
     trail.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0) scaleY(${len.toFixed(3)})`;
     trail.style.opacity = (len * .9).toFixed(3);
 
-    // تموجات الهبوط: حلقات مسطحة توحي بسطح في عمق المشهد
-    [splash, seg(p, .52, .68)].forEach((r, i) => {
+    // 2) عند الاستقرار: تموجات مسطحة وموجة صغيرة تحت القطرة
+    [seg(p, .34, .5), seg(p, .38, .56)].forEach((r, i) => {
       const s = .2 + 1.9 * easeOut(r);
       ripples[i].style.transform = `scale(${s.toFixed(3)}, ${(s * .3).toFixed(3)})`;
       ripples[i].style.opacity = (r > 0 && r < 1 ? (1 - r) * .9 : 0).toFixed(3);
     });
+    wave.style.opacity = (clamp01(land * 2) * (1 - seg(p, .58, .64))).toFixed(3);
 
-    // الزبدة تنتشر من نقطة الهبوط لتظلل العبارة
+    // نقطة جديدة تنمو مكان القديمة فتكتمل «خ»، ثم تظهر العبارة وتُظلَّل
+    home.style.transform = `scale(${regrow.toFixed(3)})`;
     hl.style.backgroundSize = (spread * 100).toFixed(2) + '% 100%';
     hl.classList.toggle('lit', spread > .45);
     tagline.style.opacity = text.toFixed(3);
     tagline.style.transform = `translate3d(0, ${((1 - text) * 16).toFixed(2)}px, 0)`;
+    cta.style.opacity = ctaIn.toFixed(3);
+    cta.style.transform = `translate3d(0, ${((1 - ctaIn) * 18).toFixed(2)}px, 0)`;
+    cta.style.visibility = ctaIn > .05 && growT < .3 ? 'visible' : 'hidden';
 
-    // نقطة جديدة تنمو مكان القديمة فتكتمل «خ» من جديد
-    home.style.transform = `scale(${regrow.toFixed(3)})`;
+    // 3) القطرة تكبر وتنفتح حتى تملأ المشهد، ثم تظهر «من نحن» داخلها
+    if (growT > 0) {
+      const sc = s0 * Math.pow(1 / s0, easeInOut(growT));
+      grow.style.transform = `scale(${sc.toFixed(5)})`;
+      grow.style.opacity = '1';
+      grow.style.setProperty('--hi', (1 - seg(growT, .35, .9)).toFixed(3));
+    } else {
+      grow.style.transform = `scale(${s0.toFixed(5)})`;
+      grow.style.opacity = '0';
+    }
+    if (lead && lead.classList.contains('in-stage')) {
+      lead.style.opacity = leadIn.toFixed(3);
+      lead.style.transform = `translate3d(0, ${((1 - leadIn) * 24).toFixed(2)}px, 0)`;
+      lead.style.visibility = leadIn > .02 ? 'visible' : 'hidden';
+    }
 
-    cta.style.opacity = reveal.toFixed(3);
-    cta.style.transform = `translate3d(0, ${((1 - reveal) * 18).toFixed(2)}px, 0)`;
-    cta.style.visibility = reveal > .05 ? 'visible' : 'hidden';
-    const cueOut = seg(p, 0, .08);
+    const cueOut = seg(p, 0, .06);
     cue.style.opacity = (1 - cueOut).toFixed(3);
     cue.style.visibility = cueOut < 1 ? 'visible' : 'hidden';
 
-    // ميل ثلاثي الأبعاد يتبع المؤشر، ثم يتراجع العنوان للخلف قليلاً
+    // ميل ثلاثي الأبعاد خفيف يتبع المؤشر ويهدأ أثناء التوسع
     tilt.x += (tilt.tx - tilt.x) * .12;
     tilt.y += (tilt.ty - tilt.y) * .12;
-    const rx = tilt.x + reveal * 7, ry = tilt.y, k = 1 - .05 * reveal;
-    scene.style.transform = `translate3d(0, ${(-reveal * 3).toFixed(2)}vh, 0) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(${k.toFixed(3)})`;
+    const k = 1 - growT;
+    scene.style.transform = `rotateX(${(tilt.x * k).toFixed(2)}deg) rotateY(${(tilt.y * k).toFixed(2)}deg)`;
     if (Math.abs(tilt.tx - tilt.x) > .02 || Math.abs(tilt.ty - tilt.y) > .02) tick();
   }
 
@@ -2553,6 +2644,7 @@ const intro = (() => {
     if (prefersReduced()) { disable(); return; }
     enabled = true;
     root.classList.add('js');
+    placeLead(true);
     layout();
   }
 

@@ -2,17 +2,19 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-djd01MfzaeQior06dDD8KiaaYN1Us19Snu2l5HJZTB8='; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>أداة تأكيد النقاط</title>
 <!--
-  أداة خاصة بصاحب المشروع فقط، ولا تُرفع على الموقع العام.
-  - تنشئ مفتاح توقيع: الخاص يبقى في هذا المتصفح، والعام يُلصق في index.html.
+  أداة صاحب المشروع. منشورة على رابط غير مذكور في الموقع، ولا تحتوي أي سر:
+  - المفتاح الخاص يُنشأ داخل متصفحك ويبقى فيه فقط، ولا يُرسل لأي مكان.
+    من يفتح هذه الصفحة غيرك يرى أداة فارغة، وأي رابط يوقّعه بمفتاح آخر يرفضه الموقع.
+  - المفتاح العام يُلصق في وسم kf-points-key أعلى index.html.
   - توقّع روابط تأكيد النقاط وتحديث حالة الطلب لترسلها للعميل في واتساب.
   - تحفظ سجل النقاط لكل عميل لتتحقق منه عند طلب الاستبدال.
-  تعمل دون إنترنت: كل شيء محلي ولا تتصل بأي خادم.
+  سياسة CSP تمنعها من الاتصال بأي خادم (لا connect-src)، فلا يمكن تسريب المفتاح منها.
 -->
 <style>
   :root { --paper:#F3F5F8; --surface:#fff; --ink:#142538; --ink-2:#4B5D70; --line:#D5DDE5; --butter:#F5C531; --ok:#1D7350; --danger:#B42318; }
@@ -48,7 +50,8 @@
 <body>
 <main>
   <h1>أداة تأكيد النقاط</h1>
-  <p class="muted">لك وحدك. لا ترفع هذا الملف على الموقع، ولا تشارك ملف النسخة الاحتياطية مع أحد.</p>
+  <p class="muted">لك وحدك. المفتاح يُحفظ في هذا المتصفح فقط، ولا تشارك ملف النسخة الاحتياطية مع أحد.</p>
+  <p class="note" id="envWarn" hidden></p>
 
   <!-- المفتاح -->
   <section id="keySec">
@@ -63,13 +66,13 @@
     </div>
     <div id="hasKey" hidden>
       <p class="note good">المفتاح جاهز في هذا المتصفح.</p>
-      <label for="pubOut">المفتاح العام: انسخ هذا السطر وضعه مكان <span class="ltr">POINTS_PUBLIC_KEY: null,</span> في index.html</label>
+      <label for="pubOut">المفتاح العام (ليس سراً): انسخه وأرسله لمن يعدّل الموقع ليضعه في index.html</label>
       <textarea id="pubOut" readonly></textarea>
       <div class="btns">
         <button type="button" class="soft" id="copyPub">نسخ المفتاح العام</button>
         <button type="button" class="soft" id="exportKey">تنزيل نسخة احتياطية</button>
       </div>
-      <p class="muted" style="margin-top:8px">النسخة الاحتياطية تحتوي المفتاح الخاص وسجل النقاط. احفظها في مكان آمن لتنقل الأداة إلى جهاز آخر.</p>
+      <p class="muted" style="margin-top:8px">النسخة الاحتياطية تحتوي المفتاح الخاص وسجل النقاط. نزّلها بعد إنشاء المفتاح وبين فترة وأخرى، واحفظها في مكان آمن: بدونها لا تستطيع استرجاع المفتاح إذا مُسحت بيانات المتصفح.</p>
     </div>
   </section>
 
@@ -132,7 +135,26 @@ const $ = s => document.querySelector(s);
 const STAGES = ['استلام', 'مراجعة', 'تنفيذ', 'تسليم'];
 const LS = { key: 'kfs.key', ledger: 'kfs.ledger', site: 'kfs.site' };
 const get = (k, fb) => { try { const v = localStorage.getItem(k); return v == null ? fb : JSON.parse(v); } catch (e) { return fb; } };
-const set = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { alert('تعذّر الحفظ في هذا المتصفح.'); return false; } };
+const set = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { alert('تعذّر الحفظ في هذا المتصفح. افتح الأداة من رابطها في Safari أو Chrome.'); return false; } };
+
+/* فحص البيئة: الأداة تحتاج حفظاً دائماً وتشفيراً من المتصفح */
+const storageOK = (() => { try { localStorage.setItem('kfs.probe', '1'); localStorage.removeItem('kfs.probe'); return true; } catch (e) { return false; } })();
+const cryptoOK = !!(window.crypto && crypto.subtle && window.isSecureContext);
+if (!storageOK || !cryptoOK) {
+  $('#envWarn').textContent = 'هذه النافذة لا تسمح بالحفظ أو التشفير، فلن تعمل الأداة فيها. افتح رابط الأداة في Safari أو Chrome مباشرة.';
+  $('#envWarn').hidden = false;
+}
+// نطلب من المتصفح ألا يمسح بيانات الأداة تلقائياً
+try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { /* اختياري */ }
+
+/* نسخ يعمل حتى إذا لم تتوفر واجهة الحافظة */
+async function copy(text, field) {
+  try { await navigator.clipboard.writeText(text); alert('تم النسخ.'); return; } catch (e) { /* بديل */ }
+  if (field) { field.focus(); field.select(); }
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+  alert(ok ? 'تم النسخ.' : 'حدّد النص وانسخه يدوياً.');
+}
 
 function toLatin(s) { return String(s).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)); }
 function normPhone(raw) {
@@ -170,17 +192,19 @@ function renderKey() {
   const k = get(LS.key, null);
   $('#noKey').hidden = !!k;
   $('#hasKey').hidden = !k;
-  if (k) $('#pubOut').value = `POINTS_PUBLIC_KEY: { x: '${k.pub.x}', y: '${k.pub.y}' },`;
+  if (k) $('#pubOut').value = `<meta name="kf-points-key" content="${k.pub.x}.${k.pub.y}">`;
 }
 $('#genKey').addEventListener('click', async () => {
-  if (!(window.crypto && crypto.subtle)) { alert('افتح الأداة في متصفح حديث (Chrome أو Safari أو Edge).'); return; }
+  if (!cryptoOK || !storageOK) { alert('افتح رابط الأداة في Safari أو Chrome مباشرة، لا داخل نافذة معاينة.'); return; }
+  if (get(LS.key, null) && !confirm('يوجد مفتاح في هذا المتصفح. المفتاح الجديد يُبطل روابط المفتاح القديم بعد تحديث الموقع. متابعة؟')) return;
   const pair = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
   const priv = await crypto.subtle.exportKey('jwk', pair.privateKey);
   const pub = await crypto.subtle.exportKey('jwk', pair.publicKey);
-  set(LS.key, { priv, pub: { x: pub.x, y: pub.y }, created: Date.now() });
+  if (!set(LS.key, { priv, pub: { x: pub.x, y: pub.y }, created: Date.now() })) return;
   renderKey();
+  alert('أُنشئ المفتاح. الخطوة التالية: اضغط «تنزيل نسخة احتياطية» واحفظ الملف في مكان آمن.');
 });
-$('#copyPub').addEventListener('click', () => { navigator.clipboard.writeText($('#pubOut').value).then(() => alert('نُسخ المفتاح العام.'), () => $('#pubOut').select()); });
+$('#copyPub').addEventListener('click', () => copy($('#pubOut').value, $('#pubOut')));
 $('#exportKey').addEventListener('click', () => {
   const data = JSON.stringify({ type: 'kholasa-points-backup', v: 1, key: get(LS.key, null), ledger: get(LS.ledger, {}), site: get(LS.site, '') }, null, 2);
   const a = el('a', { href: URL.createObjectURL(new Blob([data], { type: 'application/json' })), download: 'kholasa-points-backup.json' });
@@ -219,10 +243,10 @@ async function signedLink(payload) {
 }
 function linkResult(box, link, phone, text) {
   const ta = el('textarea', { readOnly: true, value: link });
-  const copy = el('button', { type: 'button', className: 'soft' }, 'نسخ الرابط');
-  copy.addEventListener('click', () => navigator.clipboard.writeText(link).then(() => alert('نُسخ الرابط.'), () => ta.select()));
+  const copyBtn = el('button', { type: 'button', className: 'soft' }, 'نسخ الرابط');
+  copyBtn.addEventListener('click', () => copy(link, ta));
   const wa = el('a', { className: 'btn ok', target: '_blank', rel: 'noopener', href: 'https://wa.me/' + phone + '?text=' + encodeURIComponent(text + '\n' + link) }, 'أرسله للعميل في واتساب');
-  const row = el('div', { className: 'btns' }); row.append(copy, wa);
+  const row = el('div', { className: 'btns' }); row.append(copyBtn, wa);
   show(box, [ta, row]);
 }
 

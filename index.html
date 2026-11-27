@@ -7,8 +7,10 @@
   ولا تُحمَّل خطوط أو أنماط إلا من Google Fonts. بعد أي تعديل على السكربتات شغّل:
   python3 tools/update-csp.py
 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-5yUP0FEVk3djixhv1bUjEFDihubm1imUN2ID7cjvk88=' 'sha256-UZVKSCGgOKz9GfgScXGnOwLYGLoc6MKHijY0AFyOe0E='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self' blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-5yUP0FEVk3djixhv1bUjEFDihubm1imUN2ID7cjvk88=' 'sha256-iO80VBIQwJYg5wrXicaBja/hXyKR8TFTIV2PQ8b0JNo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self' blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
+<!-- مفتاح تأكيد النقاط العام: الصق هنا السطر الذي تعطيك إياه أداة tools/points-signer.html (ليس سراً) -->
+<meta name="kf-points-key" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>خلاصة الفكرة</title>
 <meta name="description" content="خلاصة الفكرة: ملخصات كتب، بحوث ومشاريع، تصاميم، وزبدة الأفكار التي تغير حياتك.">
@@ -1015,7 +1017,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
       <p class="muted small" id="loginIntro">بدون كلمة مرور. اسمك ورقم جوالك يكفيان، ونحفظ دخولك على هذا الجهاز.</p>
       <div class="field"><label for="lName">الاسم</label><input id="lName" type="text" autocomplete="name" maxlength="60" required><p class="err" hidden></p></div>
       <div class="field"><label for="lPhone">رقم الجوال</label><input id="lPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="05XXXXXXXX" required><p class="err" hidden></p></div>
-      <div class="note-box ok">أول تسجيل يمنحك 50 نقطة ترحيبية مؤكدة.</div>
+      <div class="note-box ok">أول تسجيل يمنحك 50 نقطة ترحيبية تُضاف مع أول طلب مكتمل.</div>
     </div>
     <div class="dlg-foot"><button class="btn btn-primary" type="submit">تسجيل الدخول</button><button class="btn btn-ghost" type="button" data-close>إلغاء</button></div>
   </form>
@@ -1065,14 +1067,19 @@ self.addEventListener('fetch', e => {
 /* =========================================================
    1) الإعدادات
    ========================================================= */
+function readPointsKey() {
+  const m = document.querySelector('meta[name="kf-points-key"]');
+  const parts = ((m && m.content) || '').trim().split('.');
+  return parts.length === 2 && parts.every(v => /^[A-Za-z0-9_-]{43}$/.test(v)) ? { x: parts[0], y: parts[1] } : null;
+}
 const CONFIG = {
   WHATSAPP: '966553143099',
   DAILY_LIMIT: 15,
   WELCOME_POINTS: 50,
   POINTS_PER_RIYAL: 10,
-  /* المفتاح العام لروابط تأكيد النقاط (ECDSA P-256). يُنشأ من أداة tools/points-signer.html
-     والمفتاح الخاص يبقى عند صاحب المشروع فقط. القيمة null تعني أن التأكيد غير مفعّل بعد. */
-  POINTS_PUBLIC_KEY: null,
+  /* المفتاح العام لروابط تأكيد النقاط (ECDSA P-256) يُقرأ من وسم kf-points-key أعلى الصفحة.
+     المفتاح الخاص يبقى عند صاحب المشروع فقط. القيمة الفارغة تعني أن التأكيد غير مفعّل بعد. */
+  POINTS_PUBLIC_KEY: readPointsKey(),
   SW_FILE: null,                                      // ضع 'sw.js' عند توفر الملف على HTTPS
   REWARDS: [
     { points: 100, value: 2 },
@@ -1103,12 +1110,27 @@ const K = {
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-/* تخزين آمن: لا يتعطل الموقع إذا كان التخزين محظوراً */
+/* تخزين آمن: إذا منع المتصفح أو نافذة المعاينة الحفظ، نحتفظ بالبيانات في الذاكرة
+   فيبقى الدخول والسلة يعملان ما دامت الصفحة مفتوحة */
+const memStore = Object.create(null);
+let storageOK = true;
 const store = {
-  get(k, fb) { try { const v = localStorage.getItem(k); return v == null ? fb : JSON.parse(v); } catch (e) { return fb; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } },
-  del(k) { try { localStorage.removeItem(k); } catch (e) { /* تجاهل */ } }
+  get(k, fb) {
+    try {
+      if (k in memStore) return JSON.parse(memStore[k]);
+      const v = localStorage.getItem(k);
+      return v == null ? fb : JSON.parse(v);
+    } catch (e) { return fb; }
+  },
+  set(k, v) {
+    const raw = JSON.stringify(v);
+    try { localStorage.setItem(k, raw); delete memStore[k]; return true; }
+    catch (e) { storageOK = false; memStore[k] = raw; return false; }
+  },
+  del(k) { delete memStore[k]; try { localStorage.removeItem(k); } catch (e) { /* تجاهل */ } }
 };
+try { localStorage.setItem('kf.probe', '1'); localStorage.removeItem('kf.probe'); } catch (e) { storageOK = false; }
+const NO_STORAGE_MSG = 'هذه النافذة لا تسمح بحفظ البيانات، فسيبقى دخولك حتى تغلق الصفحة. افتح الموقع من رابطه في Safari أو Chrome ليُحفظ دائماً.';
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
@@ -1540,6 +1562,7 @@ function login(name, phone) {
   if (!$('#fPhone').value.trim()) $('#fPhone').value = showPhone(phone);
   saveDraft();
   toast(isNew ? `أهلاً ${name}! لك ${CONFIG.WELCOME_POINTS} نقطة ترحيبية تُضاف مع أول طلب مكتمل.` : `أهلاً بعودتك يا ${name}.`, 'ok');
+  if (!storageOK) toast(NO_STORAGE_MSG, 'err');
   return isNew;
 }
 async function logout() {
@@ -1637,9 +1660,10 @@ function collectOrder() {
     notes: $('#fNotes').value.trim(),
     pdf: state.pdf,
     items: state.cart.map(it => ({ ...it })),
-    discount: t.discount,
-    coupon: t.coupon ? t.coupon.code : null,
-    couponPoints: t.coupon ? t.coupon.points : 0
+    // الكوبون يخص الحساب المسجّل حالياً، فلا يُرسل مع طلب برقم آخر
+    ...(t.coupon && currentUser() && currentUser().phone === id.phone
+      ? { discount: t.discount, coupon: t.coupon.code, couponPoints: t.coupon.points }
+      : { discount: 0, coupon: null, couponPoints: 0 })
   };
 }
 function newOrderCode() {
@@ -1800,9 +1824,9 @@ function renderPoints() {
     return;
   }
   const b = balances(u);
-  const ledger = u.ledger.slice().sort((a, b2) => b2.date - a.date);
+  const ledger = (u.ledger || []).slice().sort((a, b2) => b2.date - a.date);
   const coupons = (u.coupons || []).slice().sort((a, b2) => (a.usedAt ? 1 : 0) - (b2.usedAt ? 1 : 0) || b2.createdAt - a.createdAt);
-  box.innerHTML = `
+  box.innerHTML = `${storageOK ? '' : `<div class="note-box" style="margin-bottom:16px">${NO_STORAGE_MSG}</div>`}
     <div class="points-top">
       <div class="panel">
         <div class="balance">
@@ -2080,22 +2104,30 @@ function bindEvents() {
   });
   $('#fileClear').addEventListener('click', () => { state.pdf = null; $('#fFile').value = ''; renderFile(); saveDraft(); });
 
-  // النماذج
-  $('#orderForm').addEventListener('submit', e => { e.preventDefault(); openPreview(); });
-  $('#sendBtn').addEventListener('click', sendOrder);
-  $('#dlgPreview').addEventListener('close', () => { /* يبقى الكود محفوظاً لنفس السلة */ });
-  $('#loginForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const id = validateIdentity($('#lName'), $('#lPhone'));
-    if (!id) return;
-    login(id.name, id.phone);
-    closeDialog($('#dlgLogin'));
-    const after = state.afterLogin; state.afterLogin = null;
-    if (after) after();
-  });
+  // النماذج: نلتقط زر الإرسال (والضغط على Enter يمر به أيضاً) بدل الاعتماد على حدث submit وحده،
+  // لأن بعض نوافذ المعاينة داخل التطبيقات تمنع إرسال النماذج فلا يصل الحدث
+  const FORMS = {
+    orderForm: openPreview,
+    activateForm: () => applyVoucher($('#actCode').value),
+    loginForm: () => {
+      const id = validateIdentity($('#lName'), $('#lPhone'));
+      if (!id) return;
+      login(id.name, id.phone);
+      closeDialog($('#dlgLogin'));
+      const after = state.afterLogin; state.afterLogin = null;
+      if (after) after();
+    }
+  };
   document.addEventListener('submit', e => {
-    if (e.target.id === 'activateForm') { e.preventDefault(); applyVoucher($('#actCode').value); }
+    const fn = FORMS[e.target.id];
+    if (fn) { e.preventDefault(); fn(); }
   });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('button[type="submit"]');
+    const fn = b && b.form && FORMS[b.form.id];
+    if (fn) { e.preventDefault(); fn(); }
+  });
+  $('#sendBtn').addEventListener('click', sendOrder);
 
   // مراقبة ظهور لوحة السلة لإخفاء الشريط العائم
   if ('IntersectionObserver' in window) {
@@ -2143,6 +2175,7 @@ const intro = (() => {
     try {
       const cs = getComputedStyle(face);
       const size = parseFloat(cs.fontSize);
+      if (!(size > 4)) return null;
       const pad = Math.ceil(size * .5), W = Math.ceil(size * 2.2), H = Math.ceil(size * 2);
       const c = document.createElement('canvas');
       c.width = W; c.height = H;
@@ -2194,6 +2227,9 @@ const intro = (() => {
   /* الهندسة: موضع النقطة، ومكان الاستقرار، ونصف قطر الدائرة التي تغطي المشهد */
   function layout() {
     if (!enabled || root.offsetParent === null) return;
+    // الصفحة ما زالت مخفية أو بلا مقاس (نافذة معاينة تُفتح، أو تبويب في الخلفية):
+    // ننتظر أول مقاس حقيقي بدل تعطيل الحركة
+    if (stage.clientWidth < 40 || stage.clientHeight < 40) { geo = null; return; }
     root.classList.add('measuring');
     const d = measureDot();
     if (!d) { root.classList.remove('measuring'); disable(); return; }
@@ -2328,7 +2364,12 @@ const intro = (() => {
   }
 
   window.addEventListener('scroll', tick, { passive: true });
-  window.addEventListener('resize', debounce(layout, 150));
+  const relayout = debounce(() => layout(), 120);
+  window.addEventListener('resize', relayout);
+  window.addEventListener('load', relayout);
+  window.addEventListener('pageshow', relayout);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) relayout(); });
+  if ('ResizeObserver' in window) new ResizeObserver(relayout).observe(stage);
   stage.addEventListener('pointermove', e => {
     if (!useTilt) return;
     const r = stage.getBoundingClientRect();

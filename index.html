@@ -7,12 +7,12 @@
   ولا تُحمَّل خطوط أو أنماط إلا من Google Fonts. بعد أي تعديل على السكربتات شغّل:
   python3 tools/update-csp.py
 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-VLX8E/gNR3YfwR24qp11v3jJMk8xzvHJ0JrulRyNzBs=' 'sha256-fTx6dkTHIo5E6A8/VG4arOTGsNCd0Bqk2qhw0YLyKpg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self' blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-5yUP0FEVk3djixhv1bUjEFDihubm1imUN2ID7cjvk88=' 'sha256-UZVKSCGgOKz9GfgScXGnOwLYGLoc6MKHijY0AFyOe0E='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self' blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>خلاصة الفكرة</title>
 <meta name="description" content="خلاصة الفكرة: ملخصات كتب، بحوث ومشاريع، تصاميم، وزبدة الأفكار التي تغير حياتك.">
-<meta name="theme-color" content="#142538">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -29,9 +29,7 @@
   (function () {
     var t = null;
     try { t = JSON.parse(localStorage.getItem('kf.theme')); } catch (e) {}
-    if (t !== 'light' && t !== 'dark') {
-      t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-    }
+    if (t !== 'dark') t = 'light';
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
@@ -42,9 +40,9 @@
    الفكرة: حبر عميق على ورق بارد + أصفر "زبدة" كقلم تظليل.
    ========================================================= */
 :root {
-  --paper: #F3F5F8;
+  --paper: #FFFFFF;
   --surface: #FFFFFF;
-  --surface-2: #E9EEF3;
+  --surface-2: #EEF2F6;
   --ink: #142538;
   --ink-2: #4B5D70;
   --line: #D5DDE5;
@@ -90,21 +88,7 @@
   --topbar: 64px;
 }
 
-/* الوضع الليلي: يتبع النظام ما لم يختر المستخدم النهاري صراحة */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0D1722; --surface: #142130; --surface-2: #1C2B3C; --ink: #E6EDF4; --ink-2: #9DB0C3;
-    --line: #26384B; --butter-soft: rgba(245, 197, 49, .16); --primary: #F5C531; --on-primary: #142538;
-    --focus: #F5C531; --ok: #5CC99A; --on-ok: #0D1722; --ok-soft: rgba(92, 201, 154, .14);
-    --warn: #F0B24A; --warn-soft: rgba(240, 178, 74, .14); --danger: #FF8A7A; --danger-soft: rgba(255, 138, 122, .14);
-    --shadow-float: 0 18px 48px -18px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .3);
-    --elev-1: 0 1px 0 rgba(255, 255, 255, .03), 0 16px 32px -22px rgba(0, 0, 0, .8);
-    --elev-2: 0 1px 0 rgba(255, 255, 255, .04), 0 28px 54px -26px rgba(0, 0, 0, .9);
-    --glow: rgba(245, 197, 49, .09); --floor: rgba(0, 0, 0, .6);
-    --e1: #AFC0D1; --e2: #8FA3B8; --e3: #71879E; --e4: #566C84; --e5: #40556C; --e6: #2E4157;
-    --e-amb: rgba(0, 0, 0, .55);
-  }
-}
+/* الوضع الليلي: فقط عندما يختاره المستخدم من زر الثيم. الافتراضي أبيض */
 :root[data-theme="dark"] {
   --paper: #0D1722; --surface: #142130; --surface-2: #1C2B3C; --ink: #E6EDF4; --ink-2: #9DB0C3;
   --line: #26384B; --butter-soft: rgba(245, 197, 49, .16); --primary: #F5C531; --on-primary: #142538;
@@ -276,14 +260,6 @@ input.code-input { letter-spacing: .12em; font-weight: 600; text-transform: uppe
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 /* عداد +/- */
-.stepper { display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: var(--r-ctl); overflow: hidden; background: var(--paper); min-height: 48px; }
-.stepper button { width: 46px; flex: none; border: 0; background: var(--surface-2); cursor: pointer; font-size: 1.25rem; font-weight: 600; }
-.stepper button:hover { background: var(--line); }
-.stepper input { flex: 1; min-width: 0; border: 0 !important; text-align: center; background: transparent !important; box-shadow: none !important; font-weight: 600; -moz-appearance: textfield; appearance: textfield; min-height: 0 !important; padding: 0 !important; }
-.stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.stepper.sm { min-height: 36px; border-radius: 10px; }
-.stepper.sm button { width: 34px; font-size: 1rem; }
-.stepper.sm input { width: 40px; flex: none; }
 
 .chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; font-size: var(--fs-xs); font-weight: 600; background: var(--surface-2); white-space: nowrap; }
 .chip.ok { background: var(--ok-soft); color: var(--ok); }
@@ -510,9 +486,6 @@ main { padding-bottom: 96px; }
   .order-layout { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 24px; }
   .order-side { position: sticky; top: calc(var(--topbar) + 16px); }
 }
-.tabs { display: flex; gap: 4px; padding: 4px; background: var(--surface-2); border-radius: 14px; margin-bottom: 16px; }
-.tab { flex: 1; min-height: 44px; border: 0; border-radius: 10px; background: transparent; cursor: pointer; font-weight: 600; color: var(--ink-2); }
-.tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
 
 .choices { display: grid; gap: 10px; margin-bottom: 18px; }
 @media (min-width: 640px) { .choices.three { grid-template-columns: repeat(3, 1fr); } }
@@ -529,12 +502,6 @@ main { padding-bottom: 96px; }
 .choice.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: var(--butter-soft); }
 .choice:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
 
-.seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: 12px; background: var(--surface-2); }
-.seg label { position: relative; }
-.seg input { position: absolute; opacity: 0; }
-.seg span { display: block; padding: 8px 16px; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: var(--fs-sm); color: var(--ink-2); }
-.seg input:checked + span { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
-.seg input:focus-visible + span { outline: 3px solid var(--focus); }
 
 .price-box { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 14px 16px; border-radius: 14px; background: var(--surface-2); margin-bottom: 16px; }
 .price-box strong { font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1; }
@@ -816,7 +783,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
       <div class="about-lead" id="aboutLead">
         <h2 id="aboutTitle">من نحن</h2>
         <p>خلاصة الفكرة خدمة طلابية ومعرفية تساعدك توفّر وقتك وتفهم أكثر. نلخّص الكتب والمقاطع المفيدة، ونجهّز البحوث والمشاريع والواجبات، ونصمم الصور والفيديو، بوضوح وأمانة.</p>
-        <p>رسالتنا بسيطة: أن تصلك الفكرة الأهم من كل صفحة، مرتبة وجاهزة للاستخدام، وبسعر واضح تعرفه قبل أن ترسل طلبك.</p>
+        <p>رسالتنا بسيطة: أن تصلك الفكرة الأهم من كل صفحة، مرتبة وجاهزة للاستخدام، وبسعر نتفق عليه معك قبل أن نبدأ.</p>
       </div>
       <div class="wrap">
         <div class="svc-head">
@@ -824,8 +791,8 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
           <p>خمس خدمات، وكل واحدة تصلك بخلاصتها.</p>
         </div>
         <ul class="svc-grid">
-          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">🗒</span><div><b>ملخصات كتب ومقاطع مفيدة</b><span class="d">أهم الأفكار في صفحات قليلة تقرؤها بدقائق.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-pkg="summary">اطلب</button></li>
-          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">🎒</span><div><b>بحوث ومشاريع وواجبات</b><span class="d">بحث عادي أو مزخرف، بتنسيق مرتب ومراجع.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-pkg="research">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">🗒</span><div><b>ملخصات كتب ومقاطع مفيدة</b><span class="d">أهم الأفكار في صفحات قليلة تقرؤها بدقائق.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="summaries">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">🎒</span><div><b>بحوث ومشاريع وواجبات</b><span class="d">بحوث بتنسيق مرتب ومراجع، ومشاريع وواجبات.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="projects">اطلب</button></li>
           <li class="svc-tile"><span class="svc-ico" aria-hidden="true">📷</span><div><b>تصاميم فيديو أو صورة</b><span class="d">تصاميم لعروضك ومشاريعك وحساباتك.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="design">اطلب</button></li>
           <li class="svc-tile"><span class="svc-ico" aria-hidden="true">📚</span><div><b>تلخيص كتب حسب الطلب</b><span class="d">اختر الكتاب وطريقة التلخيص التي تناسبك.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="book">اطلب</button></li>
           <li class="svc-tile"><span class="svc-ico" aria-hidden="true">💡</span><div><b>زبدة الأفكار التي تغير حياتك</b><span class="d">خلاصات مختارة تختصر عليك سنوات من القراءة.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="ideas">اطلب</button></li>
@@ -838,29 +805,27 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
       <section class="home-order" id="homeOrder" aria-labelledby="homeOrderTitle">
         <div class="ho-head">
           <h2 id="homeOrderTitle">الطلب</h2>
-          <p>اختر باقتك، والسعر يُحسب تلقائياً قبل أن ترسل.</p>
+          <p>اكتب ما تحتاجه، ونرسل لك السعر قبل أن نبدأ.</p>
         </div>
         <div class="pkg-cards">
           <article class="pkg-card lead" style="--d:0ms"><div class="pkg-inner">
-            <span class="pc-ico" aria-hidden="true">🗒</span>
-            <h3>ملخص كتاب</h3>
-            <p class="pc-rule">كل 5 أوراق بـ 2 ريال</p>
-            <p class="pc-ex">كتاب من 40 ورقة بـ 16 ريال</p>
-            <button class="btn btn-primary" type="button" data-action="pick" data-pkg="summary">ابدأ بالملخص</button>
-          </div></article>
-          <article class="pkg-card" style="--d:110ms"><div class="pkg-inner">
-            <span class="pc-ico" aria-hidden="true">🎒</span>
-            <h3>إنشاء بحث</h3>
-            <p class="pc-rule">عادي: كل 3 أوراق بـ 1 ريال<br>مزخرف: كل ورقة بـ 1 ريال</p>
-            <p class="pc-ex">بحث عادي من 12 ورقة بـ 4 ريال</p>
-            <button class="btn btn-primary" type="button" data-action="pick" data-pkg="research">ابدأ بالبحث</button>
-          </div></article>
-          <article class="pkg-card" style="--d:220ms"><div class="pkg-inner">
             <span class="pc-ico" aria-hidden="true">💡</span>
             <h3>طلب مخصص</h3>
             <p class="pc-rule">السعر حسب الطلب</p>
-            <p class="pc-ex">تصاميم، تلخيص كتاب تختاره، أو زبدة أفكار</p>
-            <button class="btn btn-primary" type="button" data-action="pick" data-tab="custom">اكتب طلبك</button>
+            <p class="pc-ex">ملخصات، بحوث ومشاريع، تصاميم، أو زبدة أفكار</p>
+            <button class="btn btn-primary" type="button" data-action="pick">اكتب طلبك</button>
+          </div></article>
+          <article class="pkg-card" style="--d:110ms"><div class="pkg-inner">
+            <span class="pc-ico" aria-hidden="true">📝</span>
+            <h3>اكتب التفاصيل</h3>
+            <p class="pc-rule">الفكرة، عدد الصفحات، وموعد التسليم</p>
+            <p class="pc-ex">كلما وضّحت أكثر، وصلك سعر أدق وأسرع</p>
+          </div></article>
+          <article class="pkg-card" style="--d:220ms"><div class="pkg-inner">
+            <span class="pc-ico" aria-hidden="true">💬</span>
+            <h3>نرسل لك السعر</h3>
+            <p class="pc-rule">في واتساب، قبل أن نبدأ</p>
+            <p class="pc-ex">توافق، ثم ننفّذ ونسلّمك في الموعد</p>
           </div></article>
         </div>
         <div class="ho-foot"><a class="btn btn-ghost" href="#order">افتح صفحة الطلب والسلة</a></div>
@@ -873,22 +838,21 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 
       <div class="about-grid lazy-section">
         <div class="panel" id="pricing">
-          <h2>كيف نحسب السعر</h2>
+          <h2>كيف نحدد السعر</h2>
           <table class="price-table">
-            <tr><td>ملخص كتاب<small>12 ورقة تُحسب 3 دفعات، أي 6 ريال</small></td><td>كل 5 أوراق بـ 2 ريال</td></tr>
-            <tr><td>بحث عادي<small>10 أوراق تُحسب 4 دفعات، أي 4 ريال</small></td><td>كل 3 أوراق بـ 1 ريال</td></tr>
-            <tr><td>بحث مزخرف<small>10 أوراق، أي 10 ريال</small></td><td>كل ورقة بـ 1 ريال</td></tr>
-            <tr><td>طلب مخصص<small>نرسل لك السعر بعد مراجعة الطلب</small></td><td>حسب الطلب</td></tr>
+            <tr><td>نوع الخدمة<small>ملخص، بحث، مشروع، تصميم، أو زبدة أفكار</small></td><td>حسب الطلب</td></tr>
+            <tr><td>حجم العمل<small>عدد الصفحات أو الشرائح أو مدة المقطع</small></td><td>حسب الطلب</td></tr>
+            <tr><td>موعد التسليم<small>الطلبات المستعجلة تحتاج وقتاً أكبر منا</small></td><td>حسب الطلب</td></tr>
           </table>
-          <p class="hint" style="margin-top:12px">الأوراق المتبقية التي لا تكمل دفعة تُحسب دفعة كاملة.</p>
+          <p class="hint" style="margin-top:12px">نرسل لك السعر النهائي في واتساب، ولا نبدأ قبل موافقتك.</p>
         </div>
         <div class="panel">
           <h2>كيف يعمل الطلب</h2>
           <ol class="steps">
-            <li><b>جهّز سلتك</b><span>اختر الباقة وعدد الأوراق، والسعر يظهر فوراً.</span></li>
+            <li><b>اكتب طلبك</b><span>اختر الخدمة واكتب التفاصيل، ثم أضفها إلى السلة.</span></li>
             <li><b>عاين وأرسل</b><span>يصلنا طلبك عبر واتساب مع كود فريد.</span></li>
-            <li><b>نؤكد طلبك</b><span>نراجع ونرسل لك كود التفعيل.</span></li>
-            <li><b>فعّل نقاطك</b><span>أدخل الكود في صفحة نقاطي واستبدلها بخصم.</span></li>
+            <li><b>نرسل لك السعر</b><span>نراجع طلبك ونخبرك بالسعر قبل أن نبدأ.</span></li>
+            <li><b>استلم واكسب نقاطاً</b><span>بعد التسليم يصلك رابط يضيف نقاطك بضغطة.</span></li>
           </ol>
         </div>
       </div>
@@ -900,96 +864,22 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <div class="wrap">
       <div class="view-head">
         <h1 id="orderTitle">الطلب</h1>
-        <p>أضف ما تحتاجه إلى السلة، ثم عاين طلبك وأرسله عبر واتساب.</p>
+        <p>اختر الخدمة واكتب تفاصيل طلبك، ونرسل لك السعر في واتساب.</p>
       </div>
       <div class="cap-mini" id="capMini"></div>
 
       <div class="order-layout">
         <div class="order-main">
           <div class="panel">
-            <div class="tabs" role="tablist" aria-label="نوع الطلب">
-              <button class="tab" role="tab" id="tab-pkg" aria-controls="pane-pkg" aria-selected="true" data-tab="pkg">طلب باقة</button>
-              <button class="tab" role="tab" id="tab-custom" aria-controls="pane-custom" aria-selected="false" tabindex="-1" data-tab="custom">طلب مخصص</button>
+            <div class="panel-title"><h3>طلب مخصص</h3></div>
+            <div class="choices" role="radiogroup" aria-label="نوع الخدمة" id="svcChoices"></div>
+            <div class="field">
+              <label for="cDesc">تفاصيل الطلب</label>
+              <textarea id="cDesc" maxlength="800" placeholder="اكتب المطلوب بالتفصيل: الفكرة، عدد الصفحات، المقاسات، موعد التسليم المناسب لك"></textarea>
+              <p class="err" id="cDescErr" hidden></p>
             </div>
-
-            <!-- طلب باقة -->
-            <div role="tabpanel" id="pane-pkg" aria-labelledby="tab-pkg">
-              <div class="choices three" role="radiogroup" aria-label="اختر الباقة">
-                <label class="choice on"><input type="radio" name="pkg" value="summary" checked><span class="ci" aria-hidden="true">🗒</span><span><b>ملخص كتاب</b><small>كل 5 أوراق بـ 2 ريال</small></span></label>
-                <label class="choice"><input type="radio" name="pkg" value="research"><span class="ci" aria-hidden="true">🎒</span><span><b>إنشاء بحث</b><small>عادي أو مزخرف، من 1 ريال</small></span></label>
-                <label class="choice"><input type="radio" name="pkg" value="custom"><span class="ci" aria-hidden="true">💡</span><span><b>طلب مخصص</b><small>السعر حسب الطلب</small></span></label>
-              </div>
-
-              <!-- ملخص كتاب -->
-              <div id="cfg-summary">
-                <div class="field">
-                  <label for="sTitle">اسم الكتاب أو رابط المقطع <span class="opt">(اختياري)</span></label>
-                  <input id="sTitle" type="text" maxlength="120" autocomplete="off" placeholder="مثال: العادات الذرية">
-                </div>
-                <div class="row2">
-                  <div class="field">
-                    <label for="sPages">عدد الأوراق</label>
-                    <div class="stepper"><button type="button" data-step="-1" data-for="sPages" aria-label="إنقاص الأوراق">−</button><input id="sPages" type="number" inputmode="numeric" min="1" max="2000" value="5"><button type="button" data-step="1" data-for="sPages" aria-label="زيادة الأوراق">+</button></div>
-                  </div>
-                  <div class="field">
-                    <label for="sQty">الكمية</label>
-                    <div class="stepper"><button type="button" data-step="-1" data-for="sQty" aria-label="إنقاص الكمية">−</button><input id="sQty" type="number" inputmode="numeric" min="1" max="50" value="1"><button type="button" data-step="1" data-for="sQty" aria-label="زيادة الكمية">+</button></div>
-                  </div>
-                </div>
-                <div class="price-box" id="sPrice" aria-live="polite"></div>
-                <button class="btn btn-primary btn-block" type="button" data-action="add" data-kind="summary">أضف إلى السلة</button>
-              </div>
-
-              <!-- إنشاء بحث -->
-              <div id="cfg-research" hidden>
-                <div class="field">
-                  <span class="label" id="rTypeLbl">نوع البحث</span>
-                  <div class="seg" role="radiogroup" aria-labelledby="rTypeLbl">
-                    <label><input type="radio" name="rType" value="research_plain" checked><span>عادي: كل 3 أوراق بـ 1 ريال</span></label>
-                    <label><input type="radio" name="rType" value="research_fancy"><span>مزخرف: كل ورقة بـ 1 ريال</span></label>
-                  </div>
-                </div>
-                <div class="field">
-                  <label for="rTitle">عنوان البحث أو المادة <span class="opt">(اختياري)</span></label>
-                  <input id="rTitle" type="text" maxlength="120" autocomplete="off" placeholder="مثال: أثر التقنية على التعليم">
-                </div>
-                <div class="row2">
-                  <div class="field">
-                    <label for="rPages">عدد الأوراق</label>
-                    <div class="stepper"><button type="button" data-step="-1" data-for="rPages" aria-label="إنقاص الأوراق">−</button><input id="rPages" type="number" inputmode="numeric" min="1" max="2000" value="3"><button type="button" data-step="1" data-for="rPages" aria-label="زيادة الأوراق">+</button></div>
-                  </div>
-                  <div class="field">
-                    <label for="rQty">الكمية</label>
-                    <div class="stepper"><button type="button" data-step="-1" data-for="rQty" aria-label="إنقاص الكمية">−</button><input id="rQty" type="number" inputmode="numeric" min="1" max="50" value="1"><button type="button" data-step="1" data-for="rQty" aria-label="زيادة الكمية">+</button></div>
-                  </div>
-                </div>
-                <div class="price-box" id="rPrice" aria-live="polite"></div>
-                <button class="btn btn-primary btn-block" type="button" data-action="add" data-kind="research">أضف إلى السلة</button>
-              </div>
-
-              <!-- طلب مخصص ضمن الباقات -->
-              <div id="cfg-custom" hidden>
-                <div class="field">
-                  <label for="pDesc">صف ما تحتاجه</label>
-                  <textarea id="pDesc" maxlength="600" placeholder="مثال: عرض تقديمي من 10 شرائح عن الطاقة المتجددة"></textarea>
-                  <p class="err" id="pDescErr" hidden></p>
-                </div>
-                <div class="price-box"><strong>حسب الطلب</strong><span>نراجع طلبك ونرسل لك السعر عبر واتساب. لا يدخل في الإجمالي حتى نحدده.</span></div>
-                <button class="btn btn-primary btn-block" type="button" data-action="add" data-kind="custom-pkg">أضف إلى السلة</button>
-              </div>
-            </div>
-
-            <!-- طلب مخصص -->
-            <div role="tabpanel" id="pane-custom" aria-labelledby="tab-custom" hidden>
-              <div class="choices" role="radiogroup" aria-label="نوع الخدمة" id="svcChoices"></div>
-              <div class="field">
-                <label for="cDesc">تفاصيل الطلب</label>
-                <textarea id="cDesc" maxlength="800" placeholder="اكتب المطلوب بالتفصيل: الفكرة، المقاسات، عدد الصفحات، موعد التسليم المناسب لك"></textarea>
-                <p class="err" id="cDescErr" hidden></p>
-              </div>
-              <div class="price-box"><strong>حسب الطلب</strong><span>نرسل لك السعر بعد المراجعة، ولا يُضاف إلى إجمالي الباقات المسعّرة.</span></div>
-              <button class="btn btn-primary btn-block" type="button" data-action="add" data-kind="custom">أضف إلى السلة</button>
-            </div>
+            <div class="price-box"><strong>السعر حسب الطلب</strong><span>نراجع طلبك ونرسل لك السعر عبر واتساب قبل أن نبدأ.</span></div>
+            <button class="btn btn-primary btn-block" type="button" data-action="add">أضف إلى السلة</button>
           </div>
 
           <!-- بيانات الطلب -->
@@ -1078,10 +968,9 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
       <div class="faq" id="faqList">
         <div class="faq-group">
           <h2>الطلب والأسعار</h2>
-          <details><summary>كيف يُحسب سعر ملخص الكتاب؟</summary><p>كل 5 أوراق بـ 2 ريال. إذا كان عدد الأوراق لا يقبل القسمة على 5 تُحسب الأوراق المتبقية دفعة كاملة، فمثلاً 12 ورقة تساوي 3 دفعات أي 6 ريال.</p></details>
-          <details><summary>ما الفرق بين البحث العادي والمزخرف؟</summary><p>البحث العادي بتنسيق مرتب وواضح، وسعره كل 3 أوراق بـ 1 ريال. البحث المزخرف بإطارات وتصميم بصري للصفحات، وسعره كل ورقة بـ 1 ريال.</p></details>
-          <details><summary>كيف أعرف سعر الطلب المخصص؟</summary><p>نراجع وصفك ونرسل لك السعر عبر واتساب. يظهر الطلب المخصص في السلة بعبارة "حسب الطلب" ولا يدخل في إجمالي الباقات المسعّرة.</p></details>
-          <details><summary>هل يمكنني طلب أكثر من خدمة في طلب واحد؟</summary><p>نعم، أضف ما تريد إلى السلة، وعدّل الكمية أو احذف أي صنف قبل المعاينة. الإجمالي يُحسب تلقائياً.</p></details>
+          <details><summary>كيف أعرف سعر طلبي؟</summary><p>السعر حسب الطلب. نراجع وصفك ونرسل لك السعر عبر واتساب، ولا نبدأ التنفيذ قبل موافقتك.</p></details>
+          <details><summary>ما الذي يحدد السعر؟</summary><p>نوع الخدمة، وحجم العمل مثل عدد الصفحات أو الشرائح، وموعد التسليم. كلما كتبت تفاصيل أوضح وصلك السعر أسرع.</p></details>
+          <details><summary>هل يمكنني طلب أكثر من خدمة في طلب واحد؟</summary><p>نعم، أضف كل خدمة إلى السلة بتفاصيلها، واحذف ما لا تريده قبل المعاينة. نرسل لك سعر الطلب كاملاً.</p></details>
           <details><summary>لماذا تستقبلون 15 طلباً فقط في اليوم؟</summary><p>لنعطي كل طلب وقته ونضمن جودته. إذا اكتمل العدد نخبرك في واتساب بأقرب موعد متاح، وتبقى سلتك محفوظة.</p></details>
         </div>
         <div class="faq-group">
@@ -1094,9 +983,9 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
         </div>
         <div class="faq-group">
           <h2>النقاط والكوبونات</h2>
-          <details><summary>كيف أكسب النقاط؟</summary><p>10 نقاط عن كل ريال تدفعه، و50 نقطة ترحيبية تُضاف مع أول طلب مكتمل.</p></details>
+          <details><summary>كيف أكسب النقاط؟</summary><p>10 نقاط عن كل ريال تدفعه بعد أن نتفق على السعر، و50 نقطة ترحيبية تُضاف مع أول طلب مكتمل.</p></details>
           <details><summary>متى تُضاف نقاط طلبي؟</summary><p>بعد تسليم الطلب والدفع نرسل لك رابط تأكيد في واتساب. اضغطه وأنت مسجّل برقمك فتُضاف النقاط فوراً. إرسال الطلب وحده لا يضيف نقاطاً، والرابط موقّع رقمياً فلا يمكن تزويره.</p></details>
-          <details><summary>كيف أستبدل نقاطي؟</summary><p>من صفحة نقاطي اختر قيمة الخصم، فيظهر لك كوبون تطبقه على طلبك القادم. نتحقق من رصيدك قبل اعتماد الخصم، وكل كوبون يُستخدم مرة واحدة.</p></details>
+          <details><summary>كيف أستبدل نقاطي؟</summary><p>من صفحة نقاطي اختر قيمة الخصم، فيظهر لك كوبون تطبقه على طلبك القادم ويُخصم من سعره النهائي. نتحقق من رصيدك قبل اعتماد الخصم، وكل كوبون يُستخدم مرة واحدة.</p></details>
           <details><summary>هل أحتاج كلمة مرور؟</summary><p>لا. يكفي الاسم ورقم الجوال، ويبقى دخولك محفوظاً على هذا الجهاز حتى تسجّل الخروج.</p></details>
         </div>
         <div class="empty" id="faqEmpty" hidden><h3>لا توجد نتائج</h3><p>جرّب كلمة أخرى مثل: سعر، نقاط، ملف.</p></div>
@@ -1107,7 +996,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 </main>
 
 <div class="cart-bar" id="cartBar" hidden>
-  <div class="info"><b id="cartBarTotal">0 ريال</b><span id="cartBarCount">0 صنف</span></div>
+  <div class="info"><b id="cartBarTotal">السعر حسب الطلب</b><span id="cartBarCount">0 صنف</span></div>
   <button class="btn btn-sm" type="button" data-action="go-cart">عرض السلة</button>
 </div>
 
@@ -1181,7 +1070,6 @@ const CONFIG = {
   DAILY_LIMIT: 15,
   WELCOME_POINTS: 50,
   POINTS_PER_RIYAL: 10,
-  CUSTOM_ITEM_POINTS: 20,
   /* المفتاح العام لروابط تأكيد النقاط (ECDSA P-256). يُنشأ من أداة tools/points-signer.html
      والمفتاح الخاص يبقى عند صاحب المشروع فقط. القيمة null تعني أن التأكيد غير مفعّل بعد. */
   POINTS_PUBLIC_KEY: null,
@@ -1191,13 +1079,6 @@ const CONFIG = {
     { points: 250, value: 6 },
     { points: 500, value: 15 }
   ]
-};
-
-/* قواعد التسعير: كل (per) ورقة بـ (price) ريال */
-const PRICING = {
-  summary:        { label: 'ملخص كتاب',  per: 5, price: 2 },
-  research_plain: { label: 'بحث عادي',   per: 3, price: 1 },
-  research_fancy: { label: 'بحث مزخرف',  per: 1, price: 1 }
 };
 
 /* خدمات الطلب المخصص */
@@ -1345,8 +1226,6 @@ function balances(u) {
     if (e.status === 'confirmed') confirmed += e.points;
     else if (e.status === 'pending') pending += e.points;
   });
-  // نقاط الطلبات التي لم يصل رابط تأكيدها بعد
-  getOrders().forEach(o => { if (o.phone === u.phone && o.pointsStatus !== 'confirmed') pending += o.points || 0; });
   return { confirmed, pending };
 }
 /* ترحيل بيانات الإصدارات السابقة: النقاط المعلّقة القديمة لم تعد صالحة،
@@ -1373,30 +1252,23 @@ const state = {
   cart: store.get(K.cart, []),
   pdf: null,                 // { name, size }
   coupon: null,              // كود الكوبون المطبق
-  pkg: 'summary',
-  service: 'design',
+  service: 'summaries',
   pendingCode: null,         // كود الطلب أثناء المعاينة
   afterLogin: null
 };
 if (!Array.isArray(state.cart)) state.cart = [];
+// الطلب صار مخصصاً فقط: نُسقط أصناف الباقات القديمة من السلة
+state.cart = state.cart.filter(it => it && it.kind === 'custom');
 
 /* =========================================================
    4) التسعير والسلة
    ========================================================= */
-function calc(kind, pages) {
-  const r = PRICING[kind];
-  const batches = Math.ceil(pages / r.per);
-  return { batches, unit: batches * r.price, rule: r };
-}
-function lineTotal(it) { return it.kind in PRICING ? calc(it.kind, it.pages).unit * it.qty : null; }
 function itemTitle(it) {
-  if (it.kind === 'custom') return 'طلب مخصص: ' + it.service;
-  return PRICING[it.kind].label;
+  return it.kind === 'custom' ? 'طلب مخصص: ' + it.service : 'طلب سابق';
 }
 function itemDetail(it) {
   const parts = [];
   if (it.title) parts.push('"' + it.title + '"');
-  if (it.kind in PRICING) parts.push(pagesTxt(it.pages));
   if (it.desc) parts.push(it.desc);
   return parts.join('، ');
 }
@@ -1412,17 +1284,8 @@ function appliedCoupon() {
   return (u.coupons || []).find(c => c.code === state.coupon && !c.usedAt) || null;
 }
 function cartTotals() {
-  let subtotal = 0, customCount = 0, units = 0;
-  state.cart.forEach(it => {
-    const lt = lineTotal(it);
-    units += it.qty;
-    if (lt == null) customCount += it.qty; else subtotal += lt;
-  });
   const c = appliedCoupon();
-  const discount = c ? Math.min(c.value, subtotal) : 0;
-  const total = subtotal - discount;
-  const points = Math.floor(total) * CONFIG.POINTS_PER_RIYAL + customCount * CONFIG.CUSTOM_ITEM_POINTS;
-  return { subtotal, customCount, discount, total, coupon: c, units, points };
+  return { count: state.cart.length, coupon: c, discount: c ? c.value : 0 };
 }
 function saveCart() { store.set(K.cart, state.cart); }
 
@@ -1435,30 +1298,15 @@ function addToCart(item) {
   toast('أُضيف إلى السلة: ' + itemTitle(item), 'ok');
 }
 
-function priceHTML(kind, pages, qty) {
-  const { batches, unit, rule } = calc(kind, pages);
-  const how = rule.per === 1
-    ? `${pagesTxt(pages)} × ${rule.price} ريال`
-    : `${pagesTxt(pages)} = ${batches} ${batches === 1 ? 'دفعة' : 'دفعات'} × ${rule.price} ريال`;
-  return `<strong>${money(unit * qty)}</strong><span>${how}${qty > 1 ? '، والكمية ' + qty : ''}${rule.per > 1 && pages % rule.per ? '. الأوراق المتبقية تُحسب دفعة كاملة' : ''}</span>`;
-}
-function updatePrices() {
-  const sp = clampInt($('#sPages').value, 1, 2000, 1), sq = clampInt($('#sQty').value, 1, 50, 1);
-  $('#sPrice').innerHTML = priceHTML('summary', sp, sq);
-  const rk = $('input[name="rType"]:checked').value;
-  const rp = clampInt($('#rPages').value, 1, 2000, 1), rq = clampInt($('#rQty').value, 1, 50, 1);
-  $('#rPrice').innerHTML = priceHTML(rk, rp, rq);
-}
-
 function renderCart(flashId) {
   const t = cartTotals();
-  const n = state.cart.length;
+  const n = t.count;
   $('#cartCount').textContent = n + ' ' + (n === 1 ? 'صنف' : 'أصناف');
   const badge = $('#cartBadge');
-  badge.hidden = t.units === 0;
-  badge.textContent = t.units;
-  $('#navCart').textContent = t.units ? t.units : '';
-  $('#cartBarTotal').textContent = money(t.total) + (t.customCount ? ' + حسب الطلب' : '');
+  badge.hidden = n === 0;
+  badge.textContent = n;
+  $('#navCart').textContent = n ? n : '';
+  $('#cartBarTotal').textContent = 'السعر حسب الطلب';
   $('#cartBarCount').textContent = n + ' ' + (n === 1 ? 'صنف في السلة' : 'أصناف في السلة');
   updateCartBar();
 
@@ -1466,41 +1314,33 @@ function renderCart(flashId) {
   if (!n) {
     body.innerHTML = `<div class="empty" style="padding:20px 8px">
       <svg class="empty-art" viewBox="0 0 96 96" fill="none" aria-hidden="true"><rect x="22" y="14" width="52" height="68" rx="8" stroke="currentColor" stroke-width="2.5"/><path d="M32 32h32M32 42h32M32 52h18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity=".35"/><rect x="30" y="60" width="36" height="10" rx="3" fill="var(--butter)"/></svg>
-      <h3>السلة فارغة</h3><p>اختر باقة أو اكتب طلباً مخصصاً ثم اضغط "أضف إلى السلة".</p></div>`;
+      <h3>السلة فارغة</h3><p>اختر الخدمة واكتب تفاصيل طلبك، ثم اضغط "أضف إلى السلة".</p></div>`;
     return;
   }
-  const rows = state.cart.map(it => {
-    const lt = lineTotal(it);
-    const custom = lt == null;
-    return `<li class="cart-item${it.id === flashId ? ' cart-new' : ''}" data-id="${it.id}">
+  const rows = state.cart.map(it => `<li class="cart-item${it.id === flashId ? ' cart-new' : ''}" data-id="${it.id}">
       <span class="t">${esc(itemTitle(it))}</span>
-      <span class="lp">${custom ? '<span class="chip warn">حسب الطلب</span>' : money(lt)}</span>
+      <span class="lp"><span class="chip warn">حسب الطلب</span></span>
       ${itemDetail(it) ? `<span class="d">${esc(itemDetail(it))}</span>` : ''}
       <div class="ctl">
-        ${custom ? '' : `<div class="stepper sm"><button type="button" data-action="qty" data-d="-1" aria-label="إنقاص الكمية">−</button><input type="number" inputmode="numeric" min="1" max="50" value="${it.qty}" data-action="qty-input" aria-label="الكمية"><button type="button" data-action="qty" data-d="1" aria-label="زيادة الكمية">+</button></div>
-        <span class="small muted">${money(calc(it.kind, it.pages).unit)} للنسخة</span>`}
         <button class="btn btn-danger btn-sm del" type="button" data-action="del" aria-label="حذف ${esc(itemTitle(it))}">${icon('i-trash')}<span>حذف</span></button>
       </div>
-    </li>`;
-  }).join('');
+    </li>`).join('');
 
   const u = currentUser();
   const couponUI = u
     ? (t.coupon
-      ? `<div class="note-box ok">طُبّق الكوبون ${esc(t.coupon.code)} بخصم ${money(t.coupon.value)}. <button class="btn btn-sm btn-ghost" type="button" data-action="coupon-remove" style="min-height:30px;margin-inline-start:6px">إزالة</button></div>`
+      ? `<div class="note-box ok">طُبّق الكوبون ${esc(t.coupon.code)}: خصم ${money(t.coupon.value)} من السعر النهائي. <button class="btn btn-sm btn-ghost" type="button" data-action="coupon-remove" style="min-height:30px;margin-inline-start:6px">إزالة</button></div>`
       : `<div class="coupon-row"><label for="couponIn" class="sr-only">كود الكوبون</label><input id="couponIn" class="input code-input" placeholder="كود الكوبون" autocomplete="off"><button class="btn btn-soft" type="button" data-action="coupon-apply">تطبيق</button></div>`)
     : `<p class="hint" style="margin-top:12px">لديك كوبون؟ <button class="btn btn-sm btn-ghost" type="button" data-action="auth" style="min-height:30px">سجّل دخولك</button> لتطبيقه.</p>`;
 
   body.innerHTML = `<ul class="cart-list">${rows}</ul>
     <div class="totals">
-      <div class="r"><span>مجموع الأصناف المسعّرة</span><span>${money(t.subtotal)}</span></div>
       ${t.discount ? `<div class="r disc"><span>خصم الكوبون</span><span>− ${money(t.discount)}</span></div>` : ''}
-      <div class="r big"><span>الإجمالي</span><span>${money(t.total)}</span></div>
-      ${t.customCount ? `<div class="r"><span>أصناف مخصصة</span><span>${t.customCount} بسعر يُحدد لاحقاً</span></div>` : ''}
-      <div class="r muted"><span>نقاط هذا الطلب</span><span>${t.points} نقطة معلّقة</span></div>
+      <div class="r big"><span>السعر</span><span>حسب الطلب</span></div>
+      <div class="r muted"><span>نرسله لك في واتساب</span><span>قبل أن نبدأ</span></div>
+      <div class="r muted"><span>النقاط</span><span>${CONFIG.POINTS_PER_RIYAL} عن كل ريال بعد التسليم</span></div>
     </div>
-    ${couponUI}
-    ${t.coupon && t.subtotal < t.coupon.value ? '<div class="note-box">الخصم يُطبّق على الأصناف المسعّرة فقط، لذلك اقتصر على مجموعها.</div>' : ''}`;
+    ${couponUI}`;
 }
 function bumpBadge() {
   const b = $('#cartBadge');
@@ -1531,7 +1371,7 @@ function renderCapacity() {
 function setTheme(t, persist = true) {
   document.documentElement.setAttribute('data-theme', t);
   if (persist) store.set(K.theme, t);
-  $('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#0D1722' : '#142538');
+  $('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#0D1722' : '#FFFFFF');
   $('#themeBtn').setAttribute('aria-label', t === 'dark' ? 'التبديل إلى الوضع النهاري' : 'التبديل إلى الوضع الليلي');
 }
 
@@ -1578,7 +1418,7 @@ function setupPWA() {
     const manifest = {
       name: 'خلاصة الفكرة', short_name: 'خلاصة الفكرة', description: 'زبدة الأفكار التي تغير حياتك',
       lang: 'ar', dir: 'rtl', start_url: base, scope: base.replace(/[^/]*$/, ''), display: 'standalone',
-      background_color: '#F3F5F8', theme_color: '#142538', icons
+      background_color: '#FFFFFF', theme_color: '#FFFFFF', icons
     };
     if (location.protocol === 'http:' || location.protocol === 'https:') {
       const url = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' }));
@@ -1744,7 +1584,7 @@ function renderLoginNudge() {
 /* =========================================================
    10) المسودة التلقائية
    ========================================================= */
-const DRAFT_FIELDS = ['fName', 'fPhone', 'fNotes', 'sTitle', 'rTitle', 'pDesc', 'cDesc'];
+const DRAFT_FIELDS = ['fName', 'fPhone', 'fNotes', 'cDesc'];
 function saveDraft() {
   const d = { at: Date.now(), pdf: state.pdf, coupon: state.coupon, service: state.service };
   DRAFT_FIELDS.forEach(id => { d[id] = $('#' + id).value; });
@@ -1756,7 +1596,7 @@ const saveDraftSoon = debounce(saveDraft, 400);
 function loadDraft() {
   const d = store.get(K.draft, null);
   if (!d) return;
-  DRAFT_FIELDS.forEach(id => { if (typeof d[id] === 'string') $('#' + id).value = d[id]; });
+  DRAFT_FIELDS.forEach(id => { const el = $('#' + id); if (el && typeof d[id] === 'string') el.value = d[id]; });
   if (d.pdf && d.pdf.name) { state.pdf = d.pdf; renderFile(true); }
   if (d.coupon) state.coupon = d.coupon;
   if (d.service && SERVICES.some(s => s.id === d.service)) state.service = d.service;
@@ -1796,11 +1636,10 @@ function collectOrder() {
     name: id.name, phone: id.phone,
     notes: $('#fNotes').value.trim(),
     pdf: state.pdf,
-    items: state.cart.map(it => ({ ...it, lineTotal: lineTotal(it) })),
-    subtotal: t.subtotal, discount: t.discount, total: t.total, customCount: t.customCount,
+    items: state.cart.map(it => ({ ...it })),
+    discount: t.discount,
     coupon: t.coupon ? t.coupon.code : null,
-    couponPoints: t.coupon ? t.coupon.points : 0,
-    points: t.points
+    couponPoints: t.coupon ? t.coupon.points : 0
   };
 }
 function newOrderCode() {
@@ -1819,20 +1658,17 @@ function buildMessage(o) {
   L.push('🧾 الأصناف:');
   o.items.forEach((it, i) => {
     const d = itemDetail(it);
-    const price = it.lineTotal == null ? 'السعر حسب الطلب' : `الكمية ${it.qty}، ${money(it.lineTotal)}`;
-    L.push(`${i + 1}) ${itemTitle(it)}${d ? ' (' + d + ')' : ''}: ${price}`);
+    L.push(`${i + 1}) ${itemTitle(it)}${d ? ' (' + d + ')' : ''}`);
   });
   L.push('');
-  L.push('💰 مجموع الأصناف المسعّرة: ' + money(o.subtotal));
-  if (o.discount) L.push(`🎟 كوبون نقاط ${o.coupon}: خصم ${money(o.discount)} مقابل ${o.couponPoints} نقطة (يُعتمد بعد التحقق من الرصيد)`);
-  L.push('✅ الإجمالي: ' + money(o.total));
-  if (o.customCount) L.push(`➕ أصناف مخصصة بسعر يُحدد بعد المراجعة: ${o.customCount}`);
+  L.push('💰 السعر: حسب الطلب، أرجو إرساله لي قبل البدء');
+  if (o.coupon) L.push(`🎟 كوبون نقاط ${o.coupon}: خصم ${money(o.discount)} من السعر النهائي مقابل ${o.couponPoints} نقطة (يُعتمد بعد التحقق من الرصيد)`);
   L.push('');
   L.push('👤 الاسم: ' + o.name);
   L.push('📱 الجوال: ' + showPhone(o.phone));
   L.push('📝 الملاحظات: ' + (o.notes || 'لا يوجد'));
   L.push('📎 ملف PDF: ' + (o.pdf ? `${o.pdf.name} (${fmtSize(o.pdf.size)})، سأرفقه في المحادثة` : 'لا يوجد'));
-  L.push('⭐ النقاط المتوقعة: ' + o.points + ' (تُضاف برابط تأكيد بعد التسليم والدفع)');
+  L.push(`⭐ النقاط: ${CONFIG.POINTS_PER_RIYAL} عن كل ريال، تُضاف برابط تأكيد بعد التسليم والدفع`);
   return L.join('\n');
 }
 const waLink = (phone, text) => `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
@@ -1845,13 +1681,11 @@ function openPreview() {
   $('#pvBody').innerHTML = `
     <div class="pv-code"><div><b>كود التأكيد</b><div class="small muted">يُرسل في رسالة واتساب، احتفظ به</div></div>${copyPill(o.code, 'كود الطلب')}</div>
     <div class="pv-section"><h3>الأصناف</h3><ul class="pv-items">
-      ${o.items.map(it => `<li><span>${esc(itemTitle(it))}${it.lineTotal != null ? ` × ${it.qty}` : ''}<br><span class="muted">${esc(itemDetail(it))}</span></span><span>${it.lineTotal == null ? 'حسب الطلب' : money(it.lineTotal)}</span></li>`).join('')}
+      ${o.items.map(it => `<li><span>${esc(itemTitle(it))}<br><span class="muted">${esc(itemDetail(it))}</span></span><span>حسب الطلب</span></li>`).join('')}
     </ul>
     <div class="totals">
-      <div class="r"><span>مجموع الأصناف المسعّرة</span><span>${money(o.subtotal)}</span></div>
       ${o.discount ? `<div class="r disc"><span>خصم الكوبون ${esc(o.coupon)}</span><span>− ${money(o.discount)}</span></div>` : ''}
-      <div class="r big"><span>الإجمالي</span><span>${money(o.total)}</span></div>
-      ${o.customCount ? `<div class="r"><span>أصناف مخصصة</span><span>${o.customCount} بسعر يُحدد لاحقاً</span></div>` : ''}
+      <div class="r big"><span>السعر</span><span>نرسله لك في واتساب</span></div>
     </div></div>
     <div class="pv-section"><h3>بياناتك</h3><dl class="kv">
       <dt>الاسم</dt><dd>${esc(o.name)}</dd>
@@ -1861,8 +1695,8 @@ function openPreview() {
     </dl></div>
     ${o.pdf ? '<div class="note-box">بعد فتح واتساب، أرفق ملف PDF يدوياً في المحادثة.</div>' : ''}
     ${sameUser
-      ? `<div class="note-box ok">ستحصل على ${o.points} نقطة بعد تسليم الطلب والدفع، عبر رابط تأكيد يصلك في واتساب.</div>`
-      : `<div class="note-box info">${u ? 'رقم الجوال يختلف عن حسابك الحالي، لذلك سنسجّلك بالرقم الجديد' : 'سنسجّل دخولك بالاسم والرقم أعلاه'} لتُحفظ طلباتك، وتحصل على ${o.points} نقطة بعد التسليم والدفع.</div>`}`;
+      ? `<div class="note-box ok">تحصل على ${CONFIG.POINTS_PER_RIYAL} نقاط عن كل ريال بعد التسليم والدفع، عبر رابط تأكيد يصلك في واتساب.</div>`
+      : `<div class="note-box info">${u ? 'رقم الجوال يختلف عن حسابك الحالي، لذلك سنسجّلك بالرقم الجديد' : 'سنسجّل دخولك بالاسم والرقم أعلاه'} لتُحفظ طلباتك، وتحصل على نقاطك بعد التسليم والدفع.</div>`}`;
   $('#sendBtn span').textContent = sameUser ? 'إرسال الطلب عبر واتساب' : 'سجّل وأرسل عبر واتساب';
   openDialog($('#dlgPreview'));
 }
@@ -1882,8 +1716,7 @@ function sendOrder() {
 
   const order = {
     code: o.code, name: o.name, phone: o.phone, notes: o.notes, pdf: o.pdf, items: o.items,
-    subtotal: o.subtotal, discount: o.discount, total: o.total, customCount: o.customCount,
-    coupon: o.coupon, points: o.points, pointsStatus: 'expected', status: 0,
+    discount: o.discount, coupon: o.coupon, pointsStatus: 'expected', status: 0,
     createdAt: Date.now(), history: [{ status: 0, at: Date.now() }]
   };
   const orders = getOrders();
@@ -1902,7 +1735,7 @@ function sendOrder() {
   state.cart = []; saveCart();
   state.coupon = null; state.pendingCode = null;
   state.pdf = null; $('#fFile').value = ''; renderFile();
-  ['fNotes', 'sTitle', 'rTitle', 'pDesc', 'cDesc'].forEach(id => { $('#' + id).value = ''; });
+  ['fNotes', 'cDesc'].forEach(id => { $('#' + id).value = ''; });
   saveDraft();
 
   closeDialog($('#dlgPreview'));
@@ -1913,7 +1746,7 @@ function sendOrder() {
       <div style="margin:12px 0 16px">${copyPill(o.code, 'كود الطلب')}</div>
     </div>
     ${o.pdf ? '<div class="note-box">تذكير: أرفق ملف PDF يدوياً في محادثة واتساب.</div>' : ''}
-    <div class="note-box ok">${o.points} نقطة متوقعة، تُضاف عند وصول رابط التأكيد بعد التسليم والدفع.</div>
+    <div class="note-box ok">نرسل لك السعر في واتساب قبل أن نبدأ. نقاطك تُضاف برابط تأكيد بعد التسليم والدفع.</div>
     <p class="small muted" style="margin:14px 0 0">${win ? 'لم تفتح المحادثة؟' : 'منع المتصفح فتح واتساب تلقائياً.'} <a href="${esc(link)}" target="_blank" rel="noopener">افتح واتساب يدوياً</a></p>`;
   openDialog($('#dlgDone'));
   renderCart(); renderCapacity(); refreshAuthUI();
@@ -1928,8 +1761,8 @@ function trackerHTML(status) {
 }
 function pointsChip(o) {
   return o.pointsStatus === 'confirmed'
-    ? `<span class="chip ok">${o.points} نقطة مؤكدة</span>`
-    : `<span class="chip warn">${o.points} نقطة بعد التسليم</span>`;
+    ? '<span class="chip ok">النقاط مضافة</span>'
+    : '<span class="chip warn">النقاط بعد التسليم</span>';
 }
 function emptyHTML(title, text, actionHTML, art) {
   return `<div class="panel empty">${art || `<svg class="empty-art" viewBox="0 0 96 96" fill="none" aria-hidden="true"><rect x="18" y="20" width="60" height="56" rx="10" stroke="currentColor" stroke-width="2.5"/><path d="M30 38h36M30 48h24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity=".35"/><circle cx="66" cy="64" r="12" fill="var(--butter)"/><path d="M61 64h10M66 59v10" stroke="#142538" stroke-width="2.5" stroke-linecap="round"/></svg>`}
@@ -1944,14 +1777,14 @@ function renderOrders() {
   }
   const mine = getOrders().filter(o => o.phone === u.phone);
   if (!mine.length) {
-    box.innerHTML = emptyHTML('لا توجد طلبات بعد', 'أول طلب يبدأ بخطوة: اختر باقة وأضفها إلى السلة.', '<a class="btn btn-primary" href="#order">ابدأ طلبك</a>');
+    box.innerHTML = emptyHTML('لا توجد طلبات بعد', 'أول طلب يبدأ بخطوة: اكتب ما تحتاجه وأضفه إلى السلة.', '<a class="btn btn-primary" href="#order">ابدأ طلبك</a>');
     return;
   }
   box.innerHTML = mine.map(o => `
     <article class="order-card">
-      <div class="oc-head">${copyPill(o.code, 'كود الطلب')}<span class="date">${fmtDate(o.createdAt)}</span><span class="tot">${money(o.total)}${o.customCount ? ' + حسب الطلب' : ''}</span></div>
+      <div class="oc-head">${copyPill(o.code, 'كود الطلب')}<span class="date">${fmtDate(o.createdAt)}</span><span class="tot">حسب الطلب</span></div>
       ${trackerHTML(o.status)}
-      <ul class="oc-items">${o.items.map(it => `<li>${esc(itemTitle(it))}${it.lineTotal != null ? ` × ${it.qty}` : ''}${itemDetail(it) ? `: ${esc(itemDetail(it))}` : ''}</li>`).join('')}</ul>
+      <ul class="oc-items">${o.items.map(it => `<li>${esc(itemTitle(it))}${itemDetail(it) ? `: ${esc(itemDetail(it))}` : ''}</li>`).join('')}</ul>
       <div class="oc-foot">${pointsChip(o)}<button class="btn btn-sm btn-soft" type="button" data-action="reorder" data-code="${esc(o.code)}" style="margin-inline-start:auto">اطلب مرة أخرى</button></div>
     </article>`).join('');
 }
@@ -2145,52 +1978,20 @@ function filterFaq(q) {
 }
 
 /* =========================================================
-   17) واجهة الطلب: الباقات والخدمات المخصصة
+   17) واجهة الطلب: الطلب المخصص
    ========================================================= */
-function setPkg(v) {
-  state.pkg = v;
-  $$('input[name="pkg"]').forEach(r => { r.checked = r.value === v; r.closest('.choice').classList.toggle('on', r.checked); });
-  $('#cfg-summary').hidden = v !== 'summary';
-  $('#cfg-research').hidden = v !== 'research';
-  $('#cfg-custom').hidden = v !== 'custom';
-}
-function setTab(t) {
-  $$('.tab').forEach(b => {
-    const on = b.dataset.tab === t;
-    b.setAttribute('aria-selected', on ? 'true' : 'false');
-    b.tabIndex = on ? 0 : -1;
-  });
-  $('#pane-pkg').hidden = t !== 'pkg';
-  $('#pane-custom').hidden = t !== 'custom';
-}
 function renderServices() {
   $('#svcChoices').innerHTML = SERVICES.map(s => `
     <label class="choice ${s.id === state.service ? 'on' : ''}"><input type="radio" name="svc" value="${s.id}" ${s.id === state.service ? 'checked' : ''}><span class="ci" aria-hidden="true">${s.ico}</span><span><b>${s.label}</b></span></label>`).join('');
 }
-function addFromUI(kind) {
-  if (kind === 'summary') {
-    const pages = clampInt($('#sPages').value, 1, 2000, 1), qty = clampInt($('#sQty').value, 1, 50, 1);
-    $('#sPages').value = pages; $('#sQty').value = qty;
-    addToCart({ kind: 'summary', pages, qty, title: $('#sTitle').value.trim() });
-    $('#sTitle').value = '';
-  } else if (kind === 'research') {
-    const rk = $('input[name="rType"]:checked').value;
-    const pages = clampInt($('#rPages').value, 1, 2000, 1), qty = clampInt($('#rQty').value, 1, 50, 1);
-    $('#rPages').value = pages; $('#rQty').value = qty;
-    addToCart({ kind: rk, pages, qty, title: $('#rTitle').value.trim() });
-    $('#rTitle').value = '';
-  } else {
-    const isPkg = kind === 'custom-pkg';
-    const ta = isPkg ? $('#pDesc') : $('#cDesc');
-    const err = isPkg ? $('#pDescErr') : $('#cDescErr');
-    const desc = ta.value.trim();
-    if (desc.length < 5) { err.textContent = 'صف طلبك في كلمات قليلة على الأقل لنحدد السعر.'; err.hidden = false; ta.focus(); return; }
-    err.hidden = true;
-    const svc = isPkg ? 'طلب خاص' : SERVICES.find(s => s.id === state.service).label;
-    addToCart({ kind: 'custom', service: svc, desc, qty: 1 });
-    ta.value = '';
-  }
-  updatePrices();
+function addFromUI() {
+  const ta = $('#cDesc'), err = $('#cDescErr');
+  const desc = ta.value.trim();
+  if (desc.length < 5) { err.textContent = 'صف طلبك في كلمات قليلة على الأقل لنحدد السعر.'; err.hidden = false; ta.focus(); return; }
+  err.hidden = true;
+  const svc = (SERVICES.find(s => s.id === state.service) || SERVICES[0]).label;
+  addToCart({ kind: 'custom', service: svc, desc, qty: 1 });
+  ta.value = '';
   saveDraft();
 }
 function goToCart() {
@@ -2220,15 +2021,6 @@ function bindEvents() {
 
   // نقرات عامة عبر data-action
   document.addEventListener('click', e => {
-    const step = e.target.closest('[data-step]');
-    if (step) {
-      const inp = $('#' + step.dataset.for);
-      const max = +inp.max || 9999, min = +inp.min || 1;
-      inp.value = clampInt(inp.value, min, max, min) + (+step.dataset.step);
-      inp.value = clampInt(inp.value, min, max, min);
-      updatePrices();
-      return;
-    }
     const el = e.target.closest('[data-action]');
     if (!el) return;
     const a = el.dataset.action;
@@ -2238,18 +2030,11 @@ function bindEvents() {
       case 'go-cart': goToCart(); break;
       case 'scroll': { const t = $('#' + el.dataset.target); t && t.scrollIntoView({ behavior: prefersReduced() ? 'auto' : 'smooth', block: 'start' }); break; }
       case 'copy': copyText(el.dataset.text, el.dataset.label); break;
-      case 'add': addFromUI(el.dataset.kind); break;
+      case 'add': addFromUI(); break;
       case 'pick':
         location.hash = '#order';
-        if (el.dataset.pkg) { setTab('pkg'); setPkg(el.dataset.pkg); }
-        else if (el.dataset.service) { setTab('custom'); state.service = el.dataset.service; renderServices(); saveDraft(); }
-        else setTab('custom');
+        if (el.dataset.service) { state.service = el.dataset.service; renderServices(); saveDraft(); }
         break;
-      case 'qty': {
-        const it = state.cart.find(x => x.id === item.dataset.id);
-        it.qty = Math.min(50, Math.max(1, it.qty + (+el.dataset.d)));
-        saveCart(); renderCart(); break;
-      }
       case 'del': {
         const idx = state.cart.findIndex(x => x.id === item.dataset.id);
         const [removed] = state.cart.splice(idx, 1);
@@ -2264,7 +2049,7 @@ function bindEvents() {
       case 'reorder': {
         const o = getOrders().find(x => x.code === el.dataset.code);
         if (!o) break;
-        o.items.forEach(it => { const { lineTotal: _lt, ...clean } = it; state.cart.push({ ...clean, id: uid() }); });
+        o.items.filter(it => it.kind === 'custom').forEach(it => { const { lineTotal: _lt, ...clean } = it; state.cart.push({ ...clean, id: uid() }); });
         saveCart(); bumpBadge(); toast('أضفنا أصناف الطلب إلى السلة.', 'ok'); goToCart();
         break;
       }
@@ -2274,36 +2059,14 @@ function bindEvents() {
   // تغييرات عامة
   document.addEventListener('change', e => {
     const t = e.target;
-    if (t.name === 'pkg') setPkg(t.value);
-    if (t.name === 'rType') updatePrices();
     if (t.name === 'svc') { state.service = t.value; renderServices(); $(`input[name="svc"][value="${t.value}"]`).focus(); saveDraft(); }
-    if (t.dataset.action === 'qty-input') {
-      const it = state.cart.find(x => x.id === t.closest('.cart-item').dataset.id);
-      it.qty = clampInt(t.value, 1, 50, it.qty); saveCart(); renderCart();
-    }
   });
 
   document.addEventListener('input', e => {
     const t = e.target;
-    if (['sPages', 'sQty', 'rPages', 'rQty'].includes(t.id)) updatePrices();
     if (DRAFT_FIELDS.includes(t.id)) { saveDraftSoon(); if (t.closest('.field.invalid')) setFieldError(t, ''); }
     if (t.id === 'faqQ') filterFaq(t.value);
   });
-  // ضبط القيم عند مغادرة حقول الأرقام
-  ['sPages', 'sQty', 'rPages', 'rQty'].forEach(id => $('#' + id).addEventListener('blur', e => {
-    e.target.value = clampInt(e.target.value, +e.target.min, +e.target.max, +e.target.min); updatePrices();
-  }));
-
-  // التبويبات مع دعم الأسهم
-  $$('.tab').forEach(b => {
-    b.addEventListener('click', () => setTab(b.dataset.tab));
-    b.addEventListener('keydown', e => {
-      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-      const next = b.dataset.tab === 'pkg' ? 'custom' : 'pkg';
-      setTab(next); $(`.tab[data-tab="${next}"]`).focus();
-    });
-  });
-
   // ملف PDF
   $('#fFile').addEventListener('change', e => {
     const f = e.target.files && e.target.files[0];
@@ -2583,7 +2346,7 @@ const intro = (() => {
   return { refresh: () => { if (enabled) layout(); else enable(); } };
 })();
 
-/* بطاقات الباقات: ظهور متدرج بعمق، وميل خفيف مع المؤشر */
+/* بطاقات قسم الطلب: ظهور متدرج بعمق، وميل خفيف مع المؤشر */
 function setupPkgCards() {
   const box = $('.pkg-cards');
   if (!box) return;
@@ -2616,9 +2379,6 @@ function init() {
   setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light', false);
   loadDraft();
   renderServices();
-  setPkg('summary');
-  setTab('pkg');
-  updatePrices();
   bindEvents();
   setupPkgCards();
   refreshAuthUI();

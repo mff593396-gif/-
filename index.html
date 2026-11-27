@@ -2,29 +2,36 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<!--
+  سياسة أمان المحتوى: لا يُنفَّذ إلا السكربتان المضمّنان في هذا الملف (ببصمتهما)،
+  ولا تُحمَّل خطوط أو أنماط إلا من Google Fonts. بعد أي تعديل على السكربتات شغّل:
+  python3 tools/update-csp.py
+-->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-5yUP0FEVk3djixhv1bUjEFDihubm1imUN2ID7cjvk88=' 'sha256-iO80VBIQwJYg5wrXicaBja/hXyKR8TFTIV2PQ8b0JNo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self' blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<!-- مفتاح تأكيد النقاط العام: الصق هنا السطر الذي تعطيك إياه أداة tools/points-signer.html (ليس سراً) -->
+<meta name="kf-points-key" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>خلاصة الفكرة</title>
 <meta name="description" content="خلاصة الفكرة: ملخصات كتب، بحوث ومشاريع، تصاميم، وزبدة الأفكار التي تغير حياتك.">
-<meta name="theme-color" content="#142538">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="خلاصة الفكرة">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- الخطوط: Reem Kufi للعناوين و IBM Plex Sans Arabic للنصوص، مع خطوط النظام كاحتياط عند انقطاع الإنترنت -->
+<!-- الخطوط: Baloo Bhaijaan 2 للعناوين (مستدير وحيوي) و Readex Pro للنصوص، مع خطوط النظام كاحتياط عند انقطاع الإنترنت -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap">
 
 <!-- تطبيق الثيم قبل الرسم لتجنب الوميض -->
 <script>
   (function () {
     var t = null;
     try { t = JSON.parse(localStorage.getItem('kf.theme')); } catch (e) {}
-    if (t !== 'light' && t !== 'dark') {
-      t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-    }
+    if (t !== 'dark') t = 'light';
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
@@ -35,9 +42,9 @@
    الفكرة: حبر عميق على ورق بارد + أصفر "زبدة" كقلم تظليل.
    ========================================================= */
 :root {
-  --paper: #F3F5F8;
+  --paper: #FFFFFF;
   --surface: #FFFFFF;
-  --surface-2: #E9EEF3;
+  --surface-2: #EEF2F6;
   --ink: #142538;
   --ink-2: #4B5D70;
   --line: #D5DDE5;
@@ -55,9 +62,17 @@
   --danger: #B42318;
   --danger-soft: #FBE3DF;
   --shadow-float: 0 18px 48px -20px rgba(20, 37, 56, .35), 0 2px 6px rgba(20, 37, 56, .06);
+  /* طبقات العمق: ارتفاع خفيف للوحات وأقوى للبطاقات البارزة */
+  --elev-1: 0 1px 0 rgba(20, 37, 56, .04), 0 14px 30px -22px rgba(20, 37, 56, .35);
+  --elev-2: 0 2px 0 rgba(20, 37, 56, .05), 0 26px 50px -28px rgba(20, 37, 56, .45);
+  --glow: rgba(245, 197, 49, .22);
+  --floor: rgba(20, 37, 56, .22);
+  /* ألوان جوانب العنوان المجسّم من الأقرب إلى الأبعد */
+  --e1: #3B5370; --e2: #4A6380; --e3: #5A7390; --e4: #6B839F; --e5: #7C93AD; --e6: #8EA3BB;
+  --e-amb: rgba(20, 37, 56, .28);
 
-  --font-display: "Reem Kufi", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, "Geeza Pro", sans-serif;
-  --font-body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, "Geeza Pro", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-display: "Baloo Bhaijaan 2", "Readex Pro", "Segoe UI", Tahoma, "Geeza Pro", sans-serif;
+  --font-body: "Readex Pro", "Segoe UI", Tahoma, "Geeza Pro", "Noto Sans Arabic", system-ui, sans-serif;
 
   /* سلم طباعي بنسبة 1.25 */
   --fs-xs: .8rem;
@@ -75,22 +90,18 @@
   --topbar: 64px;
 }
 
-/* الوضع الليلي: يتبع النظام ما لم يختر المستخدم النهاري صراحة */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0D1722; --surface: #142130; --surface-2: #1C2B3C; --ink: #E6EDF4; --ink-2: #9DB0C3;
-    --line: #26384B; --butter-soft: rgba(245, 197, 49, .16); --primary: #F5C531; --on-primary: #142538;
-    --focus: #F5C531; --ok: #5CC99A; --on-ok: #0D1722; --ok-soft: rgba(92, 201, 154, .14);
-    --warn: #F0B24A; --warn-soft: rgba(240, 178, 74, .14); --danger: #FF8A7A; --danger-soft: rgba(255, 138, 122, .14);
-    --shadow-float: 0 18px 48px -18px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .3);
-  }
-}
+/* الوضع الليلي: فقط عندما يختاره المستخدم من زر الثيم. الافتراضي أبيض */
 :root[data-theme="dark"] {
   --paper: #0D1722; --surface: #142130; --surface-2: #1C2B3C; --ink: #E6EDF4; --ink-2: #9DB0C3;
   --line: #26384B; --butter-soft: rgba(245, 197, 49, .16); --primary: #F5C531; --on-primary: #142538;
   --focus: #F5C531; --ok: #5CC99A; --on-ok: #0D1722; --ok-soft: rgba(92, 201, 154, .14);
   --warn: #F0B24A; --warn-soft: rgba(240, 178, 74, .14); --danger: #FF8A7A; --danger-soft: rgba(255, 138, 122, .14);
   --shadow-float: 0 18px 48px -18px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .3);
+  --elev-1: 0 1px 0 rgba(255, 255, 255, .03), 0 16px 32px -22px rgba(0, 0, 0, .8);
+  --elev-2: 0 1px 0 rgba(255, 255, 255, .04), 0 28px 54px -26px rgba(0, 0, 0, .9);
+  --glow: rgba(245, 197, 49, .09); --floor: rgba(0, 0, 0, .6);
+  --e1: #AFC0D1; --e2: #8FA3B8; --e3: #71879E; --e4: #566C84; --e5: #40556C; --e6: #2E4157;
+  --e-amb: rgba(0, 0, 0, .55);
 }
 
 /* =========================================================
@@ -109,7 +120,7 @@ body {
   overflow-x: hidden;
 }
 body.lock { overflow: hidden; }
-h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.35; margin: 0 0 .5em; font-weight: 600; }
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.4; margin: 0 0 .5em; font-weight: 800; }
 h2 { font-size: var(--fs-2xl); }
 h3 { font-size: var(--fs-lg); }
 p { margin: 0 0 1em; max-width: 68ch; }
@@ -137,13 +148,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-bottom: 1px solid var(--line);
 }
 @supports not (background: color-mix(in srgb, red 50%, blue)) { .topbar { background: var(--paper); } }
-.topbar .wrap { height: 100%; display: flex; align-items: center; gap: 10px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); }
-.brand-mark {
-  width: 34px; height: 34px; border-radius: 10px; background: var(--ink); color: var(--paper);
-  display: grid; place-items: center; font-size: 1.05rem; line-height: 1; padding-bottom: 7px; position: relative; overflow: hidden;
+/* على الجوال: خلفية صلبة بدل الضبابية لأنها مكلفة أثناء التمرير */
+@media (hover: none), (max-width: 760px) {
+  .topbar { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper); }
 }
-.brand-mark::after { content: ""; position: absolute; inset-inline: 8px; bottom: 6px; height: 3px; border-radius: 2px; background: var(--butter); }
+.topbar .wrap { height: 100%; display: flex; align-items: center; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 8px; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); }
+.logo { width: 34px; height: 44px; flex: none; color: var(--ink); overflow: visible; }
 .topbar-actions { margin-inline-start: auto; display: flex; gap: 6px; }
 .icon-btn {
   width: 44px; height: 44px; display: grid; place-items: center; border-radius: var(--r-ctl);
@@ -211,7 +222,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn svg { width: 19px; height: 19px; flex: none; }
 .btn:active:not([disabled]) { transform: translateY(1px); }
 .btn[disabled] { opacity: .45; cursor: not-allowed; }
-.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary { background: var(--primary); color: var(--on-primary); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .22), 0 8px 18px -10px rgba(20, 37, 56, .55); }
 .btn-primary:hover:not([disabled]) { filter: brightness(1.12); }
 .btn-ghost { background: transparent; border-color: var(--line); }
 .btn-ghost:hover:not([disabled]) { background: var(--surface-2); }
@@ -225,7 +236,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn-block { width: 100%; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
 
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-panel); padding: 20px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-panel); padding: 20px; box-shadow: var(--elev-1); }
 @media (min-width: 640px) { .panel { padding: 24px; } }
 .panel + .panel { margin-top: 16px; }
 .panel-title { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
@@ -251,14 +262,6 @@ input.code-input { letter-spacing: .12em; font-weight: 600; text-transform: uppe
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 /* عداد +/- */
-.stepper { display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: var(--r-ctl); overflow: hidden; background: var(--paper); min-height: 48px; }
-.stepper button { width: 46px; flex: none; border: 0; background: var(--surface-2); cursor: pointer; font-size: 1.25rem; font-weight: 600; }
-.stepper button:hover { background: var(--line); }
-.stepper input { flex: 1; min-width: 0; border: 0 !important; text-align: center; background: transparent !important; box-shadow: none !important; font-weight: 600; -moz-appearance: textfield; appearance: textfield; min-height: 0 !important; padding: 0 !important; }
-.stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.stepper.sm { min-height: 36px; border-radius: 10px; }
-.stepper.sm button { width: 34px; font-size: 1rem; }
-.stepper.sm input { width: 40px; flex: none; }
 
 .chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; font-size: var(--fs-xs); font-weight: 600; background: var(--surface-2); white-space: nowrap; }
 .chip.ok { background: var(--ok-soft); color: var(--ok); }
@@ -289,59 +292,163 @@ main { padding-bottom: 96px; }
 .view-head h1 { font-size: var(--fs-2xl); margin-bottom: 4px; }
 .view-head p { color: var(--ink-2); margin: 0; }
 
-/* ---------- الواجهة الرئيسية: الورقة التي تتكثف ---------- */
-.hero { display: grid; gap: 28px; align-items: center; padding-block: 12px 36px; }
-@media (min-width: 900px) { .hero { grid-template-columns: 1.05fr .95fr; gap: 48px; padding-block: 36px 56px; } }
-.hero h1 { font-size: var(--fs-hero); font-weight: 700; letter-spacing: -.01em; margin-bottom: .25em; line-height: 1.2; }
-.hero-lead { font-size: var(--fs-lg); color: var(--ink-2); max-width: 34ch; line-height: 1.7; }
-.hero .btn-row { margin-top: 22px; }
+/* ---------- مشهد الافتتاح: العنوان المجسّم وقطرة الزبدة ---------- */
+.intro { position: relative; }
+.intro.js { height: 280vh; height: 280svh; }
+@media (max-width: 760px) { .intro.js { height: 240vh; height: 240svh; } }
+.intro-stage {
+  position: relative; display: grid; place-items: center; overflow: hidden;
+  min-height: calc(100vh - var(--topbar)); min-height: calc(100svh - var(--topbar));
+  padding-block: 40px 96px; perspective: 1100px;
+}
+.intro.js .intro-stage {
+  position: sticky; top: var(--topbar); min-height: 480px; padding-block: 0;
+  height: calc(100vh - var(--topbar)); height: calc(100svh - var(--topbar));
+}
+.intro-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(55% 45% at 50% 44%, var(--glow), transparent 72%); }
+.scene { position: relative; text-align: center; padding-inline: var(--gutter); transform-style: preserve-3d; }
+.title {
+  margin: 0; font-family: var(--font-display); font-weight: 800; color: var(--ink);
+  font-size: min(13vw, 9.5rem); line-height: 1.35; white-space: nowrap;
+}
+.title-face {
+  display: inline-block; position: relative;
+  text-shadow:
+    -.01em .01em 0 var(--e1), -.02em .02em 0 var(--e2), -.03em .03em 0 var(--e3),
+    -.04em .04em 0 var(--e4), -.05em .05em 0 var(--e5), -.06em .06em 0 var(--e6),
+    -.1em .2em .22em var(--e-amb);
+}
+.bl { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+@media (max-width: 760px) {
+  .title-face { text-shadow: -.015em .015em 0 var(--e1), -.03em .03em 0 var(--e3), -.045em .045em 0 var(--e5), -.08em .16em .18em var(--e-amb); }
+}
+.floor { width: min(72%, 680px); height: 26px; margin: -.1em auto 0; background: radial-gradient(closest-side, var(--floor), transparent); }
 
-.sheet {
-  position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-panel);
-  padding: 26px 24px 28px; box-shadow: var(--shadow-float); overflow: hidden;
+/* مكان استقرار القطرة: مسافة واضحة تحت العنوان، وتحتها موجة صغيرة */
+.landing { display: none; position: relative; height: clamp(84px, 13vh, 128px); }
+.intro.js .landing { display: block; }
+.wave { position: absolute; left: 50%; bottom: 8px; width: 96px; height: 14px; margin-left: -48px; overflow: hidden; opacity: 0; }
+.wave svg { display: block; width: 192px; height: 14px; }
+.wave path { fill: none; stroke: #D9A514; stroke-width: 2; stroke-linecap: round; }
+.intro.resting .wave svg { animation: waveMove 2.6s linear infinite; }
+@keyframes waveMove { to { transform: translateX(-96px); } }
+
+.tagline { font-family: var(--font-display); font-weight: 800; font-size: min(6vw, 2.35rem); line-height: 1.6; margin: .55em auto 0; max-width: none; white-space: nowrap; }
+.intro.js .tagline { margin-top: 0; }
+/* تظليل العبارة: طبقة خلفية تتمدد بـ transform فقط (بلا إعادة رسم) */
+.hl { position: relative; display: inline-block; padding: .02em .42em; color: var(--on-butter); transition: color .25s ease; }
+.hl-bg { position: absolute; inset: 0; border-radius: 12px; background: var(--butter); transform-origin: 50% 50%; }
+.hl-t { position: relative; }
+.intro.js .hl { color: var(--ink); }
+.intro.js .hl.lit { color: var(--on-butter); }
+.intro.js .hl-bg { transform: scaleX(0); will-change: transform; }
+.intro-cta { margin-top: 30px; justify-content: center; }
+.intro.js .tagline, .intro.js .intro-cta { opacity: 0; will-change: transform, opacity; }
+
+/* القطرة: كرة زبدة لامعة تتحول إلى دمعة أثناء السقوط */
+.drop, .dot-home, .trail, .ripple, .grow { position: absolute; left: 0; top: 0; pointer-events: none; display: none; }
+.intro.js .drop, .intro.js .dot-home, .intro.js .trail, .intro.js .ripple, .intro.js .grow { display: block; }
+.drop { transform-origin: 50% 100%; will-change: transform, opacity; }
+.dot-home { transform: scale(0); }
+.sphere {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #FFF3C4 0 10%, #F5C531 46%, #C38C0C 100%);
+  box-shadow: 0 6px 14px -5px rgba(195, 140, 12, .65), 0 0 22px rgba(245, 197, 49, .35);
 }
-.sheet::before { /* هامش الورقة */
-  content: ""; position: absolute; top: 0; bottom: 0; inset-inline-start: 14px; width: 1px; background: var(--line);
+.tear { position: absolute; left: 0; bottom: 0; width: 100%; height: 150%; opacity: 0; overflow: visible; }
+.trail { width: 3px; border-radius: 3px; transform-origin: 50% 100%; opacity: 0; background: linear-gradient(to bottom, transparent, rgba(245, 197, 49, .85)); will-change: transform, opacity; }
+.ripple { border: 2px solid var(--butter); border-radius: 50%; opacity: 0; will-change: transform, opacity; }
+/* الدائرة التي تكبر من القطرة حتى تملأ الشاشة */
+.grow { border-radius: 50%; opacity: 0; transform-origin: 50% 50%; will-change: transform; background: var(--butter); overflow: hidden; }
+/* لمعة القطرة: تخفت كلما كبرت حتى يتطابق لونها مع قسم «من نحن» بلا فاصل */
+.grow::after { content: ""; position: absolute; inset: 0; border-radius: 50%; opacity: var(--hi, 1); background: radial-gradient(circle at 36% 32%, #FFF3C4 0, rgba(255, 243, 196, 0) 34%), radial-gradient(circle at 50% 50%, rgba(195, 140, 12, 0) 55%, rgba(195, 140, 12, .55) 100%); }
+.intro.idle .drop .sphere, .intro.resting .drop .sphere { animation: bob 2.6s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-10%) scale(1.05); } }
+.intro.measuring .scene, .intro.measuring .tagline, .intro.measuring .intro-cta { transform: none !important; }
+
+/* مؤشر النزول */
+.cue {
+  position: absolute; bottom: calc(18px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
+  display: none; justify-items: center; gap: 8px; padding: 8px 16px; border: 0; border-radius: 12px;
+  background: none; color: var(--ink-2); font-size: var(--fs-sm); font-weight: 500; cursor: pointer;
 }
-.sheet-meta { display: flex; justify-content: space-between; font-size: var(--fs-xs); color: var(--ink-2); margin-bottom: 10px; padding-inline-start: 8px; }
-.ln {
-  height: 9px; border-radius: 5px; background: var(--surface-2); margin: 13px 8px 13px 0; width: var(--w, 100%);
-  transform-origin: right center;
-  animation: squeeze .75s cubic-bezier(.6, 0, .2, 1) forwards;
-  animation-delay: calc(var(--i) * 70ms + 350ms);
+.intro.js .cue { display: grid; }
+.cue:hover { color: var(--ink); }
+.cue-line { width: 2px; height: 36px; border-radius: 2px; background: var(--line); position: relative; overflow: hidden; }
+.cue-line::after { content: ""; position: absolute; left: 0; right: 0; top: -40%; height: 40%; background: var(--ink); animation: cue 1.8s ease-in-out infinite; }
+@keyframes cue { to { top: 100%; } }
+
+/* ---------- من نحن والخدمات على لون الزبدة ---------- */
+.butter { position: relative; background: var(--butter); color: var(--on-butter); padding-bottom: 88px; }
+.butter-edge-top { display: block; width: 100%; height: 48px; transform: scaleY(-1); }
+.intro.js + .butter .butter-edge-top { display: none; }
+.butter-edge-top path, .butter-edge path { fill: var(--paper); }
+.butter-edge { position: absolute; left: 0; right: 0; bottom: -1px; display: block; width: 100%; height: 56px; }
+.about-lead { text-align: center; padding: 40px var(--gutter) 24px; color: var(--on-butter); }
+.about-lead h2 { font-size: clamp(2.2rem, 7vw, 3.4rem); margin-bottom: .3em; }
+.about-lead p { margin-inline: auto; max-width: 46ch; font-size: clamp(1.02rem, 2.4vw, 1.2rem); line-height: 1.9; color: rgba(20, 37, 56, .86); }
+.about-lead p:last-child { margin-bottom: 0; }
+.about-lead.in-stage {
+  position: absolute; inset: 0; z-index: 2; display: grid; place-content: center;
+  padding: 24px var(--gutter); opacity: 0; visibility: hidden; will-change: transform, opacity;
 }
-[dir="ltr"] .ln { transform-origin: left center; }
-@keyframes squeeze { to { transform: scaleX(.14); opacity: .45; } }
-.key-line { margin: 18px 8px 18px 0; }
-.key {
-  display: inline; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.25rem, 3.2vw, 1.7rem);
-  line-height: 1.75; padding: .12em .35em; border-radius: 6px;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone;
-  background-image: linear-gradient(var(--butter), var(--butter));
-  background-repeat: no-repeat; background-position: right center; background-size: 0% 100%;
-  animation: highlight .8s cubic-bezier(.5, 0, .2, 1) 1.15s forwards;
+.svc-head { text-align: center; padding-top: 24px; margin-bottom: 24px; }
+.svc-head h2 { font-size: clamp(1.9rem, 5.5vw, 2.6rem); margin-bottom: 4px; }
+.svc-head p { margin-inline: auto; color: rgba(20, 37, 56, .78); }
+.svc-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.svc-tile {
+  display: grid; grid-template-columns: 50px 1fr auto; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 18px;
+  background: rgba(255, 255, 255, .5); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 14px 26px -20px rgba(110, 72, 0, .6);
 }
-@keyframes highlight { to { background-size: 100% 100%; color: var(--on-butter); } }
+.svc-ico { width: 50px; height: 50px; border-radius: 15px; background: rgba(255, 255, 255, .72); display: grid; place-items: center; font-size: 1.45rem; }
+.svc-tile b { display: block; font-weight: 700; line-height: 1.5; }
+.svc-tile .d { display: block; font-size: var(--fs-sm); color: rgba(20, 37, 56, .76); line-height: 1.6; }
+.svc-tile .btn { background: #142538; color: #F5C531; box-shadow: none; }
+.svc-tile .btn:hover { filter: brightness(1.2); }
+@media (min-width: 900px) {
+  .svc-grid { grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .svc-tile { grid-template-columns: 1fr; align-content: start; height: 100%; padding: 20px 18px; }
+  .svc-tile .btn { justify-self: start; margin-top: 4px; }
+}
+
+/* ---------- قسم الطلب في الصفحة الرئيسية ---------- */
+.home-order { position: relative; padding-block: 40px 40px; }
+.ho-head { text-align: center; margin-bottom: 30px; }
+.ho-head h2 { font-size: clamp(2.1rem, 6.5vw, 3.2rem); margin-bottom: 4px; }
+.ho-head p { margin-inline: auto; color: var(--ink-2); font-size: var(--fs-lg); }
+.pkg-cards { display: grid; gap: 16px; perspective: 1200px; }
+@media (min-width: 760px) { .pkg-cards { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+.pkg-card { transform-style: preserve-3d; transition: opacity .7s ease, transform .9s cubic-bezier(.2, .7, .2, 1); transition-delay: var(--d, 0ms); }
+.pkg-cards.reveal .pkg-card:not(.in) { opacity: 0; transform: translate3d(0, 44px, 0) rotateX(16deg); }
+.pkg-inner {
+  height: 100%; display: flex; flex-direction: column; gap: 6px; padding: 26px 22px 22px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--elev-2);
+  transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform .3s ease-out;
+}
+.pkg-card.lead .pkg-inner { background: var(--primary); color: var(--on-primary); border-color: transparent; }
+.pkg-card.lead .pc-ex { color: inherit; opacity: .78; }
+.pkg-card.lead .pc-ico { background: rgba(255, 255, 255, .12); }
+.pkg-card.lead .btn { background: var(--butter); color: var(--on-butter); }
+:root[data-theme="dark"] .pkg-card.lead .pc-ico { background: rgba(20, 37, 56, .12); }
+:root[data-theme="dark"] .pkg-card.lead .btn { background: #142538; color: #F5C531; }
+.pc-ico { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; font-size: 1.7rem; background: var(--surface-2); margin-bottom: 8px; transform: translateZ(34px); }
+.pkg-inner h3 { font-size: var(--fs-xl); margin: 0; transform: translateZ(22px); }
+.pc-rule { margin: 0; font-weight: 700; font-size: var(--fs-md); line-height: 1.7; }
+.pc-ex { margin: 0 0 14px; color: var(--ink-2); font-size: var(--fs-sm); }
+.pkg-inner .btn { margin-top: auto; transform: translateZ(18px); }
+.ho-foot { display: flex; justify-content: center; margin-top: 22px; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ln { animation: none; transform: scaleX(.14); opacity: .45; }
-  .key { animation: none; background-size: 100% 100%; color: var(--on-butter); }
   .drawer, .overlay { transition: none; }
-  .badge.bump, dialog[open] { animation: none !important; }
+  .badge.bump, dialog[open], .cue-line::after { animation: none !important; }
+  .pkg-card, .pkg-inner { transition: none; }
 }
 
 /* ---------- من نحن ---------- */
 .about-grid { display: grid; gap: 16px; align-items: start; }
 @media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 1fr; } }
-.mission p:last-child { margin-bottom: 0; }
-
-.services { list-style: none; margin: 0; padding: 0; }
-.services li { display: grid; grid-template-columns: 48px 1fr auto; gap: 14px; align-items: center; padding: 14px 0; border-top: 1px solid var(--line); }
-.services li:first-child { border-top: 0; padding-top: 0; }
-.services li:last-child { padding-bottom: 0; }
-.svc-ico { width: 48px; height: 48px; border-radius: 14px; background: var(--surface-2); display: grid; place-items: center; font-size: 1.45rem; }
-.services b { display: block; font-weight: 600; }
-.services span { font-size: var(--fs-sm); color: var(--ink-2); }
 
 /* شريط السعة اليومية */
 .capacity {
@@ -353,7 +460,7 @@ main { padding-bottom: 96px; }
 .meter { display: grid; grid-template-columns: repeat(15, 1fr); gap: 4px; }
 .meter i { height: 22px; border-radius: var(--r-seg); background: var(--surface); border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent); }
 .meter i.used { background: var(--ink); border-color: var(--ink); }
-.meter-label { font-size: var(--fs-sm); margin-top: 8px; font-weight: 500; }
+.capacity-note { font-size: var(--fs-sm); margin: 0; font-weight: 500; max-width: 46ch; }
 .cap-mini { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: var(--fs-sm); margin-bottom: 18px; }
 .cap-mini .meter { width: 180px; gap: 2px; }
 .cap-mini .meter i { height: 10px; }
@@ -381,9 +488,6 @@ main { padding-bottom: 96px; }
   .order-layout { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 24px; }
   .order-side { position: sticky; top: calc(var(--topbar) + 16px); }
 }
-.tabs { display: flex; gap: 4px; padding: 4px; background: var(--surface-2); border-radius: 14px; margin-bottom: 16px; }
-.tab { flex: 1; min-height: 44px; border: 0; border-radius: 10px; background: transparent; cursor: pointer; font-weight: 600; color: var(--ink-2); }
-.tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
 
 .choices { display: grid; gap: 10px; margin-bottom: 18px; }
 @media (min-width: 640px) { .choices.three { grid-template-columns: repeat(3, 1fr); } }
@@ -400,12 +504,6 @@ main { padding-bottom: 96px; }
 .choice.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: var(--butter-soft); }
 .choice:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
 
-.seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: 12px; background: var(--surface-2); }
-.seg label { position: relative; }
-.seg input { position: absolute; opacity: 0; }
-.seg span { display: block; padding: 8px 16px; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: var(--fs-sm); color: var(--ink-2); }
-.seg input:checked + span { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
-.seg input:focus-visible + span { outline: 3px solid var(--focus); }
 
 .price-box { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 14px 16px; border-radius: 14px; background: var(--surface-2); margin-bottom: 16px; }
 .price-box strong { font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1; }
@@ -517,25 +615,8 @@ main { padding-bottom: 96px; }
 .faq details p { color: var(--ink-2); margin: 0 0 16px; }
 
 /* ---------- لوحة المالك ---------- */
-.pin-box { max-width: 420px; margin-inline: auto; text-align: center; }
-.pin-box .input { text-align: center; letter-spacing: .5em; font-size: var(--fs-xl); font-weight: 700; direction: ltr; }
-.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
-@media (min-width: 760px) { .stats { grid-template-columns: repeat(4, 1fr); } }
-.stats div { padding: 14px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
-.stats strong { display: block; font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1.3; }
-.stats span { font-size: var(--fs-sm); color: var(--ink-2); }
-.owner-tools { display: grid; gap: 16px; margin-bottom: 16px; }
-@media (min-width: 900px) { .owner-tools { grid-template-columns: 1fr 1fr; } }
-.filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
-.filters .input { flex: 1; min-width: 200px; }
-.filters select.input { flex: 0 0 auto; width: auto; min-width: 150px; }
-.own-order .oc-items { margin-bottom: 12px; }
-.own-grid { display: grid; gap: 10px; }
-@media (min-width: 640px) { .own-grid { grid-template-columns: auto 1fr; align-items: center; } }
-.own-grid .lbl { font-size: var(--fs-sm); color: var(--ink-2); }
 .inline-gen { display: flex; gap: 8px; }
-.inline-gen .input { flex: 1; }
-.gen-out { margin-top: 12px; }
+.inline-gen .input { flex: 1; min-width: 0; }
 
 /* =========================================================
    7) النوافذ المنبثقة والإشعارات
@@ -578,6 +659,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 .toast.out { opacity: 0; transform: translateY(-6px); transition: .25s; }
 @keyframes toastIn { from { opacity: 0; transform: translateY(-8px); } }
 
+.lazy-section { content-visibility: auto; contain-intrinsic-size: auto 640px; }
 .footer { border-top: 1px solid var(--line); padding: 24px 0 32px; margin-top: 48px; font-size: var(--fs-sm); color: var(--ink-2); }
 .footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
 </style>
@@ -609,17 +691,21 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <symbol id="i-lock" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g></symbol>
     <symbol id="i-user" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></g></symbol>
+    <!-- شعار خلاصة الفكرة: حرف «خ» داكن تعلوه قطرة زبدة ذهبية -->
+    <radialGradient id="lgDrop" cx="38%" cy="64%" r="70%"><stop offset="0" stop-color="#FFF3C4"/><stop offset=".5" stop-color="#F5C531"/><stop offset="1" stop-color="#C38C0C"/></radialGradient>
+    <symbol id="logo-mark" viewBox="0 0 40 52">
+      <path d="M20 1C21.2 6.2 27.5 10.6 27.5 16a7.5 7.5 0 0 1-15 0C12.5 10.6 18.8 6.2 20 1Z" fill="url(#lgDrop)"/>
+      <path d="M17.2 6.8c.7-1.6 1.6-2.7 2.3-3.4" stroke="#FFF7DB" stroke-width="1.3" stroke-linecap="round" fill="none" opacity=".85"/>
+      <text x="20" y="37" text-anchor="middle" font-family="'Baloo Bhaijaan 2', 'Readex Pro', Tahoma, 'Segoe UI', sans-serif" font-weight="800" font-size="31" fill="currentColor">ح</text>
+    </symbol>
   </defs>
 </svg>
 
 <!-- ===================== الشريط العلوي ===================== -->
 <header class="topbar">
   <div class="wrap">
-    <button class="icon-btn" id="menuBtn" type="button" aria-label="فتح القائمة" aria-controls="drawer" aria-expanded="false">
-      <svg><use href="#i-menu"/></svg>
-    </button>
     <a class="brand" href="#about" aria-label="خلاصة الفكرة، الصفحة الرئيسية">
-      <span class="brand-mark" aria-hidden="true">خ</span>
+      <svg class="logo" viewBox="0 0 40 52" aria-hidden="true"><use href="#logo-mark"/></svg>
       <span>خلاصة الفكرة</span>
     </a>
     <div class="topbar-actions">
@@ -631,6 +717,9 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
         <svg class="theme-light-ico"><use href="#i-moon"/></svg>
         <svg class="theme-dark-ico"><use href="#i-sun"/></svg>
       </button>
+      <button class="icon-btn" id="menuBtn" type="button" aria-label="فتح القائمة" aria-controls="drawer" aria-expanded="false">
+        <svg><use href="#i-menu"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -640,7 +729,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 <aside class="drawer" id="drawer" aria-label="القائمة الرئيسية" inert>
   <div class="drawer-head">
     <div>
-      <a class="brand" href="#about"><span class="brand-mark" aria-hidden="true">خ</span><span>خلاصة الفكرة</span></a>
+      <a class="brand" href="#about"><svg class="logo" viewBox="0 0 40 52" aria-hidden="true"><use href="#logo-mark"/></svg><span>خلاصة الفكرة</span></a>
       <p class="drawer-tag">زبدة الأفكار التي تغير حياتك</p>
     </div>
     <button class="icon-btn" type="button" id="drawerClose" aria-label="إغلاق القائمة"><svg><use href="#i-x"/></svg></button>
@@ -652,7 +741,6 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <li><a href="#orders" data-route="orders"><svg><use href="#i-list"/></svg>طلباتي<span class="count" id="navOrders"></span></a></li>
     <li><a href="#points" data-route="points"><svg><use href="#i-star"/></svg>نقاطي<span class="count" id="navPoints"></span></a></li>
     <li><a href="#faq" data-route="faq"><svg><use href="#i-help"/></svg>الأسئلة الشائعة</a></li>
-    <li><a href="#owner" data-route="owner"><svg><use href="#i-lock"/></svg>لوحة المالك</a></li>
   </ul>
   <div class="drawer-foot">
     <button class="btn btn-primary" type="button" id="authBtn" data-action="auth"></button>
@@ -663,72 +751,110 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 
   <!-- ===================== من نحن (الرئيسية) ===================== -->
   <section class="view" id="view-about" data-view="about" tabindex="-1" aria-labelledby="heroTitle">
-    <div class="wrap">
-      <div class="hero">
-        <div>
-          <h1 id="heroTitle">خلاصة الفكرة</h1>
-          <p class="hero-lead">نقرأ عنك الكتاب الطويل، ونكتب معك البحث، ونصمم لك ما تحتاجه، ثم نسلّمك الزبدة.</p>
-          <div class="btn-row">
+    <div class="intro" id="intro">
+      <div class="intro-stage">
+        <div class="intro-glow" aria-hidden="true"></div>
+        <div class="scene">
+          <h1 class="title" id="heroTitle" aria-label="خلاصة الفكرة"><span class="title-face" aria-hidden="true"><i class="bl"></i><span class="title-text">خلاصة الفكرة</span></span></h1>
+          <div class="floor" aria-hidden="true"></div>
+          <div class="landing" aria-hidden="true"><div class="wave"><svg viewBox="0 0 192 14" preserveAspectRatio="none"><path d="M0 7Q6 1 12 7T24 7T36 7T48 7T60 7T72 7T84 7T96 7T108 7T120 7T132 7T144 7T156 7T168 7T180 7T192 7"/></svg></div></div>
+          <p class="tagline"><span class="hl"><span class="hl-bg" aria-hidden="true"></span><span class="hl-t">زبدة الأفكار التي تغير حياتك</span></span></p>
+          <div class="btn-row intro-cta">
             <a class="btn btn-primary" href="#order">ابدأ طلبك</a>
             <button class="btn btn-ghost" type="button" data-action="scroll" data-target="pricing">كيف نحسب السعر</button>
           </div>
+          <span class="trail" aria-hidden="true"></span>
+          <span class="ripple" aria-hidden="true"></span>
+          <span class="ripple" aria-hidden="true"></span>
+          <span class="dot-home" aria-hidden="true"><span class="sphere"></span></span>
+          <span class="drop" aria-hidden="true">
+            <span class="sphere"></span>
+            <svg class="tear" viewBox="0 0 20 30" preserveAspectRatio="none" aria-hidden="true">
+              <defs><radialGradient id="tearG" cx="36%" cy="64%" r="68%"><stop offset="0" stop-color="#FFF3C4"/><stop offset=".45" stop-color="#F5C531"/><stop offset="1" stop-color="#C38C0C"/></radialGradient></defs>
+              <path d="M10 0C11 6 20 13 20 20A10 10 0 0 1 0 20C0 13 9 6 10 0Z" fill="url(#tearG)"/>
+            </svg>
+          </span>
+          <span class="grow" aria-hidden="true"></span>
         </div>
-        <div class="sheet" aria-label="صفحات كثيرة تتكثف إلى فكرة واحدة">
-          <div class="sheet-meta" aria-hidden="true"><span>ص ١٢٤</span><span>الفصل الثالث</span></div>
-          <div class="ln" style="--i:0;--w:96%" aria-hidden="true"></div>
-          <div class="ln" style="--i:1;--w:88%" aria-hidden="true"></div>
-          <div class="ln" style="--i:2;--w:93%" aria-hidden="true"></div>
-          <p class="key-line"><span class="key">زبدة الأفكار التي تغير حياتك</span></p>
-          <div class="ln" style="--i:3;--w:90%" aria-hidden="true"></div>
-          <div class="ln" style="--i:4;--w:97%" aria-hidden="true"></div>
-          <div class="ln" style="--i:5;--w:62%" aria-hidden="true"></div>
-        </div>
+        <button class="cue" type="button" data-action="scroll" data-target="homeOrder"><span>مرّر للأسفل</span><span class="cue-line" aria-hidden="true"></span></button>
       </div>
+    </div>
 
-      <div class="about-grid">
-        <div class="panel mission">
-          <h2>من نحن</h2>
-          <p>خلاصة الفكرة خدمة طلابية ومعرفية تساعدك توفّر وقتك وتفهم أكثر. نلخّص الكتب والمقاطع المفيدة، ونجهّز البحوث والمشاريع والواجبات، ونصمم الصور والفيديو، بوضوح وأمانة.</p>
-          <p>رسالتنا بسيطة: أن تصلك الفكرة الأهم من كل صفحة، مرتبة وجاهزة للاستخدام، وبسعر واضح تعرفه قبل أن ترسل طلبك.</p>
-        </div>
-        <div class="panel">
+    <section class="butter" id="aboutUs" aria-labelledby="aboutTitle">
+      <svg class="butter-edge-top" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 56V30C120 10 240 10 360 30S600 50 720 30 960 10 1080 30 1320 50 1440 30V56Z"/></svg>
+      <div class="about-lead" id="aboutLead">
+        <h2 id="aboutTitle">من نحن</h2>
+        <p>خلاصة الفكرة خدمة طلابية ومعرفية تساعدك توفّر وقتك وتفهم أكثر. نلخّص الكتب والمقاطع المفيدة، ونجهّز البحوث والمشاريع والواجبات، ونصمم الصور والفيديو، بوضوح وأمانة.</p>
+        <p>رسالتنا بسيطة: أن تصلك الفكرة الأهم من كل صفحة، مرتبة وجاهزة للاستخدام، وبسعر نتفق عليه معك قبل أن نبدأ.</p>
+      </div>
+      <div class="wrap">
+        <div class="svc-head">
           <h2>خدماتنا</h2>
-          <ul class="services">
-            <li><span class="svc-ico" aria-hidden="true">🗒</span><div><b>ملخصات كتب ومقاطع مفيدة</b><span>أهم الأفكار في صفحات قليلة تقرؤها بدقائق.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-pkg="summary">اطلب</button></li>
-            <li><span class="svc-ico" aria-hidden="true">🎒</span><div><b>بحوث ومشاريع وواجبات</b><span>بحث عادي أو مزخرف، بتنسيق مرتب ومراجع.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-pkg="research">اطلب</button></li>
-            <li><span class="svc-ico" aria-hidden="true">📷</span><div><b>تصاميم فيديو أو صورة</b><span>تصاميم لعروضك ومشاريعك وحساباتك.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-service="design">اطلب</button></li>
-            <li><span class="svc-ico" aria-hidden="true">📚</span><div><b>تلخيص كتب حسب الطلب</b><span>اختر الكتاب وطريقة التلخيص التي تناسبك.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-service="book">اطلب</button></li>
-            <li><span class="svc-ico" aria-hidden="true">💡</span><div><b>زبدة الأفكار التي تغير حياتك</b><span>خلاصات مختارة تختصر عليك سنوات من القراءة.</span></div><button class="btn btn-soft btn-sm" data-action="pick" data-service="ideas">اطلب</button></li>
-          </ul>
+          <p>خمس خدمات، وكل واحدة تصلك بخلاصتها.</p>
         </div>
+        <ul class="svc-grid">
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">🗒</span><div><b>ملخصات كتب ومقاطع مفيدة</b><span class="d">أهم الأفكار في صفحات قليلة تقرؤها بدقائق.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="summaries">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">🎒</span><div><b>بحوث ومشاريع وواجبات</b><span class="d">بحوث بتنسيق مرتب ومراجع، ومشاريع وواجبات.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="projects">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">📷</span><div><b>تصاميم فيديو أو صورة</b><span class="d">تصاميم لعروضك ومشاريعك وحساباتك.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="design">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">📚</span><div><b>تلخيص كتب حسب الطلب</b><span class="d">اختر الكتاب وطريقة التلخيص التي تناسبك.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="book">اطلب</button></li>
+          <li class="svc-tile"><span class="svc-ico" aria-hidden="true">💡</span><div><b>زبدة الأفكار التي تغير حياتك</b><span class="d">خلاصات مختارة تختصر عليك سنوات من القراءة.</span></div><button class="btn btn-sm" type="button" data-action="pick" data-service="ideas">اطلب</button></li>
+        </ul>
       </div>
+      <svg class="butter-edge" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 56V30C120 10 240 10 360 30S600 50 720 30 960 10 1080 30 1320 50 1440 30V56Z"/></svg>
+    </section>
 
-      <div class="capacity" aria-live="polite">
+    <div class="wrap">
+      <section class="home-order" id="homeOrder" aria-labelledby="homeOrderTitle">
+        <div class="ho-head">
+          <h2 id="homeOrderTitle">الطلب</h2>
+          <p>اكتب ما تحتاجه، ونرسل لك السعر قبل أن نبدأ.</p>
+        </div>
+        <div class="pkg-cards">
+          <article class="pkg-card lead" style="--d:0ms"><div class="pkg-inner">
+            <span class="pc-ico" aria-hidden="true">💡</span>
+            <h3>طلب مخصص</h3>
+            <p class="pc-rule">السعر حسب الطلب</p>
+            <p class="pc-ex">ملخصات، بحوث ومشاريع، تصاميم، أو زبدة أفكار</p>
+            <button class="btn btn-primary" type="button" data-action="pick">اكتب طلبك</button>
+          </div></article>
+          <article class="pkg-card" style="--d:110ms"><div class="pkg-inner">
+            <span class="pc-ico" aria-hidden="true">📝</span>
+            <h3>اكتب التفاصيل</h3>
+            <p class="pc-rule">الفكرة، عدد الصفحات، وموعد التسليم</p>
+            <p class="pc-ex">كلما وضّحت أكثر، وصلك سعر أدق وأسرع</p>
+          </div></article>
+          <article class="pkg-card" style="--d:220ms"><div class="pkg-inner">
+            <span class="pc-ico" aria-hidden="true">💬</span>
+            <h3>نرسل لك السعر</h3>
+            <p class="pc-rule">في واتساب، قبل أن نبدأ</p>
+            <p class="pc-ex">توافق، ثم ننفّذ ونسلّمك في الموعد</p>
+          </div></article>
+        </div>
+        <div class="ho-foot"><a class="btn btn-ghost" href="#order">افتح صفحة الطلب والسلة</a></div>
+      </section>
+
+      <div class="capacity lazy-section">
         <p class="capacity-text">نستقبل 15 طلب كحد أقصى يومياً لضمان الجودة</p>
-        <div>
-          <div class="meter" id="meterBig" aria-hidden="true"></div>
-          <p class="meter-label" id="meterBigLabel"></p>
-        </div>
+        <p class="capacity-note">إذا اكتمل العدد نخبرك في واتساب بأقرب موعد متاح، وتبقى سلتك محفوظة.</p>
       </div>
 
-      <div class="about-grid">
+      <div class="about-grid lazy-section">
         <div class="panel" id="pricing">
-          <h2>كيف نحسب السعر</h2>
+          <h2>كيف نحدد السعر</h2>
           <table class="price-table">
-            <tr><td>ملخص كتاب<small>12 ورقة تُحسب 3 دفعات، أي 6 ريال</small></td><td>كل 5 أوراق بـ 2 ريال</td></tr>
-            <tr><td>بحث عادي<small>10 أوراق تُحسب 4 دفعات، أي 4 ريال</small></td><td>كل 3 أوراق بـ 1 ريال</td></tr>
-            <tr><td>بحث مزخرف<small>10 أوراق، أي 10 ريال</small></td><td>كل ورقة بـ 1 ريال</td></tr>
-            <tr><td>طلب مخصص<small>نرسل لك السعر بعد مراجعة الطلب</small></td><td>حسب الطلب</td></tr>
+            <tr><td>نوع الخدمة<small>ملخص، بحث، مشروع، تصميم، أو زبدة أفكار</small></td><td>حسب الطلب</td></tr>
+            <tr><td>حجم العمل<small>عدد الصفحات أو الشرائح أو مدة المقطع</small></td><td>حسب الطلب</td></tr>
+            <tr><td>موعد التسليم<small>الطلبات المستعجلة تحتاج وقتاً أكبر منا</small></td><td>حسب الطلب</td></tr>
           </table>
-          <p class="hint" style="margin-top:12px">الأوراق المتبقية التي لا تكمل دفعة تُحسب دفعة كاملة.</p>
+          <p class="hint" style="margin-top:12px">نرسل لك السعر النهائي في واتساب، ولا نبدأ قبل موافقتك.</p>
         </div>
         <div class="panel">
           <h2>كيف يعمل الطلب</h2>
           <ol class="steps">
-            <li><b>جهّز سلتك</b><span>اختر الباقة وعدد الأوراق، والسعر يظهر فوراً.</span></li>
+            <li><b>اكتب طلبك</b><span>اختر الخدمة واكتب التفاصيل، ثم أضفها إلى السلة.</span></li>
             <li><b>عاين وأرسل</b><span>يصلنا طلبك عبر واتساب مع كود فريد.</span></li>
-            <li><b>نؤكد طلبك</b><span>نراجع ونرسل لك كود التفعيل.</span></li>
-            <li><b>فعّل نقاطك</b><span>أدخل الكود في صفحة نقاطي واستبدلها بخصم.</span></li>
+            <li><b>نرسل لك السعر</b><span>نراجع طلبك ونخبرك بالسعر قبل أن نبدأ.</span></li>
+            <li><b>استلم واكسب نقاطاً</b><span>بعد التسليم يصلك رابط يضيف نقاطك بضغطة.</span></li>
           </ol>
         </div>
       </div>
@@ -740,96 +866,22 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <div class="wrap">
       <div class="view-head">
         <h1 id="orderTitle">الطلب</h1>
-        <p>أضف ما تحتاجه إلى السلة، ثم عاين طلبك وأرسله عبر واتساب.</p>
+        <p>اختر الخدمة واكتب تفاصيل طلبك، ونرسل لك السعر في واتساب.</p>
       </div>
       <div class="cap-mini" id="capMini"></div>
 
       <div class="order-layout">
         <div class="order-main">
           <div class="panel">
-            <div class="tabs" role="tablist" aria-label="نوع الطلب">
-              <button class="tab" role="tab" id="tab-pkg" aria-controls="pane-pkg" aria-selected="true" data-tab="pkg">طلب باقة</button>
-              <button class="tab" role="tab" id="tab-custom" aria-controls="pane-custom" aria-selected="false" tabindex="-1" data-tab="custom">طلب مخصص</button>
+            <div class="panel-title"><h3>طلب مخصص</h3></div>
+            <div class="choices" role="radiogroup" aria-label="نوع الخدمة" id="svcChoices"></div>
+            <div class="field">
+              <label for="cDesc">تفاصيل الطلب</label>
+              <textarea id="cDesc" maxlength="800" placeholder="اكتب المطلوب بالتفصيل: الفكرة، عدد الصفحات، المقاسات، موعد التسليم المناسب لك"></textarea>
+              <p class="err" id="cDescErr" hidden></p>
             </div>
-
-            <!-- طلب باقة -->
-            <div role="tabpanel" id="pane-pkg" aria-labelledby="tab-pkg">
-              <div class="choices three" role="radiogroup" aria-label="اختر الباقة">
-                <label class="choice on"><input type="radio" name="pkg" value="summary" checked><span class="ci" aria-hidden="true">🗒</span><span><b>ملخص كتاب</b><small>كل 5 أوراق بـ 2 ريال</small></span></label>
-                <label class="choice"><input type="radio" name="pkg" value="research"><span class="ci" aria-hidden="true">🎒</span><span><b>إنشاء بحث</b><small>عادي أو مزخرف، من 1 ريال</small></span></label>
-                <label class="choice"><input type="radio" name="pkg" value="custom"><span class="ci" aria-hidden="true">💡</span><span><b>طلب مخصص</b><small>السعر حسب الطلب</small></span></label>
-              </div>
-
-              <!-- ملخص كتاب -->
-              <div id="cfg-summary">
-                <div class="field">
-                  <label for="sTitle">اسم الكتاب أو رابط المقطع <span class="opt">(اختياري)</span></label>
-                  <input id="sTitle" type="text" maxlength="120" autocomplete="off" placeholder="مثال: العادات الذرية">
-                </div>
-                <div class="row2">
-                  <div class="field">
-                    <label for="sPages">عدد الأوراق</label>
-                    <div class="stepper"><button type="button" data-step="-1" data-for="sPages" aria-label="إنقاص الأوراق">−</button><input id="sPages" type="number" inputmode="numeric" min="1" max="2000" value="5"><button type="button" data-step="1" data-for="sPages" aria-label="زيادة الأوراق">+</button></div>
-                  </div>
-                  <div class="field">
-                    <label for="sQty">الكمية</label>
-                    <div class="stepper"><button type="button" data-step="-1" data-for="sQty" aria-label="إنقاص الكمية">−</button><input id="sQty" type="number" inputmode="numeric" min="1" max="50" value="1"><button type="button" data-step="1" data-for="sQty" aria-label="زيادة الكمية">+</button></div>
-                  </div>
-                </div>
-                <div class="price-box" id="sPrice" aria-live="polite"></div>
-                <button class="btn btn-primary btn-block" type="button" data-action="add" data-kind="summary">أضف إلى السلة</button>
-              </div>
-
-              <!-- إنشاء بحث -->
-              <div id="cfg-research" hidden>
-                <div class="field">
-                  <span class="label" id="rTypeLbl">نوع البحث</span>
-                  <div class="seg" role="radiogroup" aria-labelledby="rTypeLbl">
-                    <label><input type="radio" name="rType" value="research_plain" checked><span>عادي: كل 3 أوراق بـ 1 ريال</span></label>
-                    <label><input type="radio" name="rType" value="research_fancy"><span>مزخرف: كل ورقة بـ 1 ريال</span></label>
-                  </div>
-                </div>
-                <div class="field">
-                  <label for="rTitle">عنوان البحث أو المادة <span class="opt">(اختياري)</span></label>
-                  <input id="rTitle" type="text" maxlength="120" autocomplete="off" placeholder="مثال: أثر التقنية على التعليم">
-                </div>
-                <div class="row2">
-                  <div class="field">
-                    <label for="rPages">عدد الأوراق</label>
-                    <div class="stepper"><button type="button" data-step="-1" data-for="rPages" aria-label="إنقاص الأوراق">−</button><input id="rPages" type="number" inputmode="numeric" min="1" max="2000" value="3"><button type="button" data-step="1" data-for="rPages" aria-label="زيادة الأوراق">+</button></div>
-                  </div>
-                  <div class="field">
-                    <label for="rQty">الكمية</label>
-                    <div class="stepper"><button type="button" data-step="-1" data-for="rQty" aria-label="إنقاص الكمية">−</button><input id="rQty" type="number" inputmode="numeric" min="1" max="50" value="1"><button type="button" data-step="1" data-for="rQty" aria-label="زيادة الكمية">+</button></div>
-                  </div>
-                </div>
-                <div class="price-box" id="rPrice" aria-live="polite"></div>
-                <button class="btn btn-primary btn-block" type="button" data-action="add" data-kind="research">أضف إلى السلة</button>
-              </div>
-
-              <!-- طلب مخصص ضمن الباقات -->
-              <div id="cfg-custom" hidden>
-                <div class="field">
-                  <label for="pDesc">صف ما تحتاجه</label>
-                  <textarea id="pDesc" maxlength="600" placeholder="مثال: عرض تقديمي من 10 شرائح عن الطاقة المتجددة"></textarea>
-                  <p class="err" id="pDescErr" hidden></p>
-                </div>
-                <div class="price-box"><strong>حسب الطلب</strong><span>نراجع طلبك ونرسل لك السعر عبر واتساب. لا يدخل في الإجمالي حتى نحدده.</span></div>
-                <button class="btn btn-primary btn-block" type="button" data-action="add" data-kind="custom-pkg">أضف إلى السلة</button>
-              </div>
-            </div>
-
-            <!-- طلب مخصص -->
-            <div role="tabpanel" id="pane-custom" aria-labelledby="tab-custom" hidden>
-              <div class="choices" role="radiogroup" aria-label="نوع الخدمة" id="svcChoices"></div>
-              <div class="field">
-                <label for="cDesc">تفاصيل الطلب</label>
-                <textarea id="cDesc" maxlength="800" placeholder="اكتب المطلوب بالتفصيل: الفكرة، المقاسات، عدد الصفحات، موعد التسليم المناسب لك"></textarea>
-                <p class="err" id="cDescErr" hidden></p>
-              </div>
-              <div class="price-box"><strong>حسب الطلب</strong><span>نرسل لك السعر بعد المراجعة، ولا يُضاف إلى إجمالي الباقات المسعّرة.</span></div>
-              <button class="btn btn-primary btn-block" type="button" data-action="add" data-kind="custom">أضف إلى السلة</button>
-            </div>
+            <div class="price-box"><strong>السعر حسب الطلب</strong><span>نراجع طلبك ونرسل لك السعر عبر واتساب قبل أن نبدأ.</span></div>
+            <button class="btn btn-primary btn-block" type="button" data-action="add">أضف إلى السلة</button>
           </div>
 
           <!-- بيانات الطلب -->
@@ -897,7 +949,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <div class="wrap">
       <div class="view-head">
         <h1 id="pointsTitle">نقاطي</h1>
-        <p>اكسب 10 نقاط عن كل ريال، وفعّلها بكود التأكيد، ثم استبدلها بكوبونات خصم.</p>
+        <p>10 نقاط عن كل ريال تدفعه. تُضاف بعد تسليم الطلب عبر رابط تأكيد يصلك في واتساب، ثم تستبدلها بخصم.</p>
       </div>
       <div id="pointsBody"></div>
     </div>
@@ -918,24 +970,24 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
       <div class="faq" id="faqList">
         <div class="faq-group">
           <h2>الطلب والأسعار</h2>
-          <details><summary>كيف يُحسب سعر ملخص الكتاب؟</summary><p>كل 5 أوراق بـ 2 ريال. إذا كان عدد الأوراق لا يقبل القسمة على 5 تُحسب الأوراق المتبقية دفعة كاملة، فمثلاً 12 ورقة تساوي 3 دفعات أي 6 ريال.</p></details>
-          <details><summary>ما الفرق بين البحث العادي والمزخرف؟</summary><p>البحث العادي بتنسيق مرتب وواضح، وسعره كل 3 أوراق بـ 1 ريال. البحث المزخرف بإطارات وتصميم بصري للصفحات، وسعره كل ورقة بـ 1 ريال.</p></details>
-          <details><summary>كيف أعرف سعر الطلب المخصص؟</summary><p>نراجع وصفك ونرسل لك السعر عبر واتساب. يظهر الطلب المخصص في السلة بعبارة "حسب الطلب" ولا يدخل في إجمالي الباقات المسعّرة.</p></details>
-          <details><summary>هل يمكنني طلب أكثر من خدمة في طلب واحد؟</summary><p>نعم، أضف ما تريد إلى السلة، وعدّل الكمية أو احذف أي صنف قبل المعاينة. الإجمالي يُحسب تلقائياً.</p></details>
-          <details><summary>لماذا تستقبلون 15 طلباً فقط في اليوم؟</summary><p>لنعطي كل طلب وقته ونضمن جودته. إذا اكتمل العدد تبقى سلتك محفوظة ويمكنك إرسالها في اليوم التالي.</p></details>
+          <details><summary>كيف أعرف سعر طلبي؟</summary><p>السعر حسب الطلب. نراجع وصفك ونرسل لك السعر عبر واتساب، ولا نبدأ التنفيذ قبل موافقتك.</p></details>
+          <details><summary>ما الذي يحدد السعر؟</summary><p>نوع الخدمة، وحجم العمل مثل عدد الصفحات أو الشرائح، وموعد التسليم. كلما كتبت تفاصيل أوضح وصلك السعر أسرع.</p></details>
+          <details><summary>هل يمكنني طلب أكثر من خدمة في طلب واحد؟</summary><p>نعم، أضف كل خدمة إلى السلة بتفاصيلها، واحذف ما لا تريده قبل المعاينة. نرسل لك سعر الطلب كاملاً.</p></details>
+          <details><summary>لماذا تستقبلون 15 طلباً فقط في اليوم؟</summary><p>لنعطي كل طلب وقته ونضمن جودته. إذا اكتمل العدد نخبرك في واتساب بأقرب موعد متاح، وتبقى سلتك محفوظة.</p></details>
         </div>
         <div class="faq-group">
           <h2>الإرسال والملفات</h2>
           <details><summary>كيف يصلكم طلبي؟</summary><p>بعد المعاينة نفتح لك واتساب برسالة جاهزة فيها كود الطلب والأصناف والسعر وبياناتك. أرسل الرسالة كما هي.</p></details>
           <details><summary>كيف أرسل ملف PDF؟</summary><p>اختر الملف في نموذج الطلب ليظهر اسمه وحجمه في الرسالة، ثم أرفق الملف نفسه يدوياً في محادثة واتساب بعد فتحها.</p></details>
           <details><summary>هل تضيع بياناتي إذا أغلقت الصفحة؟</summary><p>لا. نحفظ السلة ومسودة النموذج تلقائياً على جهازك، وتجدها كما تركتها عند عودتك.</p></details>
-          <details><summary>كيف أتابع حالة طلبي؟</summary><p>من صفحة طلباتي، حيث يمر كل طلب بأربع مراحل: استلام، مراجعة، تنفيذ، تسليم.</p></details>
+          <details><summary>أين تُحفظ بياناتي؟</summary><p>على جهازك فقط. لا نرسل بياناتك إلى أي خادم، وتصلنا فقط عبر رسالة واتساب التي ترسلها بنفسك.</p></details>
+          <details><summary>كيف أتابع حالة طلبي؟</summary><p>من صفحة طلباتي، حيث يمر كل طلب بأربع مراحل: استلام، مراجعة، تنفيذ، تسليم. نرسل لك رابطاً في واتساب عند كل مرحلة، فتتحدث الحالة بضغطة.</p></details>
         </div>
         <div class="faq-group">
           <h2>النقاط والكوبونات</h2>
-          <details><summary>كيف أكسب النقاط؟</summary><p>تحصل على 50 نقطة ترحيبية عند تسجيلك لأول مرة، و10 نقاط عن كل ريال في طلباتك، و20 نقطة عن كل صنف مخصص.</p></details>
-          <details><summary>لماذا نقاط طلبي معلّقة؟</summary><p>نقاط الطلب تبقى معلّقة حتى نؤكد الطلب، ثم نرسل لك كود التفعيل. أدخله في صفحة نقاطي لتنتقل النقاط إلى رصيدك المؤكد.</p></details>
-          <details><summary>كيف أستبدل نقاطي؟</summary><p>من صفحة نقاطي اختر قيمة الخصم، فيظهر لك كوبون تنسخه أو تطبقه مباشرة على طلبك القادم. كل كوبون يُستخدم مرة واحدة.</p></details>
+          <details><summary>كيف أكسب النقاط؟</summary><p>10 نقاط عن كل ريال تدفعه بعد أن نتفق على السعر، و50 نقطة ترحيبية تُضاف مع أول طلب مكتمل.</p></details>
+          <details><summary>متى تُضاف نقاط طلبي؟</summary><p>بعد تسليم الطلب والدفع نرسل لك رابط تأكيد في واتساب. اضغطه وأنت مسجّل برقمك فتُضاف النقاط فوراً. إرسال الطلب وحده لا يضيف نقاطاً، والرابط موقّع رقمياً فلا يمكن تزويره.</p></details>
+          <details><summary>كيف أستبدل نقاطي؟</summary><p>من صفحة نقاطي اختر قيمة الخصم، فيظهر لك كوبون تطبقه على طلبك القادم ويُخصم من سعره النهائي. نتحقق من رصيدك قبل اعتماد الخصم، وكل كوبون يُستخدم مرة واحدة.</p></details>
           <details><summary>هل أحتاج كلمة مرور؟</summary><p>لا. يكفي الاسم ورقم الجوال، ويبقى دخولك محفوظاً على هذا الجهاز حتى تسجّل الخروج.</p></details>
         </div>
         <div class="empty" id="faqEmpty" hidden><h3>لا توجد نتائج</h3><p>جرّب كلمة أخرى مثل: سعر، نقاط، ملف.</p></div>
@@ -943,20 +995,10 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     </div>
   </section>
 
-  <!-- ===================== لوحة المالك ===================== -->
-  <section class="view" id="view-owner" data-view="owner" tabindex="-1" hidden aria-labelledby="ownerTitle">
-    <div class="wrap">
-      <div class="view-head">
-        <h1 id="ownerTitle">لوحة المالك</h1>
-        <p>استعرض الطلبات، حدّث حالتها، وأرسل أكواد التفعيل للعملاء.</p>
-      </div>
-      <div id="ownerBody"></div>
-    </div>
-  </section>
 </main>
 
 <div class="cart-bar" id="cartBar" hidden>
-  <div class="info"><b id="cartBarTotal">0 ريال</b><span id="cartBarCount">0 صنف</span></div>
+  <div class="info"><b id="cartBarTotal">السعر حسب الطلب</b><span id="cartBarCount">0 صنف</span></div>
   <button class="btn btn-sm" type="button" data-action="go-cart">عرض السلة</button>
 </div>
 
@@ -975,7 +1017,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
       <p class="muted small" id="loginIntro">بدون كلمة مرور. اسمك ورقم جوالك يكفيان، ونحفظ دخولك على هذا الجهاز.</p>
       <div class="field"><label for="lName">الاسم</label><input id="lName" type="text" autocomplete="name" maxlength="60" required><p class="err" hidden></p></div>
       <div class="field"><label for="lPhone">رقم الجوال</label><input id="lPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="05XXXXXXXX" required><p class="err" hidden></p></div>
-      <div class="note-box ok">أول تسجيل يمنحك 50 نقطة ترحيبية مؤكدة.</div>
+      <div class="note-box ok">أول تسجيل يمنحك 50 نقطة ترحيبية تُضاف مع أول طلب مكتمل.</div>
     </div>
     <div class="dlg-foot"><button class="btn btn-primary" type="submit">تسجيل الدخول</button><button class="btn btn-ghost" type="button" data-close>إلغاء</button></div>
   </form>
@@ -1025,27 +1067,25 @@ self.addEventListener('fetch', e => {
 /* =========================================================
    1) الإعدادات
    ========================================================= */
+function readPointsKey() {
+  const m = document.querySelector('meta[name="kf-points-key"]');
+  const parts = ((m && m.content) || '').trim().split('.');
+  return parts.length === 2 && parts.every(v => /^[A-Za-z0-9_-]{43}$/.test(v)) ? { x: parts[0], y: parts[1] } : null;
+}
 const CONFIG = {
   WHATSAPP: '966553143099',
   DAILY_LIMIT: 15,
   WELCOME_POINTS: 50,
   POINTS_PER_RIYAL: 10,
-  CUSTOM_ITEM_POINTS: 20,
-  DEFAULT_PIN: '1234',
-  ACTIVATION_SALT: 'kholasat-alfikra|activation|v1', // يجعل كود التفعيل مشتقاً من كود الطلب
+  /* المفتاح العام لروابط تأكيد النقاط (ECDSA P-256) يُقرأ من وسم kf-points-key أعلى الصفحة.
+     المفتاح الخاص يبقى عند صاحب المشروع فقط. القيمة الفارغة تعني أن التأكيد غير مفعّل بعد. */
+  POINTS_PUBLIC_KEY: readPointsKey(),
   SW_FILE: null,                                      // ضع 'sw.js' عند توفر الملف على HTTPS
   REWARDS: [
     { points: 100, value: 2 },
     { points: 250, value: 6 },
     { points: 500, value: 15 }
   ]
-};
-
-/* قواعد التسعير: كل (per) ورقة بـ (price) ريال */
-const PRICING = {
-  summary:        { label: 'ملخص كتاب',  per: 5, price: 2 },
-  research_plain: { label: 'بحث عادي',   per: 3, price: 1 },
-  research_fancy: { label: 'بحث مزخرف',  per: 1, price: 1 }
 };
 
 /* خدمات الطلب المخصص */
@@ -1061,7 +1101,7 @@ const STAGES = ['استلام', 'مراجعة', 'تنفيذ', 'تسليم'];
 
 const K = {
   theme: 'kf.theme', users: 'kf.users', session: 'kf.session', orders: 'kf.orders',
-  cart: 'kf.cart', draft: 'kf.draft', pin: 'kf.pin', owner: 'kf.owner'
+  cart: 'kf.cart', draft: 'kf.draft'
 };
 
 /* =========================================================
@@ -1070,18 +1110,27 @@ const K = {
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-/* تخزين آمن: لا يتعطل الموقع إذا كان التخزين محظوراً */
+/* تخزين آمن: إذا منع المتصفح أو نافذة المعاينة الحفظ، نحتفظ بالبيانات في الذاكرة
+   فيبقى الدخول والسلة يعملان ما دامت الصفحة مفتوحة */
+const memStore = Object.create(null);
+let storageOK = true;
 const store = {
-  get(k, fb) { try { const v = localStorage.getItem(k); return v == null ? fb : JSON.parse(v); } catch (e) { return fb; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } },
-  del(k) { try { localStorage.removeItem(k); } catch (e) { /* تجاهل */ } }
+  get(k, fb) {
+    try {
+      if (k in memStore) return JSON.parse(memStore[k]);
+      const v = localStorage.getItem(k);
+      return v == null ? fb : JSON.parse(v);
+    } catch (e) { return fb; }
+  },
+  set(k, v) {
+    const raw = JSON.stringify(v);
+    try { localStorage.setItem(k, raw); delete memStore[k]; return true; }
+    catch (e) { storageOK = false; memStore[k] = raw; return false; }
+  },
+  del(k) { delete memStore[k]; try { localStorage.removeItem(k); } catch (e) { /* تجاهل */ } }
 };
-const session = {
-  get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
-  set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* تجاهل */ } },
-  del(k) { try { sessionStorage.removeItem(k); } catch (e) { /* تجاهل */ } }
-};
-
+try { localStorage.setItem('kf.probe', '1'); localStorage.removeItem('kf.probe'); } catch (e) { storageOK = false; }
+const NO_STORAGE_MSG = 'هذه النافذة لا تسمح بحفظ البيانات، فسيبقى دخولك حتى تغلق الصفحة. افتح الموقع من رابطه في Safari أو Chrome ليُحفظ دائماً.';
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
@@ -1120,28 +1169,6 @@ function randCode(n) {
   return Array.from(a, x => ALPH[x % ALPH.length]).join('');
 }
 const uid = () => Date.now().toString(36) + randCode(4);
-function fnv(str, seed) {
-  let h = seed >>> 0;
-  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
-  return h >>> 0;
-}
-function normCode(s) {
-  let c = toLatinDigits(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (c.startsWith('KF') && c.length === 7) c = 'KF-' + c.slice(2);
-  else if (c.length === 5) c = 'KF-' + c;
-  return c;
-}
-/* كود التفعيل: مشتق من كود الطلب وسرّ ثابت، فيستطيع المالك توليده من أي جهاز */
-function activationCode(orderCode) {
-  const s = normCode(orderCode) + '|' + CONFIG.ACTIVATION_SALT;
-  const h1 = fnv(s, 2166136261), h2 = fnv(s.split('').reverse().join(''), 3339675911);
-  let out = '';
-  for (let i = 0; i < 3; i++) out += ALPH[(h1 >>> (i * 8)) % ALPH.length];
-  for (let i = 0; i < 3; i++) out += ALPH[(h2 >>> (i * 8)) % ALPH.length];
-  return out;
-}
-const pinHash = pin => fnv(String(pin) + '|pin|' + CONFIG.ACTIVATION_SALT, 2166136261).toString(36);
-
 function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
 /* صيغة عدد الأوراق بالعربية */
 function pagesTxt(n) {
@@ -1216,11 +1243,29 @@ function updateUser(phone, fn) {
 }
 function balances(u) {
   let confirmed = 0, pending = 0;
-  (u && u.ledger || []).forEach(e => {
+  if (!u) return { confirmed, pending };
+  (u.ledger || []).forEach(e => {
     if (e.status === 'confirmed') confirmed += e.points;
     else if (e.status === 'pending') pending += e.points;
   });
   return { confirmed, pending };
+}
+/* ترحيل بيانات الإصدارات السابقة: النقاط المعلّقة القديمة لم تعد صالحة،
+   والترحيبية تُعلَّق حتى أول طلب مكتمل */
+function migrateData() {
+  const users = getUsers();
+  let changed = false;
+  Object.values(users).forEach(u => {
+    if (!u || !Array.isArray(u.ledger)) return;
+    const before = u.ledger.length;
+    u.ledger = u.ledger.filter(e => !(e.type === 'order'));
+    const hasVoucher = u.ledger.some(e => e.type === 'voucher');
+    u.ledger.forEach(e => {
+      if (e.type === 'welcome' && !hasVoucher && e.status !== 'pending') { e.status = 'pending'; e.label = 'نقاط ترحيبية (تُضاف مع أول طلب مكتمل)'; changed = true; }
+    });
+    if (u.ledger.length !== before) changed = true;
+  });
+  if (changed) saveUsers(users);
 }
 const todayCount = () => getOrders().filter(o => isToday(o.createdAt)).length;
 
@@ -1229,31 +1274,23 @@ const state = {
   cart: store.get(K.cart, []),
   pdf: null,                 // { name, size }
   coupon: null,              // كود الكوبون المطبق
-  pkg: 'summary',
-  service: 'design',
+  service: 'summaries',
   pendingCode: null,         // كود الطلب أثناء المعاينة
-  afterLogin: null,
-  ownerTries: 0, ownerLockUntil: 0
+  afterLogin: null
 };
 if (!Array.isArray(state.cart)) state.cart = [];
+// الطلب صار مخصصاً فقط: نُسقط أصناف الباقات القديمة من السلة
+state.cart = state.cart.filter(it => it && it.kind === 'custom');
 
 /* =========================================================
    4) التسعير والسلة
    ========================================================= */
-function calc(kind, pages) {
-  const r = PRICING[kind];
-  const batches = Math.ceil(pages / r.per);
-  return { batches, unit: batches * r.price, rule: r };
-}
-function lineTotal(it) { return it.kind in PRICING ? calc(it.kind, it.pages).unit * it.qty : null; }
 function itemTitle(it) {
-  if (it.kind === 'custom') return 'طلب مخصص: ' + it.service;
-  return PRICING[it.kind].label;
+  return it.kind === 'custom' ? 'طلب مخصص: ' + it.service : 'طلب سابق';
 }
 function itemDetail(it) {
   const parts = [];
   if (it.title) parts.push('"' + it.title + '"');
-  if (it.kind in PRICING) parts.push(pagesTxt(it.pages));
   if (it.desc) parts.push(it.desc);
   return parts.join('، ');
 }
@@ -1269,17 +1306,8 @@ function appliedCoupon() {
   return (u.coupons || []).find(c => c.code === state.coupon && !c.usedAt) || null;
 }
 function cartTotals() {
-  let subtotal = 0, customCount = 0, units = 0;
-  state.cart.forEach(it => {
-    const lt = lineTotal(it);
-    units += it.qty;
-    if (lt == null) customCount += it.qty; else subtotal += lt;
-  });
   const c = appliedCoupon();
-  const discount = c ? Math.min(c.value, subtotal) : 0;
-  const total = subtotal - discount;
-  const points = Math.floor(total) * CONFIG.POINTS_PER_RIYAL + customCount * CONFIG.CUSTOM_ITEM_POINTS;
-  return { subtotal, customCount, discount, total, coupon: c, units, points };
+  return { count: state.cart.length, coupon: c, discount: c ? c.value : 0 };
 }
 function saveCart() { store.set(K.cart, state.cart); }
 
@@ -1292,30 +1320,15 @@ function addToCart(item) {
   toast('أُضيف إلى السلة: ' + itemTitle(item), 'ok');
 }
 
-function priceHTML(kind, pages, qty) {
-  const { batches, unit, rule } = calc(kind, pages);
-  const how = rule.per === 1
-    ? `${pagesTxt(pages)} × ${rule.price} ريال`
-    : `${pagesTxt(pages)} = ${batches} ${batches === 1 ? 'دفعة' : 'دفعات'} × ${rule.price} ريال`;
-  return `<strong>${money(unit * qty)}</strong><span>${how}${qty > 1 ? '، والكمية ' + qty : ''}${rule.per > 1 && pages % rule.per ? '. الأوراق المتبقية تُحسب دفعة كاملة' : ''}</span>`;
-}
-function updatePrices() {
-  const sp = clampInt($('#sPages').value, 1, 2000, 1), sq = clampInt($('#sQty').value, 1, 50, 1);
-  $('#sPrice').innerHTML = priceHTML('summary', sp, sq);
-  const rk = $('input[name="rType"]:checked').value;
-  const rp = clampInt($('#rPages').value, 1, 2000, 1), rq = clampInt($('#rQty').value, 1, 50, 1);
-  $('#rPrice').innerHTML = priceHTML(rk, rp, rq);
-}
-
 function renderCart(flashId) {
   const t = cartTotals();
-  const n = state.cart.length;
+  const n = t.count;
   $('#cartCount').textContent = n + ' ' + (n === 1 ? 'صنف' : 'أصناف');
   const badge = $('#cartBadge');
-  badge.hidden = t.units === 0;
-  badge.textContent = t.units;
-  $('#navCart').textContent = t.units ? t.units : '';
-  $('#cartBarTotal').textContent = money(t.total) + (t.customCount ? ' + حسب الطلب' : '');
+  badge.hidden = n === 0;
+  badge.textContent = n;
+  $('#navCart').textContent = n ? n : '';
+  $('#cartBarTotal').textContent = 'السعر حسب الطلب';
   $('#cartBarCount').textContent = n + ' ' + (n === 1 ? 'صنف في السلة' : 'أصناف في السلة');
   updateCartBar();
 
@@ -1323,41 +1336,33 @@ function renderCart(flashId) {
   if (!n) {
     body.innerHTML = `<div class="empty" style="padding:20px 8px">
       <svg class="empty-art" viewBox="0 0 96 96" fill="none" aria-hidden="true"><rect x="22" y="14" width="52" height="68" rx="8" stroke="currentColor" stroke-width="2.5"/><path d="M32 32h32M32 42h32M32 52h18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity=".35"/><rect x="30" y="60" width="36" height="10" rx="3" fill="var(--butter)"/></svg>
-      <h3>السلة فارغة</h3><p>اختر باقة أو اكتب طلباً مخصصاً ثم اضغط "أضف إلى السلة".</p></div>`;
+      <h3>السلة فارغة</h3><p>اختر الخدمة واكتب تفاصيل طلبك، ثم اضغط "أضف إلى السلة".</p></div>`;
     return;
   }
-  const rows = state.cart.map(it => {
-    const lt = lineTotal(it);
-    const custom = lt == null;
-    return `<li class="cart-item${it.id === flashId ? ' cart-new' : ''}" data-id="${it.id}">
+  const rows = state.cart.map(it => `<li class="cart-item${it.id === flashId ? ' cart-new' : ''}" data-id="${it.id}">
       <span class="t">${esc(itemTitle(it))}</span>
-      <span class="lp">${custom ? '<span class="chip warn">حسب الطلب</span>' : money(lt)}</span>
+      <span class="lp"><span class="chip warn">حسب الطلب</span></span>
       ${itemDetail(it) ? `<span class="d">${esc(itemDetail(it))}</span>` : ''}
       <div class="ctl">
-        ${custom ? '' : `<div class="stepper sm"><button type="button" data-action="qty" data-d="-1" aria-label="إنقاص الكمية">−</button><input type="number" inputmode="numeric" min="1" max="50" value="${it.qty}" data-action="qty-input" aria-label="الكمية"><button type="button" data-action="qty" data-d="1" aria-label="زيادة الكمية">+</button></div>
-        <span class="small muted">${money(calc(it.kind, it.pages).unit)} للنسخة</span>`}
         <button class="btn btn-danger btn-sm del" type="button" data-action="del" aria-label="حذف ${esc(itemTitle(it))}">${icon('i-trash')}<span>حذف</span></button>
       </div>
-    </li>`;
-  }).join('');
+    </li>`).join('');
 
   const u = currentUser();
   const couponUI = u
     ? (t.coupon
-      ? `<div class="note-box ok">طُبّق الكوبون ${esc(t.coupon.code)} بخصم ${money(t.coupon.value)}. <button class="btn btn-sm btn-ghost" type="button" data-action="coupon-remove" style="min-height:30px;margin-inline-start:6px">إزالة</button></div>`
+      ? `<div class="note-box ok">طُبّق الكوبون ${esc(t.coupon.code)}: خصم ${money(t.coupon.value)} من السعر النهائي. <button class="btn btn-sm btn-ghost" type="button" data-action="coupon-remove" style="min-height:30px;margin-inline-start:6px">إزالة</button></div>`
       : `<div class="coupon-row"><label for="couponIn" class="sr-only">كود الكوبون</label><input id="couponIn" class="input code-input" placeholder="كود الكوبون" autocomplete="off"><button class="btn btn-soft" type="button" data-action="coupon-apply">تطبيق</button></div>`)
     : `<p class="hint" style="margin-top:12px">لديك كوبون؟ <button class="btn btn-sm btn-ghost" type="button" data-action="auth" style="min-height:30px">سجّل دخولك</button> لتطبيقه.</p>`;
 
   body.innerHTML = `<ul class="cart-list">${rows}</ul>
     <div class="totals">
-      <div class="r"><span>مجموع الأصناف المسعّرة</span><span>${money(t.subtotal)}</span></div>
       ${t.discount ? `<div class="r disc"><span>خصم الكوبون</span><span>− ${money(t.discount)}</span></div>` : ''}
-      <div class="r big"><span>الإجمالي</span><span>${money(t.total)}</span></div>
-      ${t.customCount ? `<div class="r"><span>أصناف مخصصة</span><span>${t.customCount} بسعر يُحدد لاحقاً</span></div>` : ''}
-      <div class="r muted"><span>نقاط هذا الطلب</span><span>${t.points} نقطة معلّقة</span></div>
+      <div class="r big"><span>السعر</span><span>حسب الطلب</span></div>
+      <div class="r muted"><span>نرسله لك في واتساب</span><span>قبل أن نبدأ</span></div>
+      <div class="r muted"><span>النقاط</span><span>${CONFIG.POINTS_PER_RIYAL} عن كل ريال بعد التسليم</span></div>
     </div>
-    ${couponUI}
-    ${t.coupon && t.subtotal < t.coupon.value ? '<div class="note-box">الخصم يُطبّق على الأصناف المسعّرة فقط، لذلك اقتصر على مجموعها.</div>' : ''}`;
+    ${couponUI}`;
 }
 function bumpBadge() {
   const b = $('#cartBadge');
@@ -1375,12 +1380,11 @@ function updateCartBar() {
    5) السعة اليومية
    ========================================================= */
 function renderCapacity() {
-  const used = Math.min(todayCount(), CONFIG.DAILY_LIMIT);
-  const left = CONFIG.DAILY_LIMIT - used;
-  const segs = Array.from({ length: CONFIG.DAILY_LIMIT }, (_, i) => `<i class="${i < used ? 'used' : ''}"></i>`).join('');
-  $('#meterBig').innerHTML = segs;
-  $('#meterBigLabel').textContent = left ? `متاح اليوم ${left} من ${CONFIG.DAILY_LIMIT} طلباً` : 'اكتمل عدد طلبات اليوم، ونستقبل طلبك غداً';
-  $('#capMini').innerHTML = `<div class="meter" aria-hidden="true">${segs}</div><span>${left ? `متاح اليوم <b>${left}</b> من ${CONFIG.DAILY_LIMIT} طلباً` : '<b>اكتمل عدد طلبات اليوم.</b> سلتك محفوظة لإرسالها غداً'}</span>`;
+  const box = $('#capMini');
+  if (!box) return;
+  const full = todayCount() >= CONFIG.DAILY_LIMIT;
+  box.hidden = !full;
+  box.innerHTML = full ? `<span><b>أرسلت ${CONFIG.DAILY_LIMIT} طلباً اليوم من هذا الجهاز.</b> سلتك محفوظة، ويمكنك الإرسال غداً.</span>` : '';
 }
 
 /* =========================================================
@@ -1389,7 +1393,7 @@ function renderCapacity() {
 function setTheme(t, persist = true) {
   document.documentElement.setAttribute('data-theme', t);
   if (persist) store.set(K.theme, t);
-  $('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#0D1722' : '#142538');
+  $('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#0D1722' : '#FFFFFF');
   $('#themeBtn').setAttribute('aria-label', t === 'dark' ? 'التبديل إلى الوضع النهاري' : 'التبديل إلى الوضع الليلي');
 }
 
@@ -1403,16 +1407,26 @@ function makeIcon(size) {
     const x = c.getContext('2d');
     if (!x) return null;
     const r = size * .22;
-    x.fillStyle = '#142538';
+    x.fillStyle = '#F3F5F8';
     x.beginPath();
     x.moveTo(r, 0); x.arcTo(size, 0, size, size, r); x.arcTo(size, size, 0, size, r); x.arcTo(0, size, 0, 0, r); x.arcTo(0, 0, size, 0, r);
     x.fill();
-    x.fillStyle = '#F5C531';
-    x.fillRect(size * .2, size * .7, size * .6, size * .09);
-    x.fillStyle = '#F3F5F8';
-    x.font = `700 ${size * .48}px Tahoma, "Segoe UI", sans-serif`;
-    x.textAlign = 'center'; x.textBaseline = 'middle';
-    x.fillText('خ', size / 2, size * .42);
+    // نفس هندسة شعار SVG (‏viewBox 40×52) متوسطة داخل المربع
+    const u = size * .86 / 52, ox = (size - 40 * u) / 2, oy = size * .07;
+    const X = v => ox + v * u, Y = v => oy + v * u;
+    const g = x.createRadialGradient(X(17), Y(13), 1, X(20), Y(14), 9 * u);
+    g.addColorStop(0, '#FFF3C4'); g.addColorStop(.5, '#F5C531'); g.addColorStop(1, '#C38C0C');
+    x.fillStyle = g;
+    x.beginPath();
+    x.moveTo(X(20), Y(1));
+    x.bezierCurveTo(X(21.2), Y(6.2), X(27.5), Y(10.6), X(27.5), Y(16));
+    x.arc(X(20), Y(16), 7.5 * u, 0, Math.PI, false);
+    x.bezierCurveTo(X(12.5), Y(10.6), X(18.8), Y(6.2), X(20), Y(1));
+    x.fill();
+    x.fillStyle = '#142538';
+    x.font = `800 ${31 * u}px "Baloo Bhaijaan 2", Tahoma, "Segoe UI", sans-serif`;
+    x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+    x.fillText('ح', X(20), Y(37));
     return c.toDataURL('image/png');
   } catch (e) { return null; }
 }
@@ -1426,7 +1440,7 @@ function setupPWA() {
     const manifest = {
       name: 'خلاصة الفكرة', short_name: 'خلاصة الفكرة', description: 'زبدة الأفكار التي تغير حياتك',
       lang: 'ar', dir: 'rtl', start_url: base, scope: base.replace(/[^/]*$/, ''), display: 'standalone',
-      background_color: '#F3F5F8', theme_color: '#142538', icons
+      background_color: '#FFFFFF', theme_color: '#FFFFFF', icons
     };
     if (location.protocol === 'http:' || location.protocol === 'https:') {
       const url = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' }));
@@ -1456,13 +1470,13 @@ function setupPWA() {
 /* =========================================================
    8) التنقل والقائمة الجانبية
    ========================================================= */
-const ROUTES = ['about', 'order', 'orders', 'points', 'faq', 'owner'];
-const TITLES = { about: 'من نحن', order: 'الطلب', orders: 'طلباتي', points: 'نقاطي', faq: 'الأسئلة الشائعة', owner: 'لوحة المالك' };
+const ROUTES = ['about', 'order', 'orders', 'points', 'faq'];
+const TITLES = { about: 'من نحن', order: 'الطلب', orders: 'طلباتي', points: 'نقاطي', faq: 'الأسئلة الشائعة' };
 let currentRoute = null;
 
 function route() {
-  let r = location.hash.replace('#', '');
-  if (!ROUTES.includes(r)) r = 'about';
+  const [name, query] = location.hash.replace(/^#/, '').split('?');
+  const r = ROUTES.includes(name) ? name : 'about';
   const first = currentRoute === null;
   currentRoute = r;
   $$('.view').forEach(v => { v.hidden = v.dataset.view !== r; });
@@ -1476,13 +1490,19 @@ function route() {
     if (v) v.focus({ preventScroll: true });
   }
   updateCartBar();
+  if (query) handleRouteQuery(r, query);
+}
+/* روابط التأكيد تصل بصيغة ‎#points?c=...‎ ثم نزيل الرمز من شريط العنوان فوراً */
+function handleRouteQuery(r, query) {
+  const m = /(?:^|&)c=([A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+)/.exec(query);
+  try { history.replaceState(null, '', location.pathname + location.search + '#' + r); } catch (e) { /* تجاهل */ }
+  if (m) applyVoucher(m[1]);
 }
 function renderView(r) {
-  if (r === 'about') renderCapacity();
+  if (r === 'about') { renderCapacity(); intro.refresh(); }
   if (r === 'order') { renderCapacity(); renderCart(); renderLoginNudge(); }
   if (r === 'orders') renderOrders();
   if (r === 'points') renderPoints();
-  if (r === 'owner') renderOwner();
 }
 
 const drawer = $('#drawer'), overlay = $('#overlay'), menuBtn = $('#menuBtn');
@@ -1531,7 +1551,7 @@ function login(name, phone) {
     isNew = true;
     users[phone] = {
       name, phone, createdAt: Date.now(), coupons: [],
-      ledger: [{ id: uid(), type: 'welcome', label: 'نقاط ترحيبية', points: CONFIG.WELCOME_POINTS, status: 'confirmed', date: Date.now() }]
+      ledger: [{ id: uid(), type: 'welcome', label: 'نقاط ترحيبية (تُضاف مع أول طلب مكتمل)', points: CONFIG.WELCOME_POINTS, status: 'pending', date: Date.now() }]
     };
   } else users[phone].name = name;
   saveUsers(users);
@@ -1541,7 +1561,8 @@ function login(name, phone) {
   if (!$('#fName').value.trim()) $('#fName').value = name;
   if (!$('#fPhone').value.trim()) $('#fPhone').value = showPhone(phone);
   saveDraft();
-  toast(isNew ? `أهلاً ${name}! أضفنا ${CONFIG.WELCOME_POINTS} نقطة ترحيبية لرصيدك.` : `أهلاً بعودتك يا ${name}.`, 'ok');
+  toast(isNew ? `أهلاً ${name}! لك ${CONFIG.WELCOME_POINTS} نقطة ترحيبية تُضاف مع أول طلب مكتمل.` : `أهلاً بعودتك يا ${name}.`, 'ok');
+  if (!storageOK) toast(NO_STORAGE_MSG, 'err');
   return isNew;
 }
 async function logout() {
@@ -1567,7 +1588,7 @@ function refreshAuthUI() {
   btn.className = u ? 'btn btn-ghost' : 'btn btn-primary';
   const b = balances(u);
   $('#drawerUser').innerHTML = u
-    ? `<b>أهلاً، ${esc(u.name)}</b>رصيدك ${b.confirmed} نقطة مؤكدة${b.pending ? ` و${b.pending} معلّقة` : ''}`
+    ? `<b>أهلاً، ${esc(u.name)}</b>رصيدك ${b.confirmed} نقطة${b.pending ? `، و${b.pending} متوقعة بعد التسليم` : ''}`
     : `<b>مرحباً بك</b>سجّل دخولك لتحصل على ${CONFIG.WELCOME_POINTS} نقطة ترحيبية`;
   $('#navPoints').textContent = u ? b.confirmed : '';
   const myOrders = u ? getOrders().filter(o => o.phone === u.phone).length : 0;
@@ -1586,7 +1607,7 @@ function renderLoginNudge() {
 /* =========================================================
    10) المسودة التلقائية
    ========================================================= */
-const DRAFT_FIELDS = ['fName', 'fPhone', 'fNotes', 'sTitle', 'rTitle', 'pDesc', 'cDesc'];
+const DRAFT_FIELDS = ['fName', 'fPhone', 'fNotes', 'cDesc'];
 function saveDraft() {
   const d = { at: Date.now(), pdf: state.pdf, coupon: state.coupon, service: state.service };
   DRAFT_FIELDS.forEach(id => { d[id] = $('#' + id).value; });
@@ -1598,7 +1619,7 @@ const saveDraftSoon = debounce(saveDraft, 400);
 function loadDraft() {
   const d = store.get(K.draft, null);
   if (!d) return;
-  DRAFT_FIELDS.forEach(id => { if (typeof d[id] === 'string') $('#' + id).value = d[id]; });
+  DRAFT_FIELDS.forEach(id => { const el = $('#' + id); if (el && typeof d[id] === 'string') el.value = d[id]; });
   if (d.pdf && d.pdf.name) { state.pdf = d.pdf; renderFile(true); }
   if (d.coupon) state.coupon = d.coupon;
   if (d.service && SERVICES.some(s => s.id === d.service)) state.service = d.service;
@@ -1638,10 +1659,11 @@ function collectOrder() {
     name: id.name, phone: id.phone,
     notes: $('#fNotes').value.trim(),
     pdf: state.pdf,
-    items: state.cart.map(it => ({ ...it, lineTotal: lineTotal(it) })),
-    subtotal: t.subtotal, discount: t.discount, total: t.total, customCount: t.customCount,
-    coupon: t.coupon ? t.coupon.code : null,
-    points: t.points
+    items: state.cart.map(it => ({ ...it })),
+    // الكوبون يخص الحساب المسجّل حالياً، فلا يُرسل مع طلب برقم آخر
+    ...(t.coupon && currentUser() && currentUser().phone === id.phone
+      ? { discount: t.discount, coupon: t.coupon.code, couponPoints: t.coupon.points }
+      : { discount: 0, coupon: null, couponPoints: 0 })
   };
 }
 function newOrderCode() {
@@ -1660,19 +1682,17 @@ function buildMessage(o) {
   L.push('🧾 الأصناف:');
   o.items.forEach((it, i) => {
     const d = itemDetail(it);
-    const price = it.lineTotal == null ? 'السعر حسب الطلب' : `الكمية ${it.qty}، ${money(it.lineTotal)}`;
-    L.push(`${i + 1}) ${itemTitle(it)}${d ? ' (' + d + ')' : ''}: ${price}`);
+    L.push(`${i + 1}) ${itemTitle(it)}${d ? ' (' + d + ')' : ''}`);
   });
   L.push('');
-  L.push('💰 مجموع الأصناف المسعّرة: ' + money(o.subtotal));
-  if (o.discount) L.push(`🎟 خصم الكوبون ${o.coupon}: -${money(o.discount)}`);
-  L.push('✅ الإجمالي: ' + money(o.total));
-  if (o.customCount) L.push(`➕ أصناف مخصصة بسعر يُحدد بعد المراجعة: ${o.customCount}`);
+  L.push('💰 السعر: حسب الطلب، أرجو إرساله لي قبل البدء');
+  if (o.coupon) L.push(`🎟 كوبون نقاط ${o.coupon}: خصم ${money(o.discount)} من السعر النهائي مقابل ${o.couponPoints} نقطة (يُعتمد بعد التحقق من الرصيد)`);
   L.push('');
   L.push('👤 الاسم: ' + o.name);
   L.push('📱 الجوال: ' + showPhone(o.phone));
   L.push('📝 الملاحظات: ' + (o.notes || 'لا يوجد'));
   L.push('📎 ملف PDF: ' + (o.pdf ? `${o.pdf.name} (${fmtSize(o.pdf.size)})، سأرفقه في المحادثة` : 'لا يوجد'));
+  L.push(`⭐ النقاط: ${CONFIG.POINTS_PER_RIYAL} عن كل ريال، تُضاف برابط تأكيد بعد التسليم والدفع`);
   return L.join('\n');
 }
 const waLink = (phone, text) => `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
@@ -1685,13 +1705,11 @@ function openPreview() {
   $('#pvBody').innerHTML = `
     <div class="pv-code"><div><b>كود التأكيد</b><div class="small muted">يُرسل في رسالة واتساب، احتفظ به</div></div>${copyPill(o.code, 'كود الطلب')}</div>
     <div class="pv-section"><h3>الأصناف</h3><ul class="pv-items">
-      ${o.items.map(it => `<li><span>${esc(itemTitle(it))}${it.lineTotal != null ? ` × ${it.qty}` : ''}<br><span class="muted">${esc(itemDetail(it))}</span></span><span>${it.lineTotal == null ? 'حسب الطلب' : money(it.lineTotal)}</span></li>`).join('')}
+      ${o.items.map(it => `<li><span>${esc(itemTitle(it))}<br><span class="muted">${esc(itemDetail(it))}</span></span><span>حسب الطلب</span></li>`).join('')}
     </ul>
     <div class="totals">
-      <div class="r"><span>مجموع الأصناف المسعّرة</span><span>${money(o.subtotal)}</span></div>
       ${o.discount ? `<div class="r disc"><span>خصم الكوبون ${esc(o.coupon)}</span><span>− ${money(o.discount)}</span></div>` : ''}
-      <div class="r big"><span>الإجمالي</span><span>${money(o.total)}</span></div>
-      ${o.customCount ? `<div class="r"><span>أصناف مخصصة</span><span>${o.customCount} بسعر يُحدد لاحقاً</span></div>` : ''}
+      <div class="r big"><span>السعر</span><span>نرسله لك في واتساب</span></div>
     </div></div>
     <div class="pv-section"><h3>بياناتك</h3><dl class="kv">
       <dt>الاسم</dt><dd>${esc(o.name)}</dd>
@@ -1701,8 +1719,8 @@ function openPreview() {
     </dl></div>
     ${o.pdf ? '<div class="note-box">بعد فتح واتساب، أرفق ملف PDF يدوياً في المحادثة.</div>' : ''}
     ${sameUser
-      ? `<div class="note-box ok">ستُضاف ${o.points} نقطة معلّقة لرصيدك، وتتأكد عند إدخال كود التفعيل.</div>`
-      : `<div class="note-box info">${u ? 'رقم الجوال يختلف عن حسابك الحالي، لذلك سنسجّلك بالرقم الجديد' : 'سنسجّل دخولك بالاسم والرقم أعلاه'} لتحصل على ${o.points} نقطة معلّقة${u ? '' : ` و${CONFIG.WELCOME_POINTS} نقطة ترحيبية`}.</div>`}`;
+      ? `<div class="note-box ok">تحصل على ${CONFIG.POINTS_PER_RIYAL} نقاط عن كل ريال بعد التسليم والدفع، عبر رابط تأكيد يصلك في واتساب.</div>`
+      : `<div class="note-box info">${u ? 'رقم الجوال يختلف عن حسابك الحالي، لذلك سنسجّلك بالرقم الجديد' : 'سنسجّل دخولك بالاسم والرقم أعلاه'} لتُحفظ طلباتك، وتحصل على نقاطك بعد التسليم والدفع.</div>`}`;
   $('#sendBtn span').textContent = sameUser ? 'إرسال الطلب عبر واتساب' : 'سجّل وأرسل عبر واتساب';
   openDialog($('#dlgPreview'));
 }
@@ -1722,16 +1740,15 @@ function sendOrder() {
 
   const order = {
     code: o.code, name: o.name, phone: o.phone, notes: o.notes, pdf: o.pdf, items: o.items,
-    subtotal: o.subtotal, discount: o.discount, total: o.total, customCount: o.customCount,
-    coupon: o.coupon, points: o.points, pointsStatus: 'pending', status: 0,
+    discount: o.discount, coupon: o.coupon, pointsStatus: 'expected', status: 0,
     createdAt: Date.now(), history: [{ status: 0, at: Date.now() }]
   };
   const orders = getOrders();
   orders.unshift(order);
   saveOrders(orders);
 
+  // لا نضيف نقاطاً عند الإرسال: تُضاف فقط برابط تأكيد موقّع بعد التسليم والدفع
   updateUser(o.phone, usr => {
-    usr.ledger.push({ id: uid(), type: 'order', label: 'نقاط الطلب ' + o.code, points: o.points, status: 'pending', orderCode: o.code, date: Date.now() });
     if (o.coupon) {
       const c = usr.coupons.find(x => x.code === o.coupon);
       if (c) { c.usedAt = Date.now(); c.orderCode = o.code; }
@@ -1742,7 +1759,7 @@ function sendOrder() {
   state.cart = []; saveCart();
   state.coupon = null; state.pendingCode = null;
   state.pdf = null; $('#fFile').value = ''; renderFile();
-  ['fNotes', 'sTitle', 'rTitle', 'pDesc', 'cDesc'].forEach(id => { $('#' + id).value = ''; });
+  ['fNotes', 'cDesc'].forEach(id => { $('#' + id).value = ''; });
   saveDraft();
 
   closeDialog($('#dlgPreview'));
@@ -1753,7 +1770,7 @@ function sendOrder() {
       <div style="margin:12px 0 16px">${copyPill(o.code, 'كود الطلب')}</div>
     </div>
     ${o.pdf ? '<div class="note-box">تذكير: أرفق ملف PDF يدوياً في محادثة واتساب.</div>' : ''}
-    <div class="note-box ok">${o.points} نقطة معلّقة بانتظار كود التفعيل بعد تأكيد الطلب.</div>
+    <div class="note-box ok">نرسل لك السعر في واتساب قبل أن نبدأ. نقاطك تُضاف برابط تأكيد بعد التسليم والدفع.</div>
     <p class="small muted" style="margin:14px 0 0">${win ? 'لم تفتح المحادثة؟' : 'منع المتصفح فتح واتساب تلقائياً.'} <a href="${esc(link)}" target="_blank" rel="noopener">افتح واتساب يدوياً</a></p>`;
   openDialog($('#dlgDone'));
   renderCart(); renderCapacity(); refreshAuthUI();
@@ -1768,8 +1785,8 @@ function trackerHTML(status) {
 }
 function pointsChip(o) {
   return o.pointsStatus === 'confirmed'
-    ? `<span class="chip ok">${o.points} نقطة مؤكدة</span>`
-    : `<span class="chip warn">${o.points} نقطة معلّقة</span>`;
+    ? '<span class="chip ok">النقاط مضافة</span>'
+    : '<span class="chip warn">النقاط بعد التسليم</span>';
 }
 function emptyHTML(title, text, actionHTML, art) {
   return `<div class="panel empty">${art || `<svg class="empty-art" viewBox="0 0 96 96" fill="none" aria-hidden="true"><rect x="18" y="20" width="60" height="56" rx="10" stroke="currentColor" stroke-width="2.5"/><path d="M30 38h36M30 48h24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity=".35"/><circle cx="66" cy="64" r="12" fill="var(--butter)"/><path d="M61 64h10M66 59v10" stroke="#142538" stroke-width="2.5" stroke-linecap="round"/></svg>`}
@@ -1784,15 +1801,15 @@ function renderOrders() {
   }
   const mine = getOrders().filter(o => o.phone === u.phone);
   if (!mine.length) {
-    box.innerHTML = emptyHTML('لا توجد طلبات بعد', 'أول طلب يبدأ بخطوة: اختر باقة وأضفها إلى السلة.', '<a class="btn btn-primary" href="#order">ابدأ طلبك</a>');
+    box.innerHTML = emptyHTML('لا توجد طلبات بعد', 'أول طلب يبدأ بخطوة: اكتب ما تحتاجه وأضفه إلى السلة.', '<a class="btn btn-primary" href="#order">ابدأ طلبك</a>');
     return;
   }
   box.innerHTML = mine.map(o => `
     <article class="order-card">
-      <div class="oc-head">${copyPill(o.code, 'كود الطلب')}<span class="date">${fmtDate(o.createdAt)}</span><span class="tot">${money(o.total)}${o.customCount ? ' + حسب الطلب' : ''}</span></div>
+      <div class="oc-head">${copyPill(o.code, 'كود الطلب')}<span class="date">${fmtDate(o.createdAt)}</span><span class="tot">حسب الطلب</span></div>
       ${trackerHTML(o.status)}
-      <ul class="oc-items">${o.items.map(it => `<li>${esc(itemTitle(it))}${it.lineTotal != null ? ` × ${it.qty}` : ''}${itemDetail(it) ? `: ${esc(itemDetail(it))}` : ''}</li>`).join('')}</ul>
-      <div class="oc-foot">${pointsChip(o)}${o.pointsStatus !== 'confirmed' ? '<a class="btn btn-sm btn-ghost" href="#points">تفعيل النقاط</a>' : ''}<button class="btn btn-sm btn-soft" type="button" data-action="reorder" data-code="${esc(o.code)}" style="margin-inline-start:auto">اطلب مرة أخرى</button></div>
+      <ul class="oc-items">${o.items.map(it => `<li>${esc(itemTitle(it))}${itemDetail(it) ? `: ${esc(itemDetail(it))}` : ''}</li>`).join('')}</ul>
+      <div class="oc-foot">${pointsChip(o)}<button class="btn btn-sm btn-soft" type="button" data-action="reorder" data-code="${esc(o.code)}" style="margin-inline-start:auto">اطلب مرة أخرى</button></div>
     </article>`).join('');
 }
 
@@ -1807,22 +1824,22 @@ function renderPoints() {
     return;
   }
   const b = balances(u);
-  const ledger = u.ledger.slice().sort((a, b2) => b2.date - a.date);
+  const ledger = (u.ledger || []).slice().sort((a, b2) => b2.date - a.date);
   const coupons = (u.coupons || []).slice().sort((a, b2) => (a.usedAt ? 1 : 0) - (b2.usedAt ? 1 : 0) || b2.createdAt - a.createdAt);
-  box.innerHTML = `
+  box.innerHTML = `${storageOK ? '' : `<div class="note-box" style="margin-bottom:16px">${NO_STORAGE_MSG}</div>`}
     <div class="points-top">
       <div class="panel">
         <div class="balance">
           <div><strong>${b.confirmed}</strong><span>رصيد مؤكد</span></div>
-          <div><strong>${b.pending}</strong><span>نقاط معلّقة</span></div>
+          <div><strong>${b.pending}</strong><span>متوقعة بعد التسليم</span></div>
         </div>
         <form id="activateForm" novalidate style="margin-top:18px">
           <div class="field" style="margin-bottom:10px">
-            <label for="actCode">كود التفعيل</label>
-            <div class="inline-gen"><input id="actCode" class="input code-input" maxlength="12" placeholder="7KQ2MX" autocomplete="off"><button class="btn btn-primary" type="submit">تفعيل النقاط</button></div>
+            <label for="actCode">رابط التأكيد</label>
+            <div class="inline-gen"><input id="actCode" class="input" dir="ltr" maxlength="1200" placeholder="الصق الرابط هنا" autocomplete="off" spellcheck="false"><button class="btn btn-primary" type="submit">إضافة النقاط</button></div>
             <p class="err" hidden></p>
           </div>
-          <p class="hint">بعد تأكيد طلبك يرسل لك المسؤول كود التفعيل عبر واتساب، فتنتقل نقاط الطلب إلى رصيدك المؤكد.</p>
+          <p class="hint">بعد تسليم طلبك والدفع يصلك رابط تأكيد في واتساب. اضغطه مباشرة، أو انسخه والصقه هنا إذا فُتح في متصفح آخر.</p>
         </form>
       </div>
       <div class="panel">
@@ -1844,36 +1861,101 @@ function renderPoints() {
 
     <div class="panel" style="margin-top:16px">
       <div class="panel-title"><h3>سجل النقاط</h3></div>
-      <div class="table-wrap"><table class="ledger">
+      ${ledger.length ? '' : '<p class="muted" style="margin:0">لا توجد عمليات بعد.</p>'}
+      <div class="table-wrap" ${ledger.length ? '' : 'hidden'}><table class="ledger">
         <thead><tr><th>العملية</th><th>التاريخ</th><th>الحالة</th><th>النقاط</th></tr></thead>
         <tbody>${ledger.map(e => `<tr>
           <td>${esc(e.label)}</td><td class="muted">${fmtDate(e.date)}</td>
-          <td>${e.status === 'confirmed' ? '<span class="chip ok">مؤكدة</span>' : '<span class="chip warn">معلّقة</span>'}</td>
+          <td>${e.status === 'confirmed' ? '<span class="chip ok">مؤكدة</span>' : '<span class="chip warn">بانتظار أول طلب مكتمل</span>'}</td>
           <td class="pts ${e.points < 0 ? 'neg' : ''}">${e.points > 0 ? '+' : ''}${e.points}</td></tr>`).join('')}</tbody>
       </table></div>
     </div>`;
 }
-function activatePoints(raw) {
-  const input = $('#actCode');
-  const code = toLatinDigits(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (code.length !== 6) { setFieldError(input, 'كود التفعيل من 6 خانات، انسخه كما وصلك.'); return; }
-  const u = currentUser();
-  const entry = u.ledger.find(e => e.type === 'order' && activationCode(e.orderCode) === code);
-  if (!entry) { setFieldError(input, 'الكود غير صحيح لأي طلب في حسابك. تأكد من الكود الذي أرسله لك المسؤول.'); return; }
-  if (entry.status === 'confirmed') { setFieldError(input, `نقاط الطلب ${entry.orderCode} مفعّلة مسبقاً.`); return; }
-  updateUser(u.phone, usr => {
-    const e = usr.ledger.find(x => x.id === entry.id);
-    e.status = 'confirmed'; e.confirmedAt = Date.now();
-  });
+/* =========================================================
+   14.5) روابط التأكيد الموقّعة (ECDSA P-256)
+   - صاحب المشروع يوقّع الرابط بمفتاحه الخاص في أداة tools/points-signer.html.
+   - الموقع يتحقق بالمفتاح العام فقط، فلا يستطيع أحد توليد رابط صالح.
+   - الرابط مربوط برقم الجوال وكود الطلب، ولا يُحتسب الطلب الواحد مرتين.
+   ========================================================= */
+function b64uToBytes(str) {
+  let b = String(str).replace(/-/g, '+').replace(/_/g, '/');
+  while (b.length % 4) b += '=';
+  const bin = atob(b);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+async function readVoucher(raw) {
+  let token = String(raw || '').trim();
+  const m = token.match(/[?&#]c=([A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+)/);
+  if (m) token = m[1];
+  if (!/^[A-Za-z0-9_-]{16,400}\.[A-Za-z0-9_-]{60,120}$/.test(token)) return { error: 'الرابط غير مكتمل. انسخه كما وصلك في واتساب.' };
+  const key = CONFIG.POINTS_PUBLIC_KEY;
+  if (!key || !key.x || !key.y) return { error: 'تأكيد النقاط غير مفعّل بعد في الموقع.' };
+  if (!(window.crypto && crypto.subtle)) return { error: 'متصفحك لا يدعم التحقق من الرابط. افتحه في متصفح حديث.' };
+  const [body, sig] = token.split('.');
+  let data = null;
+  try {
+    const pub = await crypto.subtle.importKey('jwk', { kty: 'EC', crv: 'P-256', x: key.x, y: key.y, ext: true },
+      { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']);
+    const ok = await crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, pub, b64uToBytes(sig), new TextEncoder().encode(body));
+    if (ok) data = JSON.parse(new TextDecoder().decode(b64uToBytes(body)));
+  } catch (e) { data = null; }
+  if (!data || typeof data !== 'object') return { error: 'الرابط غير صالح أو عُدّل بعد إرساله.' };
+  const valid = data.v === 1 && (data.k === 'pt' || data.k === 'st') &&
+    typeof data.p === 'string' && /^\d{9,15}$/.test(data.p) &&
+    typeof data.o === 'string' && /^KF-[A-Z0-9]{5}$/.test(data.o) &&
+    (data.k !== 'pt' || (Number.isInteger(data.n) && data.n > 0 && data.n <= 100000 && (data.w === 0 || data.w === 1))) &&
+    (data.k !== 'st' || (Number.isInteger(data.s) && data.s >= 0 && data.s < STAGES.length));
+  if (!valid) return { error: 'الرابط غير صالح.' };
+  return { data, token };
+}
+function setOrderStatus(code, stage, confirmPoints) {
   const orders = getOrders();
-  const o = orders.find(x => x.code === entry.orderCode);
-  if (o) {
-    o.pointsStatus = 'confirmed';
-    if (o.status < 1) { o.status = 1; o.history.push({ status: 1, at: Date.now() }); }
-    saveOrders(orders);
+  const o = orders.find(x => x.code === code);
+  if (!o) return false;
+  if (stage > o.status) { o.status = stage; (o.history = o.history || []).push({ status: stage, at: Date.now() }); }
+  if (confirmPoints) o.pointsStatus = 'confirmed';
+  saveOrders(orders);
+  return true;
+}
+function voucherMessage(msg) {
+  const input = $('#actCode');
+  if (input && currentRoute === 'points') setFieldError(input, msg);
+  toast(msg, 'err');
+}
+async function applyVoucher(raw) {
+  const res = await readVoucher(raw);
+  if (res.error) { voucherMessage(res.error); return false; }
+  const d = res.data;
+
+  if (d.k === 'st') {
+    if (setOrderStatus(d.o, d.s, false)) {
+      toast(`حالة الطلب ${d.o}: ${STAGES[d.s]}`, 'ok');
+      if (currentRoute !== 'orders') location.hash = '#orders'; else renderOrders();
+    } else voucherMessage(`الطلب ${d.o} غير محفوظ على هذا الجهاز. افتح الرابط من الجهاز الذي أرسلت منه الطلب.`);
+    return true;
   }
-  toast(`فُعّلت ${entry.points} نقطة من الطلب ${entry.orderCode}.`, 'ok');
+
+  const u = currentUser();
+  if (!u || u.phone !== d.p) {
+    openLogin(() => applyVoucher(res.token), `هذا الرابط لرقم ينتهي بـ ${d.p.slice(-4)}. سجّل دخولك بنفس الرقم لإضافة النقاط.`);
+    $('#lPhone').value = showPhone(d.p);
+    return false;
+  }
+  if ((u.ledger || []).some(e => e.type === 'voucher' && e.orderCode === d.o)) {
+    voucherMessage(`نقاط الطلب ${d.o} مضافة مسبقاً.`);
+    return false;
+  }
+  updateUser(u.phone, usr => {
+    if (d.w) usr.ledger = usr.ledger.filter(e => e.type !== 'welcome');
+    usr.ledger.push({ id: uid(), type: 'voucher', label: `نقاط الطلب ${d.o}${d.w ? ' مع الترحيبية' : ''}`, points: d.n, status: 'confirmed', orderCode: d.o, date: Date.now() });
+  });
+  setOrderStatus(d.o, STAGES.length - 1, true);
+  toast(`أُضيفت ${d.n} نقطة إلى رصيدك.`, 'ok');
+  if (currentRoute !== 'points') location.hash = '#points';
   refreshAuthUI();
+  return true;
 }
 function redeem(i) {
   const r = CONFIG.REWARDS[i];
@@ -1900,105 +1982,6 @@ function applyCoupon(raw) {
 }
 
 /* =========================================================
-   15) لوحة المالك
-   ========================================================= */
-const currentPinHash = () => store.get(K.pin, null) || pinHash(CONFIG.DEFAULT_PIN);
-const ownerUnlocked = () => session.get(K.owner) === '1';
-function renderOwner() {
-  const box = $('#ownerBody');
-  if (!ownerUnlocked()) {
-    const isDefault = currentPinHash() === pinHash(CONFIG.DEFAULT_PIN);
-    box.innerHTML = `<div class="panel pin-box">
-      <svg class="empty-art" viewBox="0 0 96 96" fill="none" aria-hidden="true" style="width:72px;height:72px"><rect x="24" y="42" width="48" height="36" rx="8" stroke="currentColor" stroke-width="2.5"/><path d="M34 42V32a14 14 0 0 1 28 0v10" stroke="currentColor" stroke-width="2.5"/><circle cx="48" cy="60" r="5" fill="var(--butter)"/></svg>
-      <h3>أدخل رمز PIN</h3>
-      <form id="pinForm" novalidate>
-        <div class="field"><label for="pinIn" class="sr-only">رمز PIN</label><input id="pinIn" class="input" type="password" inputmode="numeric" maxlength="8" autocomplete="off"><p class="err" hidden></p></div>
-        <button class="btn btn-primary btn-block" type="submit">فتح اللوحة</button>
-      </form>
-      ${isDefault ? `<p class="hint" style="margin-top:12px">الرمز الافتراضي للتجربة: <b class="ltr">${CONFIG.DEFAULT_PIN}</b>. غيّره من إعدادات اللوحة بعد الدخول.</p>` : ''}
-    </div>`;
-    setTimeout(() => $('#pinIn') && $('#pinIn').focus(), 50);
-    return;
-  }
-  const orders = getOrders();
-  const q = (state.ownerQ || '').trim().toLowerCase();
-  const fs = state.ownerStatus ?? 'all';
-  const list = orders.filter(o =>
-    (fs === 'all' || String(o.status) === fs) &&
-    (!q || o.code.toLowerCase().includes(q) || o.name.toLowerCase().includes(q) || o.phone.includes(toLatinDigits(q).replace(/\D/g, '') || '\u0000')));
-  const pendingPts = orders.filter(o => o.pointsStatus !== 'confirmed').reduce((s, o) => s + o.points, 0);
-  box.innerHTML = `
-    <div class="stats">
-      <div><strong>${todayCount()} من ${CONFIG.DAILY_LIMIT}</strong><span>طلبات اليوم</span></div>
-      <div><strong>${orders.filter(o => o.status < 3).length}</strong><span>قيد العمل</span></div>
-      <div><strong>${orders.filter(o => o.status === 3).length}</strong><span>مُسلّمة</span></div>
-      <div><strong>${pendingPts}</strong><span>نقاط بانتظار التفعيل</span></div>
-    </div>
-    <div class="owner-tools">
-      <div class="panel">
-        <div class="panel-title"><h3>كود التفعيل لأي طلب</h3></div>
-        <p class="hint" style="margin-bottom:10px">اكتب كود الطلب كما وصلك في واتساب، ثم أرسل كود التفعيل للعميل.</p>
-        <form id="genForm" class="inline-gen" novalidate><label for="genIn" class="sr-only">كود الطلب</label><input id="genIn" class="input code-input" placeholder="KF-XXXXX" maxlength="10" autocomplete="off"><button class="btn btn-primary" type="submit">توليد</button></form>
-        <div class="gen-out" id="genOut"></div>
-      </div>
-      <div class="panel">
-        <div class="panel-title"><h3>تغيير رمز PIN</h3><button class="btn btn-sm btn-ghost aside" type="button" data-action="owner-lock">${icon('i-lock')}<span>قفل اللوحة</span></button></div>
-        <form id="pinChange" novalidate>
-          <div class="row2">
-            <div class="field"><label for="pinNew">الرمز الجديد</label><input id="pinNew" class="input" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password"><p class="err" hidden></p></div>
-            <div class="field"><label for="pinNew2">تأكيد الرمز</label><input id="pinNew2" class="input" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password"><p class="err" hidden></p></div>
-          </div>
-          <button class="btn btn-soft" type="submit">حفظ الرمز</button>
-        </form>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-title"><h3>الطلبات</h3><span class="chip aside">${orders.length} طلب على هذا الجهاز</span></div>
-      <div class="filters">
-        <label for="ownQ" class="sr-only">بحث</label><input id="ownQ" class="input" type="search" placeholder="ابحث بالكود أو الاسم أو الجوال" value="${esc(state.ownerQ || '')}">
-        <label for="ownS" class="sr-only">الحالة</label><select id="ownS" class="input"><option value="all">كل الحالات</option>${STAGES.map((s, i) => `<option value="${i}" ${fs === String(i) ? 'selected' : ''}>${s}</option>`).join('')}</select>
-      </div>
-      <div id="ownList">${list.length ? list.map(ownerOrderHTML).join('') : `<div class="empty"><h3>${orders.length ? 'لا توجد طلبات مطابقة' : 'لا توجد طلبات بعد'}</h3><p>${orders.length ? 'غيّر كلمة البحث أو الحالة.' : 'تظهر هنا الطلبات المرسلة من هذا الجهاز. للطلبات من أجهزة أخرى استخدم أداة كود التفعيل.'}</p></div>`}</div>
-    </div>`;
-}
-function ownerOrderHTML(o) {
-  const act = activationCode(o.code);
-  return `<article class="order-card own-order" data-code="${esc(o.code)}">
-    <div class="oc-head">${copyPill(o.code, 'كود الطلب')}<b>${esc(o.name)}</b><span class="date ltr">${esc(showPhone(o.phone))}</span><span class="tot">${money(o.total)}${o.customCount ? ' + حسب الطلب' : ''}</span></div>
-    <ul class="oc-items">${o.items.map(it => `<li>${esc(itemTitle(it))}${it.lineTotal != null ? ` × ${it.qty}` : ''}${itemDetail(it) ? `: ${esc(itemDetail(it))}` : ''}</li>`).join('')}${o.notes ? `<li>ملاحظات: ${esc(o.notes)}</li>` : ''}${o.pdf ? `<li>ملف: ${esc(o.pdf.name)}</li>` : ''}</ul>
-    <div class="own-grid">
-      <label class="lbl" for="st-${esc(o.code)}">الحالة</label>
-      <select class="input" id="st-${esc(o.code)}" data-action="owner-status" style="max-width:240px">${STAGES.map((s, i) => `<option value="${i}" ${o.status === i ? 'selected' : ''}>${s}</option>`).join('')}</select>
-      <span class="lbl">كود التفعيل</span>
-      <div class="btn-row" style="align-items:center">${copyPill(act, 'كود التفعيل')} ${pointsChip(o)}</div>
-    </div>
-    <div class="oc-foot" style="margin-top:12px">
-      <a class="btn btn-sm btn-ok" href="${esc(waLink(o.phone, `مرحباً ${o.name}، تم تأكيد طلبك ${o.code} في خلاصة الفكرة.\nكود تفعيل نقاطك: ${act}\nأدخله في صفحة "نقاطي" لتنتقل ${o.points} نقطة إلى رصيدك المؤكد.`))}" target="_blank" rel="noopener">${icon('i-chat')}<span>أرسل الكود للعميل</span></a>
-      <span class="small muted">${fmtDate(o.createdAt)}</span>
-      <button class="btn btn-sm btn-danger" type="button" data-action="owner-del" style="margin-inline-start:auto">${icon('i-trash')}<span>حذف</span></button>
-    </div>
-  </article>`;
-}
-function ownerLogin(pin) {
-  const input = $('#pinIn');
-  if (Date.now() < state.ownerLockUntil) {
-    setFieldError(input, `محاولات كثيرة. انتظر ${Math.ceil((state.ownerLockUntil - Date.now()) / 1000)} ثانية.`);
-    return;
-  }
-  if (pinHash(toLatinDigits(pin)) === currentPinHash()) {
-    state.ownerTries = 0;
-    session.set(K.owner, '1');
-    renderOwner();
-    toast('فُتحت لوحة المالك.', 'ok');
-  } else {
-    state.ownerTries++;
-    if (state.ownerTries >= 5) { state.ownerLockUntil = Date.now() + 30000; state.ownerTries = 0; }
-    setFieldError(input, 'الرمز غير صحيح.');
-    input.select();
-  }
-}
-
-/* =========================================================
    16) الأسئلة الشائعة: بحث فوري
    ========================================================= */
 function filterFaq(q) {
@@ -2019,52 +2002,20 @@ function filterFaq(q) {
 }
 
 /* =========================================================
-   17) واجهة الطلب: الباقات والخدمات المخصصة
+   17) واجهة الطلب: الطلب المخصص
    ========================================================= */
-function setPkg(v) {
-  state.pkg = v;
-  $$('input[name="pkg"]').forEach(r => { r.checked = r.value === v; r.closest('.choice').classList.toggle('on', r.checked); });
-  $('#cfg-summary').hidden = v !== 'summary';
-  $('#cfg-research').hidden = v !== 'research';
-  $('#cfg-custom').hidden = v !== 'custom';
-}
-function setTab(t) {
-  $$('.tab').forEach(b => {
-    const on = b.dataset.tab === t;
-    b.setAttribute('aria-selected', on ? 'true' : 'false');
-    b.tabIndex = on ? 0 : -1;
-  });
-  $('#pane-pkg').hidden = t !== 'pkg';
-  $('#pane-custom').hidden = t !== 'custom';
-}
 function renderServices() {
   $('#svcChoices').innerHTML = SERVICES.map(s => `
     <label class="choice ${s.id === state.service ? 'on' : ''}"><input type="radio" name="svc" value="${s.id}" ${s.id === state.service ? 'checked' : ''}><span class="ci" aria-hidden="true">${s.ico}</span><span><b>${s.label}</b></span></label>`).join('');
 }
-function addFromUI(kind) {
-  if (kind === 'summary') {
-    const pages = clampInt($('#sPages').value, 1, 2000, 1), qty = clampInt($('#sQty').value, 1, 50, 1);
-    $('#sPages').value = pages; $('#sQty').value = qty;
-    addToCart({ kind: 'summary', pages, qty, title: $('#sTitle').value.trim() });
-    $('#sTitle').value = '';
-  } else if (kind === 'research') {
-    const rk = $('input[name="rType"]:checked').value;
-    const pages = clampInt($('#rPages').value, 1, 2000, 1), qty = clampInt($('#rQty').value, 1, 50, 1);
-    $('#rPages').value = pages; $('#rQty').value = qty;
-    addToCart({ kind: rk, pages, qty, title: $('#rTitle').value.trim() });
-    $('#rTitle').value = '';
-  } else {
-    const isPkg = kind === 'custom-pkg';
-    const ta = isPkg ? $('#pDesc') : $('#cDesc');
-    const err = isPkg ? $('#pDescErr') : $('#cDescErr');
-    const desc = ta.value.trim();
-    if (desc.length < 5) { err.textContent = 'صف طلبك في كلمات قليلة على الأقل لنحدد السعر.'; err.hidden = false; ta.focus(); return; }
-    err.hidden = true;
-    const svc = isPkg ? 'طلب خاص' : SERVICES.find(s => s.id === state.service).label;
-    addToCart({ kind: 'custom', service: svc, desc, qty: 1 });
-    ta.value = '';
-  }
-  updatePrices();
+function addFromUI() {
+  const ta = $('#cDesc'), err = $('#cDescErr');
+  const desc = ta.value.trim();
+  if (desc.length < 5) { err.textContent = 'صف طلبك في كلمات قليلة على الأقل لنحدد السعر.'; err.hidden = false; ta.focus(); return; }
+  err.hidden = true;
+  const svc = (SERVICES.find(s => s.id === state.service) || SERVICES[0]).label;
+  addToCart({ kind: 'custom', service: svc, desc, qty: 1 });
+  ta.value = '';
   saveDraft();
 }
 function goToCart() {
@@ -2094,15 +2045,6 @@ function bindEvents() {
 
   // نقرات عامة عبر data-action
   document.addEventListener('click', e => {
-    const step = e.target.closest('[data-step]');
-    if (step) {
-      const inp = $('#' + step.dataset.for);
-      const max = +inp.max || 9999, min = +inp.min || 1;
-      inp.value = clampInt(inp.value, min, max, min) + (+step.dataset.step);
-      inp.value = clampInt(inp.value, min, max, min);
-      updatePrices();
-      return;
-    }
     const el = e.target.closest('[data-action]');
     if (!el) return;
     const a = el.dataset.action;
@@ -2110,19 +2052,13 @@ function bindEvents() {
     switch (a) {
       case 'auth': currentUser() ? logout() : openLogin(); break;
       case 'go-cart': goToCart(); break;
-      case 'scroll': { const t = $('#' + el.dataset.target); t && t.scrollIntoView({ behavior: 'smooth' }); break; }
+      case 'scroll': { const t = $('#' + el.dataset.target); t && t.scrollIntoView({ behavior: prefersReduced() ? 'auto' : 'smooth', block: 'start' }); break; }
       case 'copy': copyText(el.dataset.text, el.dataset.label); break;
-      case 'add': addFromUI(el.dataset.kind); break;
+      case 'add': addFromUI(); break;
       case 'pick':
         location.hash = '#order';
-        if (el.dataset.pkg) { setTab('pkg'); setPkg(el.dataset.pkg); }
-        else { setTab('custom'); state.service = el.dataset.service; renderServices(); saveDraft(); }
+        if (el.dataset.service) { state.service = el.dataset.service; renderServices(); saveDraft(); }
         break;
-      case 'qty': {
-        const it = state.cart.find(x => x.id === item.dataset.id);
-        it.qty = Math.min(50, Math.max(1, it.qty + (+el.dataset.d)));
-        saveCart(); renderCart(); break;
-      }
       case 'del': {
         const idx = state.cart.findIndex(x => x.id === item.dataset.id);
         const [removed] = state.cart.splice(idx, 1);
@@ -2137,18 +2073,8 @@ function bindEvents() {
       case 'reorder': {
         const o = getOrders().find(x => x.code === el.dataset.code);
         if (!o) break;
-        o.items.forEach(it => { const { lineTotal: _lt, ...clean } = it; state.cart.push({ ...clean, id: uid() }); });
+        o.items.filter(it => it.kind === 'custom').forEach(it => { const { lineTotal: _lt, ...clean } = it; state.cart.push({ ...clean, id: uid() }); });
         saveCart(); bumpBadge(); toast('أضفنا أصناف الطلب إلى السلة.', 'ok'); goToCart();
-        break;
-      }
-      case 'owner-lock': session.del(K.owner); renderOwner(); break;
-      case 'owner-del': {
-        const code = el.closest('.own-order').dataset.code;
-        confirmBox(`حذف الطلب ${code} من هذا الجهاز؟ لا يمكن التراجع.`, 'حذف').then(ok => {
-          if (!ok) return;
-          saveOrders(getOrders().filter(o => o.code !== code));
-          renderOwner(); refreshAuthUI(); toast('حُذف الطلب ' + code);
-        });
         break;
       }
     }
@@ -2157,51 +2083,14 @@ function bindEvents() {
   // تغييرات عامة
   document.addEventListener('change', e => {
     const t = e.target;
-    if (t.name === 'pkg') setPkg(t.value);
-    if (t.name === 'rType') updatePrices();
     if (t.name === 'svc') { state.service = t.value; renderServices(); $(`input[name="svc"][value="${t.value}"]`).focus(); saveDraft(); }
-    if (t.dataset.action === 'qty-input') {
-      const it = state.cart.find(x => x.id === t.closest('.cart-item').dataset.id);
-      it.qty = clampInt(t.value, 1, 50, it.qty); saveCart(); renderCart();
-    }
-    if (t.dataset.action === 'owner-status') {
-      const code = t.closest('.own-order').dataset.code;
-      const orders = getOrders();
-      const o = orders.find(x => x.code === code);
-      o.status = +t.value; o.history.push({ status: o.status, at: Date.now() });
-      saveOrders(orders); toast(`حالة ${code}: ${STAGES[o.status]}`, 'ok');
-      renderOwner();
-    }
-    if (t.id === 'ownS') { state.ownerStatus = t.value; renderOwner(); }
   });
 
   document.addEventListener('input', e => {
     const t = e.target;
-    if (['sPages', 'sQty', 'rPages', 'rQty'].includes(t.id)) updatePrices();
     if (DRAFT_FIELDS.includes(t.id)) { saveDraftSoon(); if (t.closest('.field.invalid')) setFieldError(t, ''); }
     if (t.id === 'faqQ') filterFaq(t.value);
-    if (t.id === 'ownQ') {
-      state.ownerQ = t.value;
-      const pos = t.selectionStart;
-      renderOwner();
-      const n = $('#ownQ'); n.focus(); try { n.setSelectionRange(pos, pos); } catch (x) { /* تجاهل */ }
-    }
   });
-  // ضبط القيم عند مغادرة حقول الأرقام
-  ['sPages', 'sQty', 'rPages', 'rQty'].forEach(id => $('#' + id).addEventListener('blur', e => {
-    e.target.value = clampInt(e.target.value, +e.target.min, +e.target.max, +e.target.min); updatePrices();
-  }));
-
-  // التبويبات مع دعم الأسهم
-  $$('.tab').forEach(b => {
-    b.addEventListener('click', () => setTab(b.dataset.tab));
-    b.addEventListener('keydown', e => {
-      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-      const next = b.dataset.tab === 'pkg' ? 'custom' : 'pkg';
-      setTab(next); $(`.tab[data-tab="${next}"]`).focus();
-    });
-  });
-
   // ملف PDF
   $('#fFile').addEventListener('change', e => {
     const f = e.target.files && e.target.files[0];
@@ -2215,40 +2104,30 @@ function bindEvents() {
   });
   $('#fileClear').addEventListener('click', () => { state.pdf = null; $('#fFile').value = ''; renderFile(); saveDraft(); });
 
-  // النماذج
-  $('#orderForm').addEventListener('submit', e => { e.preventDefault(); openPreview(); });
-  $('#sendBtn').addEventListener('click', sendOrder);
-  $('#dlgPreview').addEventListener('close', () => { /* يبقى الكود محفوظاً لنفس السلة */ });
-  $('#loginForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const id = validateIdentity($('#lName'), $('#lPhone'));
-    if (!id) return;
-    login(id.name, id.phone);
-    closeDialog($('#dlgLogin'));
-    const after = state.afterLogin; state.afterLogin = null;
-    if (after) after();
-  });
+  // النماذج: نلتقط زر الإرسال (والضغط على Enter يمر به أيضاً) بدل الاعتماد على حدث submit وحده،
+  // لأن بعض نوافذ المعاينة داخل التطبيقات تمنع إرسال النماذج فلا يصل الحدث
+  const FORMS = {
+    orderForm: openPreview,
+    activateForm: () => applyVoucher($('#actCode').value),
+    loginForm: () => {
+      const id = validateIdentity($('#lName'), $('#lPhone'));
+      if (!id) return;
+      login(id.name, id.phone);
+      closeDialog($('#dlgLogin'));
+      const after = state.afterLogin; state.afterLogin = null;
+      if (after) after();
+    }
+  };
   document.addEventListener('submit', e => {
-    if (e.target.id === 'activateForm') { e.preventDefault(); activatePoints($('#actCode').value); }
-    if (e.target.id === 'pinForm') { e.preventDefault(); ownerLogin($('#pinIn').value); }
-    if (e.target.id === 'genForm') {
-      e.preventDefault();
-      const code = normCode($('#genIn').value);
-      if (!/^KF-[A-Z0-9]{5}$/.test(code)) { $('#genOut').innerHTML = '<p class="err">كود الطلب بصيغة KF-XXXXX.</p>'; return; }
-      $('#genOut').innerHTML = `<div class="btn-row" style="align-items:center"><span class="small muted">كود تفعيل ${esc(code)}:</span>${copyPill(activationCode(code), 'كود التفعيل')}</div>`;
-    }
-    if (e.target.id === 'pinChange') {
-      e.preventDefault();
-      const a = $('#pinNew'), b = $('#pinNew2');
-      const p = toLatinDigits(a.value);
-      setFieldError(a, ''); setFieldError(b, '');
-      if (!/^\d{4,8}$/.test(p)) { setFieldError(a, 'الرمز من 4 إلى 8 أرقام.'); return; }
-      if (p !== toLatinDigits(b.value)) { setFieldError(b, 'الرمزان غير متطابقين.'); return; }
-      store.set(K.pin, pinHash(p));
-      a.value = b.value = '';
-      toast('حُفظ رمز PIN الجديد.', 'ok');
-    }
+    const fn = FORMS[e.target.id];
+    if (fn) { e.preventDefault(); fn(); }
   });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('button[type="submit"]');
+    const fn = b && b.form && FORMS[b.form.id];
+    if (fn) { e.preventDefault(); fn(); }
+  });
+  $('#sendBtn').addEventListener('click', sendOrder);
 
   // مراقبة ظهور لوحة السلة لإخفاء الشريط العائم
   if ('IntersectionObserver' in window) {
@@ -2263,17 +2142,286 @@ function bindEvents() {
 }
 
 /* =========================================================
+   18.5) مشهد الافتتاح: قطرة زبدة تصعد ثم تستقر تحت العنوان، ثم تكبر لتقدّم «من نحن»
+   - نقيس موضع نقطة «خ» بدقة: نرسم «خـ» و«حـ» على canvas بنفس الخط
+     ونأخذ الفرق بين الرسمين، فيعمل مع أي خط حتى الاحتياطي.
+   - الحركة مرتبطة بالتمرير وتستخدم transform و opacity فقط.
+   ========================================================= */
+const prefersReduced = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+const finePointer = () => !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
+
+const intro = (() => {
+  const root = $('#intro');
+  if (!root) return { refresh() {} };
+  const stage = $('.intro-stage', root), scene = $('.scene', root), face = $('.title-face', root);
+  const marker = $('.bl', root), txt = $('.title-text', root), landing = $('.landing', root), wave = $('.wave', root);
+  const drop = $('.drop', root), sphere = $('.drop .sphere', root), tear = $('.drop .tear', root), grow = $('.grow', root);
+  const home = $('.dot-home', root), trail = $('.trail', root), ripples = $$('.ripple', root);
+  const tagline = $('.tagline', root), hl = $('.hl', root), hlBg = $('.hl-bg', root), cta = $('.intro-cta', root), cue = $('.cue', root);
+  const lead = $('#aboutLead'), butter = $('#aboutUs');
+  const FULL = 'خلاصة الفكرة', DOTLESS = 'حلاصة الفكرة';
+  const animated = [scene, tagline, cta, cue, hl, hlBg, drop, sphere, tear, home, trail, wave, grow, ...ripples];
+  const tilt = { x: 0, y: 0, tx: 0, ty: 0 };
+  let geo = null, raf = 0, enabled = false, stickyTop = 0, dist = 1, rootTop = 0, lastP = -1;
+  const useTilt = finePointer();
+
+  const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+  const seg = (p, a, b) => clamp01((p - a) / (b - a));
+  const easeInOut = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+  /* موضع نقطة الخاء وحجمها نسبةً إلى بداية الحرف وخط القاعدة */
+  function measureDot() {
+    try {
+      const cs = getComputedStyle(face);
+      const size = parseFloat(cs.fontSize);
+      if (!(size > 4)) return null;
+      const pad = Math.ceil(size * .5), W = Math.ceil(size * 2.2), H = Math.ceil(size * 2);
+      const c = document.createElement('canvas');
+      c.width = W; c.height = H;
+      const x = c.getContext('2d', { willReadFrequently: true });
+      if (!x) return null;
+      const draw = t => {
+        x.clearRect(0, 0, W, H);
+        x.font = `${cs.fontWeight} ${size}px ${cs.fontFamily}`;
+        x.direction = 'rtl'; x.textAlign = 'right'; x.textBaseline = 'alphabetic'; x.fillStyle = '#000';
+        x.fillText(t, W - pad, pad + size);
+        return x.getImageData(0, 0, W, H).data;
+      };
+      const a = draw('خـ'), b = draw('حـ');
+      let x0 = W, y0 = H, x1 = -1, y1 = -1;
+      for (let yy = 0; yy < H; yy++) {
+        for (let xx = 0; xx < W; xx++) {
+          const k = (yy * W + xx) * 4 + 3;
+          if (a[k] > 60 && b[k] < 20) {
+            if (xx < x0) x0 = xx; if (xx > x1) x1 = xx;
+            if (yy < y0) y0 = yy; if (yy > y1) y1 = yy;
+          }
+        }
+      }
+      if (x1 < 0) return null;
+      return { dx: (x0 + x1 + 1) / 2 - (W - pad), dy: (y0 + y1 + 1) / 2 - (pad + size), w: x1 - x0 + 1, h: y1 - y0 + 1 };
+    } catch (e) { return null; }
+  }
+
+  /* فقرة «من نحن» تُعرض داخل القطرة المتوسعة، وتعود لمكانها الطبيعي عند تعطيل الحركة */
+  function placeLead(inStage) {
+    if (!lead || !butter) return;
+    if (inStage && lead.parentNode !== stage) { stage.appendChild(lead); lead.classList.add('in-stage'); }
+    if (!inStage && lead.parentNode !== butter) {
+      butter.insertBefore(lead, $('.wrap', butter));
+      lead.classList.remove('in-stage'); lead.removeAttribute('style');
+    }
+  }
+
+  function clearStyles() { animated.forEach(el => el && el.removeAttribute('style')); }
+
+  function disable() {
+    enabled = false; geo = null;
+    root.classList.remove('js', 'idle', 'resting');
+    txt.textContent = FULL;
+    clearStyles();
+    placeLead(false);
+  }
+
+  /* الهندسة: موضع النقطة، ومكان الاستقرار، ونصف قطر الدائرة التي تغطي المشهد */
+  function layout() {
+    if (!enabled || root.offsetParent === null) return;
+    // الصفحة ما زالت مخفية أو بلا مقاس (نافذة معاينة تُفتح، أو تبويب في الخلفية):
+    // ننتظر أول مقاس حقيقي بدل تعطيل الحركة
+    if (stage.clientWidth < 40 || stage.clientHeight < 40) { geo = null; return; }
+    root.classList.add('measuring');
+    const d = measureDot();
+    if (!d) { root.classList.remove('measuring'); disable(); return; }
+    txt.textContent = DOTLESS;
+    const sc = scene.getBoundingClientRect(), st = stage.getBoundingClientRect();
+    const m = marker.getBoundingClientRect(), L = landing.getBoundingClientRect();
+    const size = Math.max(14, Math.max(d.w, d.h) * 1.12);
+    const x = m.left - sc.left + d.dx, y = m.top - sc.top + d.dy;
+    const lx = L.left + L.width / 2, ly = L.top + L.height * .4;
+    const tx = lx - sc.left, ty = ly - sc.top;
+    const px = lx - st.left, py = ly - st.top;
+    const R = Math.max(Math.hypot(px, py), Math.hypot(st.width - px, py), Math.hypot(px, st.height - py), Math.hypot(st.width - px, st.height - py)) * 1.04;
+    geo = { x, y, size, tx, ty, s0: size / (2 * R) };
+    [drop, home].forEach(el => {
+      el.style.width = el.style.height = size + 'px';
+      el.style.left = (x - size / 2) + 'px';
+      el.style.top = (y - size / 2) + 'px';
+    });
+    trail.style.left = (x - 1.5) + 'px';
+    trail.style.top = (y - size * 4.5) + 'px';
+    trail.style.height = (size * 4.5) + 'px';
+    ripples.forEach(r => {
+      const rs = size * 3.4;
+      r.style.width = r.style.height = rs + 'px';
+      r.style.left = (tx - rs / 2) + 'px';
+      r.style.top = (ty + size * .55 - rs / 2) + 'px';
+    });
+    grow.style.width = grow.style.height = (2 * R) + 'px';
+    grow.style.left = (tx - R) + 'px';
+    grow.style.top = (ty - R) + 'px';
+    root.classList.remove('measuring');
+    stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+    dist = Math.max(1, root.offsetHeight - stage.offsetHeight);
+    rootTop = root.getBoundingClientRect().top + window.scrollY;
+    lastP = -1;
+    render();
+  }
+
+  /* من scrollY مباشرة دون قراءة التخطيط في كل إطار */
+  function progress() { return clamp01((window.scrollY + stickyTop - rootTop) / dist); }
+
+  function render() {
+    raf = 0;
+    if (!enabled || !geo || root.offsetParent === null) return;
+    const p = progress();
+    const tiltMoving = useTilt && (Math.abs(tilt.tx - tilt.x) > .02 || Math.abs(tilt.ty - tilt.y) > .02);
+    if (p === lastP && !tiltMoving) return;
+    lastP = p;
+    root.classList.toggle('idle', p < .02);
+    root.classList.toggle('resting', p > .42 && p < .62);
+
+    const lift = seg(p, .02, .12), fall = seg(p, .12, .34), land = seg(p, .34, .44);
+    const regrow = easeOut(seg(p, .36, .46)), text = easeOut(seg(p, .38, .5));
+    const spread = easeInOut(seg(p, .42, .56)), ctaIn = easeOut(seg(p, .46, .56));
+    const growT = seg(p, .6, .86), leadIn = easeOut(seg(p, .82, .95));
+    const { x, y, size, tx, ty, s0 } = geo;
+
+    // 1) تصعد القطرة قليلاً ثم تسقط بالجاذبية نحو مكان الاستقرار تحت العنوان
+    const rise = -size * 1.2 * Math.sin(lift * Math.PI / 2);
+    const dy = rise * (1 - fall) + (ty - y) * fall * fall;
+    const dx = (tx - x) * easeInOut(fall);
+    const falling = fall > 0 && fall < 1;
+    const stretch = 1 + .15 * Math.sin(lift * Math.PI) * (1 - fall) + .6 * Math.sin(fall * Math.PI / 2) * (1 - land);
+    const squash = Math.sin(land * Math.PI);
+    const sx = (1 / Math.sqrt(stretch)) * (1 + .5 * squash), sy = stretch * (1 - .4 * squash);
+    const tearOn = fall < 1 ? clamp01(fall * 6) : clamp01(1 - land * 3);
+    drop.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0) scale(${sx.toFixed(3)}, ${sy.toFixed(3)})`;
+    drop.style.opacity = growT > 0 ? '0' : '1';
+    sphere.style.opacity = (1 - tearOn).toFixed(3);
+    tear.style.opacity = tearOn.toFixed(3);
+
+    const len = falling ? Math.min(1, fall * 2.2) : 0;
+    trail.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0) scaleY(${len.toFixed(3)})`;
+    trail.style.opacity = (len * .9).toFixed(3);
+
+    // 2) عند الاستقرار: تموجات مسطحة وموجة صغيرة تحت القطرة
+    [seg(p, .34, .5), seg(p, .38, .56)].forEach((r, i) => {
+      const s = .2 + 1.9 * easeOut(r);
+      ripples[i].style.transform = `scale(${s.toFixed(3)}, ${(s * .3).toFixed(3)})`;
+      ripples[i].style.opacity = (r > 0 && r < 1 ? (1 - r) * .9 : 0).toFixed(3);
+    });
+    wave.style.opacity = (clamp01(land * 2) * (1 - seg(p, .58, .64))).toFixed(3);
+
+    // نقطة جديدة تنمو مكان القديمة فتكتمل «خ»، ثم تظهر العبارة وتُظلَّل
+    home.style.transform = `scale(${regrow.toFixed(3)})`;
+    hlBg.style.transform = `scaleX(${spread.toFixed(3)})`;
+    hl.classList.toggle('lit', spread > .45);
+    tagline.style.opacity = text.toFixed(3);
+    tagline.style.transform = `translate3d(0, ${((1 - text) * 16).toFixed(2)}px, 0)`;
+    cta.style.opacity = ctaIn.toFixed(3);
+    cta.style.transform = `translate3d(0, ${((1 - ctaIn) * 18).toFixed(2)}px, 0)`;
+    cta.style.visibility = ctaIn > .05 && growT < .3 ? 'visible' : 'hidden';
+
+    // 3) القطرة تكبر وتنفتح حتى تملأ المشهد، ثم تظهر «من نحن» داخلها
+    if (growT > 0) {
+      const sc = s0 * Math.pow(1 / s0, easeInOut(growT));
+      grow.style.transform = `scale(${sc.toFixed(5)})`;
+      grow.style.opacity = '1';
+      grow.style.setProperty('--hi', (1 - seg(growT, .35, .9)).toFixed(3));
+    } else {
+      grow.style.transform = `scale(${s0.toFixed(5)})`;
+      grow.style.opacity = '0';
+    }
+    if (lead && lead.classList.contains('in-stage')) {
+      lead.style.opacity = leadIn.toFixed(3);
+      lead.style.transform = `translate3d(0, ${((1 - leadIn) * 24).toFixed(2)}px, 0)`;
+      lead.style.visibility = leadIn > .02 ? 'visible' : 'hidden';
+    }
+
+    const cueOut = seg(p, 0, .06);
+    cue.style.opacity = (1 - cueOut).toFixed(3);
+    cue.style.visibility = cueOut < 1 ? 'visible' : 'hidden';
+
+    // ميل ثلاثي الأبعاد خفيف يتبع المؤشر ويهدأ أثناء التوسع
+    if (useTilt) {
+      tilt.x += (tilt.tx - tilt.x) * .12;
+      tilt.y += (tilt.ty - tilt.y) * .12;
+      const k = 1 - growT;
+      scene.style.transform = `rotateX(${(tilt.x * k).toFixed(2)}deg) rotateY(${(tilt.y * k).toFixed(2)}deg)`;
+      if (Math.abs(tilt.tx - tilt.x) > .02 || Math.abs(tilt.ty - tilt.y) > .02) { lastP = -1; tick(); }
+    }
+  }
+
+  function tick() { if (!raf && enabled) raf = requestAnimationFrame(render); }
+
+  function enable() {
+    if (prefersReduced()) { disable(); return; }
+    enabled = true;
+    root.classList.add('js');
+    placeLead(true);
+    layout();
+  }
+
+  window.addEventListener('scroll', tick, { passive: true });
+  const relayout = debounce(() => layout(), 120);
+  window.addEventListener('resize', relayout);
+  window.addEventListener('load', relayout);
+  window.addEventListener('pageshow', relayout);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) relayout(); });
+  if ('ResizeObserver' in window) new ResizeObserver(relayout).observe(stage);
+  stage.addEventListener('pointermove', e => {
+    if (!useTilt) return;
+    const r = stage.getBoundingClientRect();
+    tilt.ty = ((e.clientX - r.left) / r.width - .5) * 10;
+    tilt.tx = -((e.clientY - r.top) / r.height - .5) * 8;
+    tick();
+  });
+  stage.addEventListener('pointerleave', () => { tilt.tx = tilt.ty = 0; tick(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout).catch(() => {});
+  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => layout());
+  const mq = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)');
+  if (mq && mq.addEventListener) mq.addEventListener('change', enable);
+  enable();
+
+  return { refresh: () => { if (enabled) layout(); else enable(); } };
+})();
+
+/* بطاقات قسم الطلب: ظهور متدرج بعمق، وميل خفيف مع المؤشر */
+function setupPkgCards() {
+  const box = $('.pkg-cards');
+  if (!box) return;
+  const cards = $$('.pkg-card', box);
+  if (!prefersReduced() && 'IntersectionObserver' in window) {
+    box.classList.add('reveal');
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    }), { threshold: .2 });
+    cards.forEach(c => io.observe(c));
+  }
+  cards.forEach(c => {
+    const inner = $('.pkg-inner', c);
+    inner.addEventListener('pointermove', e => {
+      if (!finePointer() || prefersReduced()) return;
+      const r = inner.getBoundingClientRect();
+      inner.style.setProperty('--ry', (((e.clientX - r.left) / r.width - .5) * 10).toFixed(2) + 'deg');
+      inner.style.setProperty('--rx', (-((e.clientY - r.top) / r.height - .5) * 8).toFixed(2) + 'deg');
+    });
+    inner.addEventListener('pointerleave', () => { inner.style.removeProperty('--rx'); inner.style.removeProperty('--ry'); });
+  });
+}
+
+/* =========================================================
    19) التشغيل
    ========================================================= */
 function init() {
   $('#year').textContent = new Date().getFullYear();
+  migrateData();
   setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light', false);
   loadDraft();
   renderServices();
-  setPkg('summary');
-  setTab('pkg');
-  updatePrices();
   bindEvents();
+  setupPkgCards();
   refreshAuthUI();
   renderCart();
   route();

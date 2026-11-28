@@ -1,0 +1,44 @@
+# إعدادات Netlify: الموقع ملف ثابت بلا خطوة بناء، ويُنشر من جذر المستودع.
+[build]
+  publish = "."
+
+# طبقات حماية إضافية تُرسل مع كل صفحة
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    Strict-Transport-Security = "max-age=31536000"
+
+# أداة النقاط: لا تظهر في محركات البحث، ولا تُعرض داخل مواقع أخرى
+[[headers]]
+  for = "/tools/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
+
+# ملفات التطوير ليست جزءاً من الموقع
+[[redirects]]
+  from = "/.claude/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/skills-lock.json"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/README.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/tools/update-csp.py"
+  to = "/404"
+  status = 404
+  force = true

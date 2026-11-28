@@ -7,7 +7,7 @@
   ولا تُحمَّل خطوط أو أنماط إلا من Google Fonts. بعد أي تعديل على السكربتات شغّل:
   python3 tools/update-csp.py
 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-C5kU/0RNlujr9xipnG1X4lTNdQmNWB/avm5ihxOmdyA=' 'sha256-iO80VBIQwJYg5wrXicaBja/hXyKR8TFTIV2PQ8b0JNo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self' blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-C5kU/0RNlujr9xipnG1X4lTNdQmNWB/avm5ihxOmdyA=' 'sha256-WJAouEzEGkV0LY2X5evu2vzBuBtBOCmJdyN0RYyynf8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <!-- مفتاح تأكيد النقاط العام: الصق هنا السطر الذي تعطيك إياه أداة tools/points-signer.html (ليس سراً) -->
 <meta name="kf-points-key" content="P1_4OJz7ZqASYbdhogoQhjXE7dhkNMnQHq4vxdfKp6I.pe02cS6Dnx6bJ2eMv0rK0q2xr0voXsK53V7WPz3bTSg">
@@ -19,7 +19,22 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="خلاصة الفكرة">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<!-- معاينة الرابط عند مشاركته في واتساب وغيره -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:site_name" content="خلاصة الفكرة">
+<meta property="og:title" content="خلاصة الفكرة">
+<meta property="og:description" content="ملخصات كتب، بحوث ومشاريع، تصاميم، وزبدة الأفكار التي تغير حياتك.">
+<meta property="og:url" content="https://zubdat-alafkar.netlify.app/">
+<meta property="og:image" content="https://zubdat-alafkar.netlify.app/icons/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="1200">
+<meta name="twitter:card" content="summary">
 
 <!-- الخطوط: Baloo Bhaijaan 2 للعناوين (مستدير وحيوي) و Readex Pro للنصوص، مع خطوط النظام كاحتياط عند انقطاع الإنترنت -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,6 +75,7 @@
   --butter-soft: #FBEDB5;
   --on-butter: #142538;
   --primary: #142538;
+  --logo-ink: #2E164A;
   --on-primary: #F3F5F8;
   --focus: #1E63B5;
   --ok: #1D7350;
@@ -101,7 +117,7 @@
 /* الوضع الليلي: فقط عندما يختاره المستخدم من زر الثيم. الافتراضي أبيض */
 :root[data-theme="dark"] {
   --paper: #0D1722; --surface: #142130; --surface-2: #1C2B3C; --ink: #E6EDF4; --ink-2: #9DB0C3;
-  --line: #26384B; --butter-soft: rgba(245, 197, 49, .16); --primary: #F5C531; --on-primary: #142538;
+  --line: #26384B; --logo-ink: #EDE6F7; --butter-soft: rgba(245, 197, 49, .16); --primary: #F5C531; --on-primary: #142538;
   --focus: #F5C531; --ok: #5CC99A; --on-ok: #0D1722; --ok-soft: rgba(92, 201, 154, .14);
   --warn: #F0B24A; --warn-soft: rgba(240, 178, 74, .14); --danger: #FF8A7A; --danger-soft: rgba(255, 138, 122, .14);
   --shadow-float: 0 18px 48px -18px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .3);
@@ -162,7 +178,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .topbar .wrap { height: 100%; display: flex; align-items: center; gap: 10px; }
 .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-lg); }
-.logo { width: 34px; height: 44px; flex: none; color: var(--ink); overflow: visible; }
+.logo { width: 34px; height: 42px; flex: none; color: var(--logo-ink); }
 .topbar-actions { margin-inline-start: auto; display: flex; gap: 6px; }
 .icon-btn {
   width: 44px; height: 44px; display: grid; place-items: center; border-radius: var(--r-ctl);
@@ -217,6 +233,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .nav .count { margin-inline-start: auto; font-size: var(--fs-xs); color: var(--ink-2); font-weight: 600; }
 .drawer-foot { padding: 12px 18px 18px; border-top: 1px solid var(--line); }
 .drawer-foot .btn { width: 100%; justify-content: center; }
+.drawer-foot .install-btn { margin-bottom: 10px; gap: 8px; }
+.drawer-foot .install-btn svg { width: 20px; height: 20px; }
+.install-hero { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+.install-hero img { border-radius: 18px; box-shadow: var(--elev-1); flex: none; }
+.install-hero p { margin: 0; }
 
 /* =========================================================
    5) المكونات العامة: أزرار، حقول، لوحات، شارات
@@ -489,6 +510,11 @@ main { padding-bottom: 96px; }
 }
 .steps b { display: block; }
 .steps span { font-size: var(--fs-sm); color: var(--ink-2); }
+/* خطوات التثبيت: الرقم بجانب النص بدل فوقه */
+.install-steps { gap: 12px; grid-template-columns: 1fr !important; }
+.install-steps li { padding: 0; padding-inline-start: 44px; min-height: 32px; display: flex; align-items: center; }
+.install-steps li::before { top: 0; inset-inline-start: 0; }
+.install-steps span { font-size: var(--fs-md); color: var(--ink); }
 
 /* ---------- الطلب ---------- */
 .order-layout { display: grid; gap: 16px; align-items: start; }
@@ -698,13 +724,12 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <symbol id="i-help" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></g></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></g></symbol>
     <symbol id="i-user" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></g></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></g></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></g></symbol>
-    <!-- شعار خلاصة الفكرة: حرف «خ» داكن تعلوه قطرة زبدة ذهبية -->
-    <radialGradient id="lgDrop" cx="38%" cy="64%" r="70%"><stop offset="0" stop-color="#FFF3C4"/><stop offset=".5" stop-color="#F5C531"/><stop offset="1" stop-color="#C38C0C"/></radialGradient>
-    <symbol id="logo-mark" viewBox="0 0 40 52">
-      <path d="M20 1C21.2 6.2 27.5 10.6 27.5 16a7.5 7.5 0 0 1-15 0C12.5 10.6 18.8 6.2 20 1Z" fill="url(#lgDrop)"/>
-      <path d="M17.2 6.8c.7-1.6 1.6-2.7 2.3-3.4" stroke="#FFF7DB" stroke-width="1.3" stroke-linecap="round" fill="none" opacity=".85"/>
-      <text x="20" y="37" text-anchor="middle" font-family="'Baloo Bhaijaan 2', 'Readex Pro', Tahoma, 'Segoe UI', sans-serif" font-weight="800" font-size="31" fill="currentColor">ح</text>
+    <!-- شعار خلاصة الفكرة: رمز «خ» بخط واحد مستدير تعلوه قطرة ذهبية (مطابق لملف الشعار الأصلي) -->
+    <symbol id="logo-mark" viewBox="630 306 340 424">
+      <path d="M779 316C774 322 738 365 738 401a41 41 0 0 0 82 0C820 365 784 322 779 316Z" fill="#EF9F00"/>
+      <path d="M667 499H840a96 96 0 0 1 0 192H705" fill="none" stroke="currentColor" stroke-width="58" stroke-linecap="round"/>
     </symbol>
   </defs>
 </svg>
@@ -713,7 +738,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 <header class="topbar">
   <div class="wrap">
     <a class="brand" href="#about" aria-label="خلاصة الفكرة، الصفحة الرئيسية">
-      <svg class="logo" viewBox="0 0 40 52" aria-hidden="true"><use href="#logo-mark"/></svg>
+      <svg class="logo" viewBox="0 0 340 424" aria-hidden="true"><use href="#logo-mark"/></svg>
       <span>خلاصة الفكرة</span>
     </a>
     <div class="topbar-actions">
@@ -737,7 +762,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 <aside class="drawer" id="drawer" aria-label="القائمة الرئيسية" inert>
   <div class="drawer-head">
     <div>
-      <a class="brand" href="#about"><svg class="logo" viewBox="0 0 40 52" aria-hidden="true"><use href="#logo-mark"/></svg><span>خلاصة الفكرة</span></a>
+      <a class="brand" href="#about"><svg class="logo" viewBox="0 0 340 424" aria-hidden="true"><use href="#logo-mark"/></svg><span>خلاصة الفكرة</span></a>
       <p class="drawer-tag">زبدة الأفكار التي تغير حياتك</p>
     </div>
     <button class="icon-btn" type="button" id="drawerClose" aria-label="إغلاق القائمة"><svg><use href="#i-x"/></svg></button>
@@ -751,6 +776,7 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
     <li><a href="#faq" data-route="faq"><svg><use href="#i-help"/></svg>الأسئلة الشائعة</a></li>
   </ul>
   <div class="drawer-foot">
+    <button class="btn btn-soft install-btn" type="button" data-action="install" hidden><svg><use href="#i-download"/></svg><span>ثبّت التطبيق على جوالك</span></button>
     <button class="btn btn-primary" type="button" id="authBtn" data-action="auth"></button>
   </div>
 </aside>
@@ -1046,6 +1072,15 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
   <div class="dlg-foot"><a class="btn btn-primary" href="#orders" data-close>متابعة طلباتي</a><button class="btn btn-ghost" type="button" data-close>إغلاق</button></div>
 </dialog>
 
+<dialog id="dlgInstall" aria-labelledby="insTitle">
+  <div class="dlg-head"><h2 id="insTitle">ثبّت خلاصة الفكرة</h2><button class="icon-btn" type="button" data-close aria-label="إغلاق"><svg><use href="#i-x"/></svg></button></div>
+  <div class="dlg-body">
+    <div class="install-hero"><img src="icons/icon-192.png" width="72" height="72" alt=""><p>يظهر الموقع كتطبيق على شاشتك الرئيسية، ويفتح بضغطة من دون شريط المتصفح.</p></div>
+    <ol class="steps install-steps" id="insSteps"></ol>
+  </div>
+  <div class="dlg-foot"><button class="btn btn-primary" type="button" data-close>تمام</button></div>
+</dialog>
+
 <dialog id="dlgConfirm" aria-labelledby="cfTitle">
   <div class="dlg-head"><h2 id="cfTitle">تأكيد</h2></div>
   <div class="dlg-body"><p id="cfText" style="margin:0"></p></div>
@@ -1053,22 +1088,6 @@ dialog::backdrop { background: rgba(8, 15, 25, .55); }
 </dialog>
 
 <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
-
-<!--
-  مصدر Service Worker مضمّن. المتصفحات لا تسمح بتسجيله من blob أو data URL،
-  لذا عند الاستضافة على HTTPS انسخ هذا المحتوى إلى ملف sw.js بجانب index.html
-  ثم غيّر CONFIG.SW_FILE إلى 'sw.js' ليعمل الموقع دون إنترنت.
--->
-<script type="text/plain" id="sw-source">
-const CACHE = 'kholasa-v1';
-self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html']).catch(() => {}))); self.skipWaiting(); });
-self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))); self.clients.claim(); });
-self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return;
-  e.respondWith(fetch(e.request).then(r => { const copy = r.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {}); return r; })
-    .catch(() => caches.match(e.request).then(r => r || caches.match('./index.html'))));
-});
-</script>
 
 <script>
 'use strict';
@@ -1088,7 +1107,7 @@ const CONFIG = {
   /* المفتاح العام لروابط تأكيد النقاط (ECDSA P-256) يُقرأ من وسم kf-points-key أعلى الصفحة.
      المفتاح الخاص يبقى عند صاحب المشروع فقط. القيمة الفارغة تعني أن التأكيد غير مفعّل بعد. */
   POINTS_PUBLIC_KEY: readPointsKey(),
-  SW_FILE: null,                                      // ضع 'sw.js' عند توفر الملف على HTTPS
+  SW_FILE: 'sw.js',                                   // يعمل على HTTPS فقط، ويُتجاهل في المعاينات
   REWARDS: [
     { points: 100, value: 2 },
     { points: 250, value: 6 },
@@ -1406,72 +1425,40 @@ function setTheme(t, persist = true) {
 }
 
 /* =========================================================
-   7) PWA: manifest ديناميكي وتسجيل Service Worker آمن
+   7) PWA: ملف manifest.webmanifest وأيقونات حقيقية، وتسجيل Service Worker، وزر التثبيت
    ========================================================= */
-function makeIcon(size) {
-  try {
-    const c = document.createElement('canvas');
-    c.width = c.height = size;
-    const x = c.getContext('2d');
-    if (!x) return null;
-    const r = size * .22;
-    x.fillStyle = '#F3F5F8';
-    x.beginPath();
-    x.moveTo(r, 0); x.arcTo(size, 0, size, size, r); x.arcTo(size, size, 0, size, r); x.arcTo(0, size, 0, 0, r); x.arcTo(0, 0, size, 0, r);
-    x.fill();
-    // نفس هندسة شعار SVG (‏viewBox 40×52) متوسطة داخل المربع
-    const u = size * .86 / 52, ox = (size - 40 * u) / 2, oy = size * .07;
-    const X = v => ox + v * u, Y = v => oy + v * u;
-    const g = x.createRadialGradient(X(17), Y(13), 1, X(20), Y(14), 9 * u);
-    g.addColorStop(0, '#FFF3C4'); g.addColorStop(.5, '#F5C531'); g.addColorStop(1, '#C38C0C');
-    x.fillStyle = g;
-    x.beginPath();
-    x.moveTo(X(20), Y(1));
-    x.bezierCurveTo(X(21.2), Y(6.2), X(27.5), Y(10.6), X(27.5), Y(16));
-    x.arc(X(20), Y(16), 7.5 * u, 0, Math.PI, false);
-    x.bezierCurveTo(X(12.5), Y(10.6), X(18.8), Y(6.2), X(20), Y(1));
-    x.fill();
-    x.fillStyle = '#142538';
-    x.font = `800 ${31 * u}px "Baloo Bhaijaan 2", Tahoma, "Segoe UI", sans-serif`;
-    x.textAlign = 'center'; x.textBaseline = 'alphabetic';
-    x.fillText('ح', X(20), Y(37));
-    return c.toDataURL('image/png');
-  } catch (e) { return null; }
+let installPrompt = null;
+const isStandalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+function updateInstallUI() {
+  // يظهر الزر عندما يسمح المتصفح بالتثبيت، أو في iPhone/iPad حيث يكون التثبيت من زر المشاركة
+  const show = !isStandalone() && (!!installPrompt || isIOS());
+  $$('[data-action="install"]').forEach(b => { b.hidden = !show; });
+}
+async function installApp() {
+  if (installPrompt) {
+    const p = installPrompt; installPrompt = null;
+    p.prompt();
+    try { const r = await p.userChoice; if (r && r.outcome === 'accepted') toast('جارٍ تثبيت التطبيق على جهازك.', 'ok'); } catch (e) { /* تجاهل */ }
+    updateInstallUI();
+    return;
+  }
+  const steps = isIOS()
+    ? ['افتح الموقع في Safari.', 'اضغط زر المشاركة (المربع والسهم للأعلى) أسفل الشاشة.', 'اختر «إضافة إلى الشاشة الرئيسية» ثم «إضافة».']
+    : ['افتح قائمة المتصفح (⋮) أعلى الشاشة.', 'اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».'];
+  $('#insSteps').innerHTML = steps.map(t => `<li><span>${esc(t)}</span></li>`).join('');
+  closeDrawer(false);
+  openDialog($('#dlgInstall'));
 }
 function setupPWA() {
+  window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installPrompt = e; updateInstallUI(); });
+  window.addEventListener('appinstalled', () => { installPrompt = null; updateInstallUI(); toast('ثُبّت التطبيق. تجده على شاشتك الرئيسية.', 'ok'); });
+  updateInstallUI();
+  // Service Worker: فقط على HTTPS (أو localhost) ومن الموقع الحقيقي، لا من المعاينات
   try {
-    const base = location.href.split('#')[0];
-    const i192 = makeIcon(192), i512 = makeIcon(512);
-    const icons = [];
-    if (i192) icons.push({ src: i192, sizes: '192x192', type: 'image/png', purpose: 'any maskable' });
-    if (i512) icons.push({ src: i512, sizes: '512x512', type: 'image/png', purpose: 'any maskable' });
-    const manifest = {
-      name: 'خلاصة الفكرة', short_name: 'خلاصة الفكرة', description: 'زبدة الأفكار التي تغير حياتك',
-      lang: 'ar', dir: 'rtl', start_url: base, scope: base.replace(/[^/]*$/, ''), display: 'standalone',
-      background_color: '#FFFFFF', theme_color: '#FFFFFF', icons
-    };
-    if (location.protocol === 'http:' || location.protocol === 'https:') {
-      const url = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' }));
-      const link = document.createElement('link');
-      link.rel = 'manifest'; link.href = url;
-      document.head.appendChild(link);
-    }
-    if (i192) {
-      const apple = document.createElement('link');
-      apple.rel = 'apple-touch-icon'; apple.href = i192;
-      document.head.appendChild(apple);
-      const fav = document.createElement('link');
-      fav.rel = 'icon'; fav.type = 'image/png'; fav.href = i192;
-      document.head.appendChild(fav);
-    }
-  } catch (e) { /* manifest اختياري ولا يوقف الصفحة */ }
-
-  // Service Worker: فقط في سياق آمن (HTTPS أو localhost) ومع ملف حقيقي
-  try {
-    if (!('serviceWorker' in navigator) || !window.isSecureContext || !CONFIG.SW_FILE) return;
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register(CONFIG.SW_FILE).catch(() => { /* تجاهل بأمان */ });
-    });
+    if (!('serviceWorker' in navigator) || !window.isSecureContext || !CONFIG.SW_FILE || !/^https?:$/.test(location.protocol)) return;
+    const reg = () => navigator.serviceWorker.register(CONFIG.SW_FILE).catch(() => { /* تجاهل بأمان */ });
+    if (document.readyState === 'complete') reg(); else window.addEventListener('load', reg);
   } catch (e) { /* تجاهل */ }
 }
 
@@ -2060,6 +2047,7 @@ function bindEvents() {
     switch (a) {
       case 'auth': currentUser() ? logout() : openLogin(); break;
       case 'go-cart': goToCart(); break;
+      case 'install': installApp(); break;
       case 'scroll': { const t = $('#' + el.dataset.target); t && t.scrollIntoView({ behavior: prefersReduced() ? 'auto' : 'smooth', block: 'start' }); break; }
       case 'copy': copyText(el.dataset.text, el.dataset.label); break;
       case 'add': addFromUI(); break;

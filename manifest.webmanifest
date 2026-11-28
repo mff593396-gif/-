@@ -1,0 +1,25 @@
+{
+  "id": "/",
+  "name": "خلاصة الفكرة",
+  "short_name": "خلاصة الفكرة",
+  "description": "ملخصات كتب، بحوث ومشاريع، تصاميم، وزبدة الأفكار التي تغير حياتك.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF8F0",
+  "theme_color": "#FFFFFF",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "اطلب الآن", "url": "./#order", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "طلباتي", "url": "./#orders", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "نقاطي", "url": "./#points", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

@@ -7,7 +7,7 @@
   ولا تُحمَّل خطوط أو أنماط إلا من Google Fonts. بعد أي تعديل على السكربتات شغّل:
   python3 tools/update-csp.py
 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-5yUP0FEVk3djixhv1bUjEFDihubm1imUN2ID7cjvk88=' 'sha256-iO80VBIQwJYg5wrXicaBja/hXyKR8TFTIV2PQ8b0JNo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self' blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-C5kU/0RNlujr9xipnG1X4lTNdQmNWB/avm5ihxOmdyA=' 'sha256-iO80VBIQwJYg5wrXicaBja/hXyKR8TFTIV2PQ8b0JNo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self' blob:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <!-- مفتاح تأكيد النقاط العام: الصق هنا السطر الذي تعطيك إياه أداة tools/points-signer.html (ليس سراً) -->
 <meta name="kf-points-key" content="P1_4OJz7ZqASYbdhogoQhjXE7dhkNMnQHq4vxdfKp6I.pe02cS6Dnx6bJ2eMv0rK0q2xr0voXsK53V7WPz3bTSg">
@@ -26,9 +26,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Readex+Pro:wght@400;500;600;700&display=swap">
 
-<!-- تطبيق الثيم قبل الرسم لتجنب الوميض -->
+<link rel="canonical" href="https://zubdat-alafkar.netlify.app/">
+
+<!-- تحويل الرابط القديم، ثم تطبيق الثيم قبل الرسم لتجنب الوميض -->
 <script>
   (function () {
+    // الرابط الرسمي صار على Netlify: زوار رابط GitHub القديم ينتقلون إليه
+    // مع الإبقاء على ما بعد # حتى تعمل روابط النقاط والصفحات القديمة
+    if (location.hostname === 'mff593396-gif.github.io') {
+      location.replace('https://zubdat-alafkar.netlify.app/' + location.hash);
+      return;
+    }
     var t = null;
     try { t = JSON.parse(localStorage.getItem('kf.theme')); } catch (e) {}
     if (t !== 'dark') t = 'light';

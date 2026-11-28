@@ -11,6 +11,17 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
     Strict-Transport-Security = "max-age=31536000"
 
+# ملف التشغيل دون إنترنت: يُفحص في كل زيارة لتصل التحديثات فوراً
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+
 # أداة النقاط: لا تظهر في محركات البحث، ولا تُعرض داخل مواقع أخرى
 [[headers]]
   for = "/tools/*"

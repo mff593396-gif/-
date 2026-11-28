@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-djd01MfzaeQior06dDD8KiaaYN1Us19Snu2l5HJZTB8='; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TgALm/e8SXH3cbHzKiiIUVYVRcHtsIOWbSCLLn0jZEM='; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,7 +80,7 @@
   <section>
     <h2>رابط الموقع</h2>
     <label for="siteUrl">عنوان الموقع المنشور</label>
-    <input id="siteUrl" class="ltr" type="url" placeholder="https://mff593396-gif.github.io/-/">
+    <input id="siteUrl" class="ltr" type="url" placeholder="https://zubdat-alafkar.netlify.app/">
   </section>
 
   <!-- نقاط -->
@@ -229,7 +229,10 @@ const siteUrl = () => {
   const u = ($('#siteUrl').value || '').trim();
   try { const x = new URL(u); if (x.protocol !== 'https:' && x.hostname !== 'localhost' && x.hostname !== '127.0.0.1') return null; x.hash = ''; return x.toString(); } catch (e) { return null; }
 };
-$('#siteUrl').value = get(LS.site, 'https://mff593396-gif.github.io/-/');
+// الرابط الرسمي للموقع. الرابط القديم على GitHub يتحدث تلقائياً إليه
+const SITE = 'https://zubdat-alafkar.netlify.app/';
+if (/^https:\/\/mff593396-gif\.github\.io\/-\/?$/.test(get(LS.site, ''))) set(LS.site, SITE);
+$('#siteUrl').value = get(LS.site, SITE);
 $('#siteUrl').addEventListener('change', () => set(LS.site, $('#siteUrl').value.trim()));
 
 async function signedLink(payload) {
